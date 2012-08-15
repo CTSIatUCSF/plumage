@@ -1,63 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>Plumage by CTSIatUCSF</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>Plumage by CTSIatUCSF</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Plumage</h1>
-        <h2>Biomedical resource discovery for institutions, powered by Eagle-I</h2>
-        <a href="https://github.com/CTSIatUCSF/plumage" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Plumage</h1>
+        <p class="header">Biomedical resource discovery for institutions, powered by eagle-i</p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <p><strong>Plumage</strong> is free software to make biomedical resources at large institutions more discoverable. It was developed at the University of California, San Francisco, to power <a href="http://cores.ucsf.edu/">UCSF Cores Search</a>, the campus-wide search engine for core resources.</p>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/CTSIatUCSF/plumage/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/CTSIatUCSF/plumage/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/CTSIatUCSF/plumage">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/CTSIatUCSF">CTSIatUCSF</a></p>
+
+
+      </header>
+      <section>
+        <h3>What is Plumage?</h3>
+
+<p><strong>Plumage</strong> is free software to make biomedical resources at large institutions more discoverable. It was developed at the University of California, San Francisco, to power <a href="http://cores.ucsf.edu/">UCSF Cores Search</a>, the campus-wide search engine for core resources.</p>
 
 <h3>Why Plumage?</h3>
 
+<p>Designed to maximize resource discoverability:</p>
+
 <ul>
-<li>Designed to maximize resource discoverability</li>
-<li>Carefully optimized for search engine users</li>
-<li>Deployed as flat files on disk (compatible with all web servers on all platforms)</li>
-</ul><h3>Design overview</h3>
+<li>typeahead search available on every page</li>
+<li>users can browse through a complete A-Z index of options, including synonyms</li>
+</ul><p>Carefully optimized for search engine users:</p>
 
-<p>  </p>  <strong> <a href="http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview" title="UCSF Cores Search 2.0: Design Strategy Overview" target="_blank">UCSF Cores Search 2.0: Design Strategy Overview</a> </strong> from <strong><a href="http://www.slideshare.net/CTSIatUCSF" target="_blank">CTSI at UCSF</a></strong>  
-        </section>
+<ul>
+<li>every synonym for every concept has its own page</li>
+<li>page titles tunes to meet needs of searchers</li>
+<li>pages include semantic data in microformats</li>
+</ul><p>Easy to deploy:</p>
 
-        <aside id="sidebar">
-          <a href="https://github.com/CTSIatUCSF/plumage/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/CTSIatUCSF/plumage/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+<ul>
+<li>pulls data from an eagle-i instance, or from a compatible data source (e.g. CSV file with Eagle-I ontology mappings)</li>
+<li>generates a static site, compatible with all web servers on all platforms</li>
+</ul><h3>Who is Plumage?</h3>
 
-          <p class="repo-owner"><a href="https://github.com/CTSIatUCSF/plumage"></a> is maintained by <a href="https://github.com/CTSIatUCSF">CTSIatUCSF</a>.</p>
+<p>Plumage was developed by Anirvan Chatterjee and the Virtual Home team at the Clinical &amp; Translational Science Institute at the University of California, San Francisco, in collaboration with UCSF's Research Resources Program.</p>
 
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+<h3>Learn more</h3>
+
+<ul>
+<li>
+<a href="http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview">UCSF Cores Search 2.0: Design Strategy Overview</a> (Slideshare presentation)</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
