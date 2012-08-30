@@ -6,7 +6,10 @@ use File::Spec;
 use Plumage qw( load_core_data get_freebase_definition name_to_filename );
 use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
     'ontology_children';
+use Cwd qw( realpath );
 use Config::Tiny 2.14;
+use File::HomeDir 0.98;
+use File::Spec;
 use File::Path qw( remove_tree );
 use Regexp::Common 2010010201 qw( URI );
 use Search::Sitemap 2.13;
@@ -20,8 +23,7 @@ use open ':encoding(utf8)';
 
 ###############################################################################
 
-my $config = Config::Tiny->read('plumage.conf')
-    || die 'Could not open plumage.conf';
+my $config        = read_config();
 my $output_path   = $config->{_}->{output_path};
 my $template_path = $config->{_}->{template_path};
 foreach my $set ( [ $output_path, 'output_path' ],
@@ -30,10 +32,10 @@ foreach my $set ( [ $output_path, 'output_path' ],
         die "No valid `$set->[1]` directory configured in conf file";
     }
 }
-if ($config->{_}->{site_name} !~ m/\w/) {
+if ( $config->{_}->{site_name} !~ m/\w/ ) {
     die "No valid `site_name` configured in conf file";
 }
-if ($config->{_}->{site_name} =~ m/\"/) {
+if ( $config->{_}->{site_name} =~ m/\"/ ) {
     die "`site_name` in conf file can't have a quote in it";
 }
 foreach my $option_name (qw( url_live url_dev )) {
@@ -129,7 +131,7 @@ foreach my $type ( sort { lc($a) cmp lc($b) } keys %{$core_data_by_type} ) {
         };
 
         my $filename = name_to_filename($name);
-	write_file( 'resource.html.tt',  "/$filename", $vars);
+        write_file( 'resource.html.tt', "/$filename", $vars );
         $terms_done{$name} = 1;
     }
 }
@@ -159,7 +161,6 @@ write_file( 'search.html.tt', '/search/' );
 
 ###############################################################################
 
-
 sub write_file {
     my ( $template_name, $url_path, $options ) = @_;
 
@@ -180,7 +181,7 @@ sub write_file {
 
     # delete old file, ensure directory exists
     unlink $full_path;
-    my ($vol, $dir, $file) = File::Spec->splitpath($full_path);
+    my ( $vol, $dir, $file ) = File::Spec->splitpath($full_path);
     mkdir($dir) unless -d $dir;
 
     # write...
@@ -205,4 +206,32 @@ sub add_url_to_sitemap {
                                               priority   => 1.0,
                    )
     );
+}
+
+sub read_config {
+    my $config;
+    my @potential_config_dirs = ( '/etc/',
+                                  File::HomeDir->my_home,
+                                  File::Spec->curdir(),
+                                  File::Spec->updir(),
+                                  File::Spec->catdir( File::Spec->updir(),
+                                                      File::Spec->updir()
+                                  )
+    );
+    my @potential_config_files
+        = map { realpath( File::Spec->catfile( $_, 'plumage.conf' ) ) }
+        @potential_config_dirs;
+    foreach my $path (@potential_config_files) {
+        if ( -e $path ) {
+            $config = Config::Tiny->read($path)
+                || die "Could not read configuration file at $path: "
+                . Config::Tiny->errstr;
+            last;
+        }
+    }
+    unless ($config) {
+        die "Could not find config file, looked in: ",
+            join( ', ', @potential_config_files ), "\n";
+    }
+    return $config;
 }
