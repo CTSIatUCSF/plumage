@@ -154,7 +154,11 @@ write_file( 'search.html.tt', '/search/' );
 
 {
     my $sitemap_path = "$output_path/assets/sitemap.xml";
+
+    my ( $vol, $dir, $file ) = File::Spec->splitpath($sitemap_path);
+    mkdir($dir) unless -d $dir;
     unlink $sitemap_path;
+
     $sitemap->pretty(1);
     $sitemap->write($sitemap_path);
 }
