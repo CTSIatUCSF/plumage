@@ -1,4 +1,4 @@
-#!perl
+#!/usr/bin/perl
 
 package Plumage;
 use 5.12.0;
@@ -15,7 +15,6 @@ use base 'Exporter';
 use strict;
 use warnings;
 binmode STDOUT, ':utf8';
-our $VERSION = '0.01';
 
 our @EXPORT_OK
     = qw( load_core_data get_freebase_definition name_to_filename );

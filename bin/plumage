@@ -1,0 +1,208 @@
+#!/usr/bin/perl
+
+use 5.12.0;
+use lib '.', '/var/www/html/cores/tools/code/lib';
+use File::Spec;
+use Plumage qw( load_core_data get_freebase_definition name_to_filename );
+use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
+    'ontology_children';
+use Config::Tiny 2.14;
+use File::Path qw( remove_tree );
+use Regexp::Common 2010010201 qw( URI );
+use Search::Sitemap 2.13;
+use Template 2.22;
+use Template::Stash::AutoEscaping 0.0301;
+use strict;
+use warnings;
+binmode STDERR, ':utf8';
+binmode STDOUT, ':utf8';
+use open ':encoding(utf8)';
+
+###############################################################################
+
+my $config = Config::Tiny->read('plumage.conf')
+    || die 'Could not open plumage.conf';
+my $output_path   = $config->{_}->{output_path};
+my $template_path = $config->{_}->{template_path};
+foreach my $set ( [ $output_path, 'output_path' ],
+                  [ $template_path, 'template_path' ] ) {
+    unless ( $set->[0] and -d $set->[0] ) {
+        die "No valid `$set->[1]` directory configured in conf file";
+    }
+}
+if ($config->{_}->{site_name} !~ m/\w/) {
+    die "No valid `site_name` configured in conf file";
+}
+if ($config->{_}->{site_name} =~ m/\"/) {
+    die "`site_name` in conf file can't have a quote in it";
+}
+foreach my $option_name (qw( url_live url_dev )) {
+    unless (     $config->{_}->{$option_name}
+             and $config->{_}->{$option_name} =~ m/$RE{URI}{HTTP}/ ) {
+        die "No valid `$option_name` URL configured in conf file";
+    }
+}
+
+###############################################################################
+
+my %ontology          = load_ontology_data();
+my $core_data         = load_core_data( ontology => \%ontology, debug => 0 );
+my $core_data_by_type = $core_data->{by_type};
+
+###############################################################################
+
+my $template = Template->new( { EVAL_PERL  => 1,
+                                PRE_CHOMP  => 0,
+                                POST_CHOMP => 1,
+                                STASH => Template::Stash::AutoEscaping->new,
+                                ENCODING     => 'utf8',
+                                INCLUDE_PATH => $template_path,
+                              }
+);
+
+my $sitemap = Search::Sitemap->new();
+
+my %terms_done;
+
+foreach my $type ( sort { lc($a) cmp lc($b) } keys %{$core_data_by_type} ) {
+    my $ontology_data = $ontology{$type} || next;
+
+    my $definition = $ontology_data->{definition};
+    unless ($definition) {
+        foreach my $name ( @{ $core_data_by_type->{$type}->{names} } ) {
+            my $definition_lookup = get_freebase_definition($name) or next;
+            $definition = $definition_lookup;
+            last;
+        }
+    }
+
+    my @names = @{ $core_data_by_type->{$type}->{names} };
+
+    foreach my $name (@names) {
+        if ( $terms_done{$name} ) {
+            next;
+        }
+
+        my @synonyms = grep { $_ ne $name } @names;
+        @synonyms = map { { name => $_, filename => name_to_filename($_) } }
+            @synonyms;
+
+        my @parents = ontology_parent_chain($type);
+        shift @parents;    # remove self
+        if ( @parents >= 3 ) {    # use no more than 3 levels of parents
+            $#parents = 2;
+        }
+        @parents = reverse @parents;                           # biggest first
+        @parents = grep { $core_data_by_type->{$_} } @parents;
+        @parents = map {
+            {  name     => ucfirst $ontology{$_}->{names}->[0],
+               filename => name_to_filename($_)
+            }
+        } @parents;
+
+        my @all_children = ontology_children($type);
+        my @children;
+        foreach my $child (@all_children) {
+            if ( $core_data_by_type->{$child} ) {
+                push @children, $child;
+            } else {
+                my @grandchildren = ontology_children($child);
+                my @valid_grandchildren
+                    = grep { $core_data_by_type->{$_} } @grandchildren;
+                push @children, @valid_grandchildren;
+            }
+        }
+        @children = sort { lc($a) cmp lc($b) } @children;
+
+        @children = map {
+            {  name     => ucfirst $ontology{$_}->{names}->[0],
+               filename => name_to_filename($_)
+            }
+        } @children;
+
+        my $vars = { name       => $name,
+                     synonyms   => \@synonyms,
+                     parents    => \@parents,
+                     children   => \@children,
+                     definition => $definition,
+                     data       => $core_data_by_type->{$type},
+        };
+
+        my $filename = name_to_filename($name);
+	write_file( 'resource.html.tt',  "/$filename", $vars);
+        $terms_done{$name} = 1;
+    }
+}
+
+write_file( 'about.html.tt',  '/about/' );
+write_file( 'search.html.tt', '/search/' );
+
+{
+    my $options = { stats => $core_data->{stats} };
+    foreach my $type ( sort keys %{$core_data_by_type} ) {
+        foreach my $name ( @{ $core_data_by_type->{$type}->{names} } ) {
+            $options->{types}->{$name} = {
+                                 filename => name_to_filename($name),
+                                 count => $core_data_by_type->{$type}->{count}
+            };
+        }
+    }
+    write_file( 'index.html.tt', '/', $options );
+}
+
+{
+    my $sitemap_path = "$output_path/assets/sitemap.xml";
+    unlink $sitemap_path;
+    $sitemap->pretty(1);
+    $sitemap->write($sitemap_path);
+}
+
+###############################################################################
+
+
+sub write_file {
+    my ( $template_name, $url_path, $options ) = @_;
+
+    # ensure URL path is reasonable
+    unless ( defined $url_path and $url_path =~ m{^/} ) {
+        die qq{Invalid URL path "$url_path"};
+    }
+
+    # add config options to options hash
+    $options ||= {};
+    $options->{config} = $config->{_};
+
+    # create full path
+    my $full_path = $output_path . $url_path;
+    if ( $url_path =~ m{/$} ) {
+        $full_path .= 'index.html';
+    }
+
+    # delete old file, ensure directory exists
+    unlink $full_path;
+    my ($vol, $dir, $file) = File::Spec->splitpath($full_path);
+    mkdir($dir) unless -d $dir;
+
+    # write...
+    open my $out, '>', $full_path;
+    $template->process( $template_name, $options, $out,
+                        { binmode => ':encoding(UTF-8)' } )
+        || die $template->error();
+
+    # add to sitemap
+    add_url_to_sitemap($url_path);
+
+    return;
+}
+
+sub add_url_to_sitemap {
+    my $path = shift;
+    my $url  = "$config->{_}->{url_live}$path";
+    $url =~ s{(?<!:)//}{/}g;
+    $sitemap->add( Search::Sitemap::URL->new( loc        => $url,
+                                              lastmod    => time(),
+                                              changefreq => 'weekly',
+                                              priority   => 1.0,
+                   )
+    );
+}
