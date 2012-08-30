@@ -1,0 +1,19 @@
+[% USE HTML %]
+[% INCLUDE _header.html.tt
+   header_id      = 'contact-page'
+   header_search  = 1
+   header_title   = "Contact us about $config.site_name"
+%]
+
+
+<form action="https://docs.google.com/spreadsheet/formResponse?formkey=dFNvc3pabG1fSDFSM0lfeXdNRWV4RUE6MQ&ifq" method="POST">
+
+<div class="ss-item ss-item-required ss-paragraph-text" style=""><div class="ss-form-entry" style="margin-bottom:1.5em;zoom:1;"><label class="ss-q-title" for="entry_0" style="display:block;font-weight:bold;">Feedback
+
+<span class="ss-required-asterisk" style="color:#c43b1d;">*</span></label>
+
+<label class="ss-q-help" for="entry_0" style="display:block;color:#666;margin:.1em 0 .25em 0;">Send us your praise, suggestions, and bug reports</label>
+
+<textarea name="entry.0.single" rows="8" cols="75" class="ss-q-long" id="entry_0" style="max-width:90%;">
+
+[% INCLUDE _footer.html.tt %]

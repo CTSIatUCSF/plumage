@@ -1,0 +1,46 @@
+[% USE HTML %]
+[% INCLUDE _header.html.tt
+   header_id      = 'debug-index-page'
+   header_search  = 0
+   header_title   = "DEBUG: List of UCSF Cores"
+   header_noindex = 1
+   header_jquery_ui = 1
+%]
+
+     <div class="row">
+       
+       <div class="well span10 offset1" style="color: #B51427">
+	 <h1 style="padding-bottom: 0.5em">Review pages for core equipment and services</h1>
+	 <p style="font-weight: bold">We need your help to make sure your core equipment and services are properly represented in this search.</p>
+	 <ol>
+	   <li>Click on your core link below to see the information we have about your core.</li>
+	   <li>On your core page, please make any changes needed. Also please add equipment or services your core offers that are not listed and delete those that are no longer offered, or that you do not want to be searchable by the public.</li>
+	 </ol>
+       </div>
+
+     </div>
+
+
+     <div class="row">
+       <div class="span10 offset1">
+
+	 <ul id="debug-cores-list">
+	   [% FOREACH core IN cores %]
+	   <li class="debug-core-list-block"><strong><a href="debug/[% core.filename %]">[% core.name %]</a></strong> at [% core.info.location %]</li>
+<!--
+	     <ul>
+	       [% IF core.resources.keys.size == 0 %]
+	       <li>Resources: <b>none listed</b></li>
+	       [% END %]
+	     </ul>	     
+-->
+	   [% END %]
+	 </ul>
+	 
+       </div>
+
+     </div>
+
+    <script type="text/javascript" src="assets/js/core_debug.js" defer></script>
+
+[% INCLUDE _footer.html.tt %]

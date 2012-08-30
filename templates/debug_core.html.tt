@@ -1,0 +1,180 @@
+[% USE HTML %]
+[% INCLUDE _header.html.tt
+   header_id      = 'debug-core-page'
+   header_search  = 0
+   header_title   = "$name at UCSF Cores"
+   header_noindex = 1
+   header_jquery_ui = 1
+%]
+
+<style>
+h2 { margin-top: 2em; margin-bottom: 1em }
+</style>
+
+    <div class="row">
+       <div class="well span10 offset1">
+	 <h1 style="padding-bottom: 0.5em">Make corrections for [% name %]</h1>
+	 <ol>
+	   <li>Make corrections and additions as needed (Steps
+	     1-2)</li>
+	   <li>Include your contact info, so we can reach you if we
+	     have questions (Step 3)</li>
+	   <li>Submit the form when you're done (Step 4)</li>
+	   <li>Questions? Call Brian Turner at 415-514-8508 or
+	     Anirvan Chatterjee at 415-514-8506 before proceeding.</li>
+	 </ol>
+       </div>
+    </div>
+
+    <form id="debug-core-edits-form" action="http://base.ctsi.ucsf.edu/cores/tools/save.cgi" method="POST" onsubmit="return confirm('Please double-check your entries. Are you ready to submit your edits?')">
+      <input type="hidden" name="core" value="[% "$name" %]">
+    
+      <div class="row">
+	<div class="span11 offset1">
+	  <h2>Step 1 of 4: Review core details</h2>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="span4 offset2">
+	  <dl class="dl-horizontal">
+	    [% FOREACH category IN info %]
+            [% IF (category.key != 'supported_types' && category.key != 'locations') %]
+            <dt>[% category.key %]</dt>
+            <dd>[% category.value || '<span style="color: red">not available, please provide to the right</span>' %]</dd>
+            [% END %]
+	    [% END %]
+	  </dl>
+	</div>
+
+	<div class="span4">
+	  <h3>Found any mistakes?</h3>
+	  <textarea name="core-details-edits" rows="6" class="span4" placeholder="Enter your edits here"></textarea>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="span11 offset1">
+	  <h2 style="margin-bottom: 0">Step 2 of 4: Review list of resources offered</h2>
+
+
+<ul style="margin-left: 6em; margin-bottom: 2em">
+  <li><strong>Correct</strong> any of the listed resources in the
+    fields where they are shown.</li>
+  <li>To <strong>remove</strong> an item from the database, check the
+    delete box. (Deletion will occur after you click submit.)</li>
+  <li>To <strong>add resources</strong>, click the "Add a Resource" button
+    below the current list.</li>
+  <li>Where did these categories come from? <a href="https://search.eagle-i.net:8443/model/" target="_blank">Browse</a> the <a href="https://www.eagle-i.net/the-eagle-i-ontology-is-officially-released/" target="_blank">Eagle-I ontology.</a></p>
+</ul>
+
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="span10 offset2">
+
+	  [% UNLESS resources.keys.size %]
+ 	  <div class="well">
+ 	    <h3 style="color: #B51427">Sorry, no resources listed!</h3>
+ 	    
+ 	    <p>Possible causes:</p>
+ 
+ 	    <ul>
+ 	      <li>We don't know about the resources you have available</li>
+ 	      <li>We do know about resources you have available, but we
+ 		can't figure out how to map them to our <a href="/">master
+ 		  list of categories</a>.</li>
+ 	    </ul>
+
+ 	    <h3 style="color: #B51427">Click "Add a resource" button below to get started</h3>
+ 	  </div>
+
+	  [% END %]
+	  
+	  <table id="resource-list" class="table-condensed">
+            <thead>
+              <tr>
+		<th>Your short description</th>
+                <th>Official category (required)</th>
+		<th>Delete?</th>
+              </tr>
+            </thead>
+            <tbody>
+	    [% resource_num = 0 %]
+	    [% FOREACH type IN resources %][% FOREACH resource IN type.value.list %]
+	      [% resource_num = resource_num + 1 %]
+              <tr>
+		<td><input type="text" value="[% resource %]" name="resource-name-[% resource_num %]"></td>
+                <td><input type="text" class="resource-type" value="[% type.key %]" name="resource-type-[% resource_num %]"></td>
+		<td><label class="checkbox"><input type="checkbox" name="resource-delete-[% resource_num %]" value="delete">Delete</label></td>
+	      </tr>
+	    [% END %][% END %]
+            [% WHILE resource_num < 60 %]
+	      [% resource_num = resource_num + 1 %]
+              <tr style="display: none">
+		<td><input type="text" name="resource-name-[% resource_num %]" placeholder="<type model/description here>"></td>
+                <td><input type="text" class="resource-type" name="resource-type-[% resource_num %]" placeholder="<start typing to see categories>"></td>
+		<td><label class="checkbox"><input type="checkbox" value="resource-delete-[% resource_num %]">Delete</label></td>
+	      </tr>
+            [% END %]
+
+	    <tr>
+	      <td colspan="3">
+		<a id="debug-core-add-resource" class="btn btn-primary" href=""><i class="icon-plus icon-white"></i> Add a resource</a>
+	      </td>
+	    </tr>
+
+            </tbody>
+	  </table>
+
+
+
+	  <fieldset>
+	    <legend>Optional</legend>
+	    <textarea rows="6" class="span6" placeholder="Anything else we should know?" name="edits-other"></textarea>	    
+	  </fieldset>
+
+	</div>
+
+      </div>
+
+      <div class="row">
+	<div class="span11 offset1">
+	  <h2>Step 3 of 4: Who should we contact if we have questions?</h2>
+	</div>
+      </div>
+
+      <div class="row">
+
+	<div class="span10 offset2">
+	  <div class="form-horizontal">
+	    <label>Your name:</label>
+	    <input type="text" name="contact-name" class="span4">
+	    <br><br>
+	    <label>Your email:</label>
+	    <input type="text" name="contact-email" class="span4">
+	    <br><br>
+	    <label>Your phone number:</label>
+	    <input type="text" name="contact-phone" class="span4">
+	  </div>
+	</div>
+
+      </div>
+
+      <div class="row">
+	<div class="span11 offset1">
+	  <h2>Step 4 of 4: Done? Click the "submit" button</h2>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="span10 offset2" style="margin-bottom: 3em">
+	  <input type="submit" value="Submit your edits" class="btn btn-large btn-primary">
+	</div>
+      </div>
+    </form>
+
+    <script type="text/javascript" src="assets/js/core_debug.js"></script>
+     
+[% INCLUDE _footer.html.tt %]

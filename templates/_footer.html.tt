@@ -1,0 +1,61 @@
+[% USE HTML %]
+
+<!-- end main content -->
+    </div> <!-- /container -->
+
+    <footer id="footer" role="contentinfo">
+      <div class="container">
+
+
+	<div class="row"><div id="footer-collaboration" class="span12">
+	    This site is a collaborative effort of
+	    UCSF's <a href="http://rrp.ucsf.edu/">Research Resource
+	    Program (RRP)</a> and
+	    the <a href="http://ctsi.ucsf.edu/">Clinical and
+	    Translational Science Institute (CTSI)</a>.
+	</div></div>
+	<div class="row"><div id="footer-contact" class="span12">
+	    <a href="about/">Contact us</a>
+	</div></div>
+	<div class="row"><div id="footer-copyright" class="span12">
+	    &copy; 2012 The Regents of the University of California
+	</div></div>
+
+<!--
+
+	<div class="row">
+	  <div class="span3 offset1">
+	    <h4>About</h4>
+	    <p>This site is a collaborative effort of
+	    UCSF's <a href="http://rrp.ucsf.edu/">Research Resource
+	    Program (RRP)</a> and
+	    the <a href="http://ctsi.ucsf.edu/">Clinical and
+	    Translational Science Institute (CTSI)</a>.</p>
+	    <p><small>&copy; 2012 The Regents of the University of California.</small></p>
+	  </div>
+	  <div class="span3">
+	    <h4>Related Resources</h4>
+	    <dl>
+	      <dt><a href="http://profiles.ucsf.edu/">UCSF Profiles</a></dt>
+	      <dd>Find UCSF researchers, based on research expertise</dd>
+	      <dt><a href="http://hub.ucsf.edu/">Clinical Research Resource HUB</a></dt>
+	      <dd>Navigate the maze of campus resources, in plain English</dd>
+	    </dl>
+	  </div>
+	  <div class="span4">
+	    <h4>Feedback</h4>
+
+	    <form action="http://free.allforms.mailjol.net/u/f2b41ba1.php" method="POST">
+	      <textarea name="Feedback" rows="4" class="span4" placeholder="Comment or question"></textarea>
+	      <input type="email" name="Email" class="span4" placeholder="Your email address">
+	      <br><button type="submit" class="btn">Submit</button>
+	    </form>
+	  </div>
+	</div>
+-->
+
+      </div>
+    </footer>
+
+</body>
+</html>

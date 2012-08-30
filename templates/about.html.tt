@@ -1,0 +1,43 @@
+[% USE HTML %]
+[% INCLUDE _header.html.tt
+   header_id      = 'about-page'
+   header_search  = 1
+   header_title   = "About $config.site_name"
+%]
+
+<div class="row">
+  <div class="span10 offset1">
+
+    <h2>About the site</h2>
+
+    <p>The Cores Search website, developed by UCSF's <a
+      href="http://rrp.ucsf.edu/">Research Resource Program (RRP)</a>
+      and <a href="http://ctsi.ucsf.edu/">Clinical and Translational
+      Science Institute (CTSI)</a>, is designed to help researchers
+      find UCSF shared resources and contact resource managers. The
+      information presented here was collected from UCSF managers.
+      Every effort is made to keep it up-to-date. Let us know about
+      new resources, corrections and ideas for improvements.</p>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="span10 offset1">
+    <h2>Send us your feedback</h2>
+
+    <form action="http://free.allforms.mailjol.net/u/f2b41ba1.php" method="POST">
+      <label>Your feedback (corrections, suggestions, unsolicited
+	praise):</label>
+      <textarea rows="10" name="Feedback" class="span5 input-xlarge"></textarea>
+      <label>Your email (if we have followup questions):
+        <input type="text" name="Email" class="input-xlarge">
+      </label>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+  </div>
+</div>
+
+
+[% INCLUDE _footer.html.tt %]

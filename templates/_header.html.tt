@@ -1,0 +1,167 @@
+[% USE HTML -%]
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>[% header_title %]</title>
+    <meta name="description" content="">
+    <meta name="author" content="[% config.site_name %]">
+[% IF header_noindex %]
+    <meta name="robots" content="noindex, nofollow">
+[% END %]
+[% IF header_title_simple %]
+    <meta property="st:title" content="[% header_title_simple %]">
+[% END %]
+
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script>
+    <![endif]-->
+
+[% RAWPERL %]
+if ($ENV{HOSTNAME} eq 'base.ctsi.ucsf.edu') {
+    $stash->set('header_base_url', "http://$ENV{HOSTNAME}/cores/");
+} else {
+    $stash->set('header_base_url', "http://$ENV{HOSTNAME}/");
+}
+[% END %]
+
+    <base href="[% header_base_url %]" />
+
+    <link href="[% header_base_url %]assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="[% header_base_url %]assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="[% header_base_url %]assets/css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" value="IE=9">
+
+    <script type="text/javascript">
+    var dev_site = (window.location.hostname == 'base.ctsi.ucsf.edu');
+    var page_id = "[% header_id %]";
+    </script>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="[% header_base_url %]assets/js/custom.js"></script>
+    <script src="[% header_base_url %]assets/js/bootstrap-collapse.js"></script>
+    <script src="[% header_base_url %]assets/js/bootstrap-tooltip.js"></script>
+
+[% IF header_jquery_ui %]
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/base/jquery.ui.all.css" rel='stylesheet' type='text/css'>
+[% END %]
+
+    <script type="text/javascript">
+[% IF config.google_analytics_id %]
+var _gaq = [];
+if (! dev_site) {
+    _gaq = _gaq || [];
+    _gaq.push(['_setAccount', '[% config.google_analytics_id %]']);
+    _gaq.push(['_trackPageview']);
+}
+
+if (! dev_site) {
+    (function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+}
+[% END %]
+
+    var Swiftype = window.Swiftype || {};
+[% IF config.swiftype_key_primary %]
+    Swiftype.key = '[% config.swiftype_key_primary %]';
+[% END %]
+[% IF config.swiftype_key_testing %]
+    if (typeof(dev_site) != "undefined") {
+	if (dev_site) {
+	    Swiftype.key = '[% config.swiftype_key_testing %]';
+	}
+    }
+[% END %]
+
+    </script>
+
+  </head>
+
+  <body id="[% header_id %]">
+
+    <header id="header" class="container" role="banner">
+
+      <div id="leaderboard" class="row">
+	<div class="span12">
+	  <div id="ucsfnav-container">
+	    <div id="ucsfnav">
+	      <a class="ucsf-logo" target="_blank" href="http://www.ucsf.edu/">UCSF</a>
+	      <ul>
+		<li class="first"><a title="University of California, San Francisco" href="http://www.ucsf.edu/" target="_blank">University of California, San Francisco</a></li>
+		<li><a title="About UCSF" href="http://www.ucsf.edu/about" target="_blank">About UCSF</a></li>
+		<li><a title="Search UCSF" href="http://www.ucsf.edu/ucsf/search" target="_blank">Search UCSF</a></li>
+		<li><a title="UCSF Medical Center" href="http://www.ucsfhealth.org/" target="_blank">UCSF Medical Center</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+      </div>
+
+      <div class="row hidden-phone">
+	<div class="span12">
+	  <div id="header-brand-block">
+	    
+	    <h1>
+	      <a href="[% header_base_url %]">
+		[% config.site_name %]
+		<div id="tagline">Equipment and services for researchers</div>
+	      </a>
+	    </h1>
+	  </div>
+	  <div id="powered-by-block">
+	    <a id="powered-by-ctsi" href="http://ctsi.ucsf.edu/">Powered by CTSI</a>
+	    <a id="powered-by-rrp" href="http://rrp.ucsf.edu/">in partnership with RRP</a>
+	  </div>
+	</div>
+      </div>
+
+      <div class="row">
+	    <div class="span12">
+	      <div class="navbar">
+		<div class="navbar-inner">
+
+		<a id="header-collapsed-brand" class="brand" href="[% header_base_url %]">[% config.site_name %]</a>
+
+		  <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		  </a>
+		  
+		  <!-- Everything you want hidden at 940px or less, place within here -->
+		  <div class="nav-collapse">
+		    <ul class="nav" role="navigation">
+		      <li><a id="header-home-link" href="[% header_base_url %]">Home</a></li>
+		      <li><a id="header-about-link" href="[% header_base_url %]about/">About</a></li>
+		      <li><a id="header-contact-link" href="[% header_base_url %]about/">Contact</a></li>
+		    </ul>
+		    
+		    [% IF header_search %]
+
+		    <form id="search-form" role="search" class="form-search" style="margin: 0; padding: 0; float: right">
+		      <input type="text" class="span3" id="search" placeholder="e.g. flow cytometer, SDI">
+		      <button type="submit" class="btn btn-small">
+			<i class="icon-search"></i> Search
+		      </button>
+
+		      [% END %]
+		    </form>
+		    
+		  </div> <!-- end nav-collapse -->
+		</div>   <!-- end navbar-inner -->
+	      </div>	   <!-- end navbar -->
+	    </div>		   <!-- end block of 2nd row -->
+      </div>	   <!-- end second row -->
+
+    </header>
+
+   <div id="main-container" class="container">
+
+<!-- start main content -->

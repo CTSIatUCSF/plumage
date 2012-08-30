@@ -1,0 +1,19 @@
+[% USE HTML %]
+[% INCLUDE _header.html.tt
+   header_id      = 'search-page'
+   header_search  = 0
+   header_title   = "$config.site_name: Search Results"
+%]
+
+     <div class="row">
+       <div class="span8 offset2">
+
+	 <form>
+	   <input type="text" id="search" class="st-search-input" />
+	 </form>
+	 <div id="st-results-container"></div>
+
+       </div>
+     </div>
+
+[% INCLUDE _footer.html.tt %]

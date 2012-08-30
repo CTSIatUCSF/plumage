@@ -1,0 +1,122 @@
+[% USE HTML %]
+[% INCLUDE _header.html.tt
+   header_id           = 'resource-page'
+   header_search       = 1
+   header_title        = "$name at UCSF? See all $count options"
+   header_title_simple = "$name ($data.count)"
+%]
+
+     <div class="row">
+       <div id="context" class="well span10 offset1">
+
+	 <h1>[% name %] at UCSF</h1>
+
+	 <dl id="context-list" class="dl-horizontal">
+
+[% IF definition %]
+	   <dt>Definition</dt>
+	   <dd>[% definition %]</dd>
+[% END %]
+
+[% IF synonyms.size > 0 %]
+	   <dt>Synonyms</dt>
+	   <dd id="synonym-list">
+  [% FOREACH synonym IN synonyms %]
+	   <a rel="alternate" href="[% synonym.filename %]">[% synonym.name %]</a>[%- ", " UNLESS loop.last %]
+  [% END %]
+           </dd>
+[% END %]
+
+[% IF parents.size > 0 %]
+	   <dt>Categories</dt>
+	   <dd itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+  [% FOREACH parent IN parents %]
+	     <a href="[% parent.filename %]" itemprop="url"><span itemprop="title">[% parent.name %]</span></a> &rarr;
+  [% END %]
+	     [% name %]
+           </dd>
+[% END %]
+
+[% IF children.size > 0 %]
+	   <dt>Subcategories</dt>
+	   <dd>
+  [% FOREACH child IN children %]
+	     <a href="[% child.filename %]">[% child.name %]</a>[%- ", " UNLESS loop.last -%]
+  [% END %]
+           </dd>
+[% END %]
+
+	 </dl>
+       </div>
+     </div>
+
+[% IF children.size > 0 %]
+     <div class="row" id="see-also">
+       <div class="span8 offset2 alert">
+	 <span class="see-also-label">See also:</span>
+	 <span class="see-also-links">
+  [% FOREACH child IN children -%]
+           <a href="[% child.filename %]">[% child.name %]</a>
+           [%- ", " UNLESS loop.last -%]
+  [% END %]
+	 </span>
+       </div>
+     </div>
+[% END %]
+
+
+     <div class="row" id="core-location-filter">
+       <div class="span2 offset1" id="core-location-filter-label-block">
+         Filter by location:
+       </div>
+       <div class="span8">
+         <a class="btn btn-mini active">All</a>
+[% FOREACH location IN data.locations_sorted %]
+         <a class="btn btn-mini" data-wanted-class=".core-at-[% location.replace('[^A-Za-z]+', '-') %]">[% location %]</a>
+[% END %]
+       </div>
+     </div>
+
+[% FOREACH core IN data.cores_sorted %]
+     <meta property="st:section" content="[% core.info.core %]">
+     <div class="core row [% FOREACH location IN core.info.locations %]core-at-[% location.replace('[^A-Za-z]+', '-') %] [% END %]" itemscope itemtype="http://schema.org/Organization">
+       <div class="span2 offset1">
+         <span class="core-location label">[% core.info.location %]</span>
+       </div>
+       <div class="span8">
+         <h2>[% IF core.info.url %]<a href="[% core.info.url %]" target="_blank" title="Open this core's website in new window">[% END -%]<span itemprop="name">[% core.info.core %]</span>[% IF core.info.url %]</a>[% END %]</h2>
+	 <p class="core-details">
+  [% IF core.info.organization %]
+           [% core.info.organization %],
+  [% END %][% core.info.location %]<br />
+  [% IF core.info.contact %]
+           <span>Contact: [% core.info.contact %]</span>
+  [% END %]
+  [% IF core.info.phone %]
+    [% IF core.info.url || core.info.email -%]
+           <span itemprop="telephone">[% core.info.phone %]</span>
+    [% ELSE -%]
+           <span itemprop="telephone" class="core-phone-primary-link">[% core.info.phone %]</span>
+    [% END -%]
+  [% END %]
+  [% email_subject = "Request for information about $name (via cores.ucsf.edu)" %]
+  [% IF core.info.email %]
+    [% IF core.info.url -%]
+           <span class="core-email"><a 
+    [% ELSE -%]
+           <span class="core-email-primary-link"><a title="Email this core's contact person"
+    [% END -%]
+href="mailto:[% core.info.email %]?subject=[% email_subject | uri %]" itemprop="email">[% core.info.email %]</a></span>
+  [% END %]
+	</p>
+	 <ul class="match">
+  [% FOREACH resource IN core.resources %]
+           <li>[% resource %]</li>
+  [% END %]
+	 </ul>
+       </div>
+     </div>
+
+[% END %]
+
+[% INCLUDE _footer.html.tt %]

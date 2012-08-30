@@ -1,0 +1,29 @@
+[% USE HTML %]
+[% INCLUDE _header.html.tt
+   header_id      = 'index-page'
+   header_search  = 0
+   header_title   = "$config.site_name: $stats.num_resources research resources, 1 search engine"
+%]
+
+      <div id="main-heading">
+	<h1>Find instruments and services at UCSF</h1>
+	<p id="stats"><strong>[% stats.num_resources %]</strong> resources &middot; <strong>[% stats.num_types %]</strong> categories &middot; <strong>[% stats.num_cores %]</strong> providers</p>
+      </div>
+
+      <form id="search-form" class="form-search">
+	<input type="text" class="span5" id="search" placeholder="e.g. flow cytometer, SDI">
+	<button type="submit" class="btn btn-primary btn-large">
+	  <i class="icon-search icon-white"></i> Search
+	</button>
+      </form>
+      
+      <div id="browse" role="directory">
+	<h2>Or browse:</h2>
+	<ul>
+[% FOREACH option IN types %]
+          <li><a href="[% option.value.filename %]">[% option.key %]</a> <small>[% option.value.count %] option[% IF option.value.count > 1 %]s[% END %]</small></li>
+[% END %]
+        </ul>
+      </div>
+
+[% INCLUDE _footer.html.tt %]
