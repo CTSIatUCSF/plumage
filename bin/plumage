@@ -9,6 +9,9 @@ use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
 use Cwd qw( realpath );
 use Config::Tiny 2.14;
 use File::HomeDir 0.98;
+use File::Copy::Recursive 0.09 qw( rcopy );
+use File::Remove 1.50 qw( remove );
+use Filesys::DiskUsage qw( du );
 use File::Spec;
 use File::Path qw( remove_tree );
 use Regexp::Common 2010010201 qw( URI );
@@ -24,23 +27,26 @@ use open ':encoding(utf8)';
 ###############################################################################
 
 my $config        = read_config();
-my $output_path   = $config->{_}->{output_path};
-my $template_path = $config->{_}->{template_path};
+my $output_path   = $config->{output_path};
+my $template_path = $config->{template_path};
 foreach my $set ( [ $output_path, 'output_path' ],
                   [ $template_path, 'template_path' ] ) {
-    unless ( $set->[0] and -d $set->[0] ) {
+    unless ( $set->[0] ) {
         die "No valid `$set->[1]` directory configured in conf file";
     }
+    unless ( -d $set->[0] ) {
+        die "Can't find `$set->[1]` directory at `$set->[0]`";
+    }
 }
-if ( $config->{_}->{site_name} !~ m/\w/ ) {
+if ( $config->{site_name} !~ m/\w/ ) {
     die "No valid `site_name` configured in conf file";
 }
-if ( $config->{_}->{site_name} =~ m/\"/ ) {
+if ( $config->{site_name} =~ m/\"/ ) {
     die "`site_name` in conf file can't have a quote in it";
 }
 foreach my $option_name (qw( url_live url_dev )) {
-    unless (     $config->{_}->{$option_name}
-             and $config->{_}->{$option_name} =~ m/$RE{URI}{HTTP}/ ) {
+    unless (     $config->{$option_name}
+             and $config->{$option_name} =~ m/$RE{URI}{HTTP}/ ) {
         die "No valid `$option_name` URL configured in conf file";
     }
 }
@@ -52,6 +58,32 @@ my $core_data         = load_core_data( ontology => \%ontology, debug => 0 );
 my $core_data_by_type = $core_data->{by_type};
 
 ###############################################################################
+
+# blow away output directory
+{
+
+    unless (
+          $config->{disable_safety_check_before_deleting_output_directory} ) {
+        my $total_size_of_output_dir_in_kb = du($output_path) / 1024;
+        if ( $total_size_of_output_dir_in_kb >= 10_240 ) {
+            die
+                "Output directory `$output_path` is over 10 MB in size -- not going to delete it, just to be safe\n\nTo disable this check, add `disable_safety_check_before_deleting_output_directory = 1` to the config file";
+        }
+    }
+
+    my $to_remove_path_with_wildcard
+        = File::Spec->catfile( $output_path, '*' );
+    remove( \1, $to_remove_path_with_wildcard );
+}
+
+# copy over static files
+{
+    my $static_dir = File::Spec->catdir( $template_path, 'static' );
+    unless ( -e $static_dir ) {
+        die "Can't find directory of static content `$static_dir`";
+    }
+    rcopy( $static_dir, $output_path );
+}
 
 my $template = Template->new( { EVAL_PERL  => 1,
                                 PRE_CHOMP  => 0,
@@ -175,7 +207,7 @@ sub write_file {
 
     # add config options to options hash
     $options ||= {};
-    $options->{config} = $config->{_};
+    $options->{config} = $config;
 
     # create full path
     my $full_path = $output_path . $url_path;
@@ -202,7 +234,7 @@ sub write_file {
 
 sub add_url_to_sitemap {
     my $path = shift;
-    my $url  = "$config->{_}->{url_live}$path";
+    my $url  = "$config->{url_live}$path";
     $url =~ s{(?<!:)//}{/}g;
     $sitemap->add( Search::Sitemap::URL->new( loc        => $url,
                                               lastmod    => time(),
@@ -237,5 +269,8 @@ sub read_config {
         die "Could not find config file, looked in: ",
             join( ', ', @potential_config_files ), "\n";
     }
-    return $config;
+    unless ( $config->{_} ) {
+        die "Config file at $path appeared to be empty\n";
+    }
+    return $config->{_};
 }
