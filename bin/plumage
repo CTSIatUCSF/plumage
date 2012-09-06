@@ -257,7 +257,8 @@ sub read_config {
     my @potential_config_files
         = map { realpath( File::Spec->catfile( $_, 'plumage.conf' ) ) }
         @potential_config_dirs;
-    foreach my $path (@potential_config_files) {
+    my $path;
+    foreach $path (@potential_config_files) {
         if ( -e $path ) {
             $config = Config::Tiny->read($path)
                 || die "Could not read configuration file at $path: "
