@@ -1,20 +1,18 @@
 #!/usr/bin/perl
 
 use 5.12.0;
-use lib '.', '/var/www/html/cores/tools/code/lib';
+use lib '.', 'lib', '../lib';
 use File::Spec;
 use Plumage qw( load_core_data get_freebase_definition name_to_filename );
+use Plumage::Config qw( get_config );
 use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
     'ontology_children';
-use Cwd qw( realpath );
-use Config::Tiny 2.14;
 use File::HomeDir 0.98;
 use File::Copy::Recursive 0.09 qw( rcopy );
 use File::Remove 1.50 qw( remove );
 use Filesys::DiskUsage qw( du );
 use File::Spec;
 use File::Path qw( remove_tree );
-use Regexp::Common 2010010201 qw( URI );
 use Search::Sitemap 2.13;
 use Template 2.22;
 use Template::Stash::AutoEscaping 0.0301;
@@ -26,30 +24,9 @@ use open ':encoding(utf8)';
 
 ###############################################################################
 
-my $config        = read_config();
+my $config        = get_config();
 my $output_path   = $config->{output_path};
 my $template_path = $config->{template_path};
-foreach my $set ( [ $output_path, 'output_path' ],
-                  [ $template_path, 'template_path' ] ) {
-    unless ( $set->[0] ) {
-        die "No valid `$set->[1]` directory configured in conf file";
-    }
-    unless ( -d $set->[0] ) {
-        die "Can't find `$set->[1]` directory at `$set->[0]`";
-    }
-}
-if ( $config->{site_name} !~ m/\w/ ) {
-    die "No valid `site_name` configured in conf file";
-}
-if ( $config->{site_name} =~ m/\"/ ) {
-    die "`site_name` in conf file can't have a quote in it";
-}
-foreach my $option_name (qw( url_live url_dev )) {
-    unless (     $config->{$option_name}
-             and $config->{$option_name} =~ m/$RE{URI}{HTTP}/ ) {
-        die "No valid `$option_name` URL configured in conf file";
-    }
-}
 
 ###############################################################################
 
@@ -242,36 +219,4 @@ sub add_url_to_sitemap {
                                               priority   => 1.0,
                    )
     );
-}
-
-sub read_config {
-    my $config;
-    my @potential_config_dirs = ( '/etc/',
-                                  File::HomeDir->my_home,
-                                  File::Spec->curdir(),
-                                  File::Spec->updir(),
-                                  File::Spec->catdir( File::Spec->updir(),
-                                                      File::Spec->updir()
-                                  )
-    );
-    my @potential_config_files
-        = map { realpath( File::Spec->catfile( $_, 'plumage.conf' ) ) }
-        @potential_config_dirs;
-    my $path;
-    foreach $path (@potential_config_files) {
-        if ( -e $path ) {
-            $config = Config::Tiny->read($path)
-                || die "Could not read configuration file at $path: "
-                . Config::Tiny->errstr;
-            last;
-        }
-    }
-    unless ($config) {
-        die "Could not find config file, looked in: ",
-            join( ', ', @potential_config_files ), "\n";
-    }
-    unless ( $config->{_} ) {
-        die "Config file at $path appeared to be empty\n";
-    }
-    return $config->{_};
 }
