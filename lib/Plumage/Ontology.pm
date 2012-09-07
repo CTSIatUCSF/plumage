@@ -3,6 +3,7 @@
 package Plumage::Ontology;
 use 5.12.0;
 use CHI;
+use File::Spec 3.33 ();
 use List::MoreUtils 0.33 qw( any apply uniq );
 use Log::Log4perl 1.33 qw(:easy);
 use Memoize qw( memoize );
@@ -24,7 +25,7 @@ Log::Log4perl->easy_init($ERROR);
 
 ###############################################################################
 
-my $tmp_dir = '/tmp/ucsf_cores';
+my $tmp_dir = File::Spec->catdir( File::Spec->tmpdir(), 'plumage' );
 my @owl_files = ( '/var/www/html/cores/tools/code/data/ero.r623.owl',
                   '/var/www/html/cores/tools/code/data/obi-imports.r623.owl',
 );
