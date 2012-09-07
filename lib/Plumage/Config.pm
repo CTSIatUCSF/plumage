@@ -69,12 +69,9 @@ sub get_config {
             "`site_name` in configuration file at $path can't have a quote in it";
     }
 
-    foreach my $option_name (qw( url_live url_dev )) {
-        unless (     $config->{$option_name}
-                 and $config->{$option_name} =~ m/$RE{URI}{HTTP}/ ) {
-            die
-                "No valid `$option_name` URL configured in configuration file at $path";
-        }
+    unless (     $config->{url}
+             and $config->{url} =~ m/$RE{URI}{HTTP}/ ) {
+        die "No valid `url` URL configured in configuration file at $path";
     }
 
     return $config;

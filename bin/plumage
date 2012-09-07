@@ -211,7 +211,7 @@ sub write_file {
 
 sub add_url_to_sitemap {
     my $path = shift;
-    my $url  = "$config->{url_live}$path";
+    my $url  = "$config->{url}$path";
     $url =~ s{(?<!:)//}{/}g;
     $sitemap->add( Search::Sitemap::URL->new( loc        => $url,
                                               lastmod    => time(),
