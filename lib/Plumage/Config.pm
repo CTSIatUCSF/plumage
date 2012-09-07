@@ -15,6 +15,8 @@ our @EXPORT_OK = ('get_config');
 
 sub get_config {
 
+    my ( $role, $config_file ) = @_;
+
     my @potential_config_dirs = ( '/etc/',
                                   File::HomeDir->my_home,
                                   File::Spec->curdir(),
@@ -26,6 +28,9 @@ sub get_config {
     my @potential_config_files
         = map { realpath( File::Spec->catfile( $_, 'plumage.conf' ) ) }
         @potential_config_dirs;
+    if ($config_file) {
+        @potential_config_files = ($config_file);
+    }
 
     my ( $path, $raw_config );
     foreach $path (@potential_config_files) {
@@ -46,6 +51,16 @@ sub get_config {
     }
 
     my $config = $raw_config->{_};
+
+    if ($role) {
+        if ( $raw_config->{$role} ) {
+            foreach my $key ( keys %{ $raw_config->{$role} } ) {
+                $config->{$key} = $raw_config->{$role}->{$key};
+            }
+        } else {
+            die "Tried to load role `$role`, but that's not defined at $path";
+        }
+    }
 
     my $output_path   = $config->{output_path};
     my $template_path = $config->{template_path};
