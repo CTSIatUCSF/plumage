@@ -18,32 +18,19 @@
       <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6/html5shiv.min.js"></script>
     <![endif]-->
 
-[% RAWPERL %]
-if ($ENV{HOSTNAME} eq 'base.ctsi.ucsf.edu') {
-    $stash->set('header_base_url', "http://$ENV{HOSTNAME}/cores/");
-} else {
-    $stash->set('header_base_url', "http://$ENV{HOSTNAME}/");
-}
-[% END %]
-
-    <base href="[% header_base_url %]" />
-
-    <link href="[% header_base_url %]assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="[% header_base_url %]assets/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="[% header_base_url %]assets/css/style.css" rel="stylesheet">
+    <base href="[% config.url %]" />
+    <link href="[% config.url %]assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="[% config.url %]assets/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="[% config.url %]assets/css/style.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" value="IE=9">
-
-    <script type="text/javascript">
-    var dev_site = (window.location.hostname == 'base.ctsi.ucsf.edu');
-    var page_id = "[% header_id %]";
-    </script>
+    <script type="text/javascript">var page_id = "[% header_id %]"</script>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-    <script src="[% header_base_url %]assets/js/custom.js"></script>
-    <script src="[% header_base_url %]assets/js/bootstrap-collapse.js"></script>
-    <script src="[% header_base_url %]assets/js/bootstrap-tooltip.js"></script>
+    <script src="[% config.url %]assets/js/custom.js"></script>
+    <script src="[% config.url %]assets/js/bootstrap-collapse.js"></script>
+    <script src="[% config.url %]assets/js/bootstrap-tooltip.js"></script>
 
 [% IF header_jquery_ui %]
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
@@ -52,34 +39,19 @@ if ($ENV{HOSTNAME} eq 'base.ctsi.ucsf.edu') {
 
     <script type="text/javascript">
 [% IF config.google_analytics_id %]
-var _gaq = [];
-if (! dev_site) {
-    _gaq = _gaq || [];
+    var _gaq = _gaq || [];
     _gaq.push(['_setAccount', '[% config.google_analytics_id %]']);
     _gaq.push(['_trackPageview']);
-}
-
-if (! dev_site) {
     (function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-}
 [% END %]
-
+[% IF config.swiftype_key %]
     var Swiftype = window.Swiftype || {};
-[% IF config.swiftype_key_primary %]
-    Swiftype.key = '[% config.swiftype_key_primary %]';
+    Swiftype.key = '[% config.swiftype_key %]';
 [% END %]
-[% IF config.swiftype_key_testing %]
-    if (typeof(dev_site) != "undefined") {
-	if (dev_site) {
-	    Swiftype.key = '[% config.swiftype_key_testing %]';
-	}
-    }
-[% END %]
-
     </script>
 
   </head>
@@ -109,7 +81,7 @@ if (! dev_site) {
 	  <div id="header-brand-block">
 	    
 	    <h1>
-	      <a href="[% header_base_url %]">
+	      <a href="[% config.url %]">
 		[% config.site_name %]
 		<div id="tagline">Equipment and services for researchers</div>
 	      </a>
@@ -127,7 +99,7 @@ if (! dev_site) {
 	      <div class="navbar">
 		<div class="navbar-inner">
 
-		<a id="header-collapsed-brand" class="brand" href="[% header_base_url %]">[% config.site_name %]</a>
+		<a id="header-collapsed-brand" class="brand" href="[% config.url %]">[% config.site_name %]</a>
 
 		  <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 		    <span class="icon-bar"></span>
@@ -138,9 +110,9 @@ if (! dev_site) {
 		  <!-- Everything you want hidden at 940px or less, place within here -->
 		  <div class="nav-collapse">
 		    <ul class="nav" role="navigation">
-		      <li><a id="header-home-link" href="[% header_base_url %]">Home</a></li>
-		      <li><a id="header-about-link" href="[% header_base_url %]about/">About</a></li>
-		      <li><a id="header-contact-link" href="[% header_base_url %]about/">Contact</a></li>
+		      <li><a id="header-home-link" href="[% config.url %]">Home</a></li>
+		      <li><a id="header-about-link" href="[% config.url %]about/">About</a></li>
+		      <li><a id="header-contact-link" href="[% config.url %]about/">Contact</a></li>
 		    </ul>
 		    
 		    [% IF header_search %]

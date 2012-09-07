@@ -12,39 +12,35 @@ var ResizeEvents={baseTextHeight:null,currentTextHeight:null,baseWindowWidth:nul
 
 // Swiftype JS
 
-$(document).ready(function() {
-    // add a container for search results, unless one's already there
-    if ($('#st-results-container').length == 0) {
-	var results_div = document.createElement('div');
-	results_div.setAttribute('id', 'st-results-container');
-	document.body.appendChild(results_div);
-    }
-});
-
-var Swiftype = window.Swiftype || {};
-(function() {
-    Swiftype.key = 'GZY5EPpnZpZqqk85s1kE'; // live
-    if (typeof(dev_site) != "undefined") {
-	if (dev_site) {
-	    Swiftype.key = 'a3wmo9nkzV1d4NFyRXHC'; // beta, point to base
+if (Swiftype.key) {
+    $(document).ready(function() {
+	// add a container for search results, unless one's already there
+	if ($('#st-results-container').length == 0) {
+	    var results_div = document.createElement('div');
+	    results_div.setAttribute('id', 'st-results-container');
+	    document.body.appendChild(results_div);
 	}
-    }
-    Swiftype.inputElement = '#search';
-    Swiftype.resultContainingElement = '#st-results-container';
-    Swiftype.attachElement = '#search';
-    Swiftype.renderStyle = "overlay";
+    });
 
-    if (typeof(page_id) !== 'undefined' && page_id == 'search-page') {
-	Swiftype.renderStyle = "inline";
-    }
+    var Swiftype = window.Swiftype || {};
+    (function() {
+	Swiftype.inputElement = '#search';
+	Swiftype.resultContainingElement = '#st-results-container';
+	Swiftype.attachElement = '#search';
+	Swiftype.renderStyle = "overlay";
 
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.src = "//swiftype.com/embed.js";
-    var entry = document.getElementsByTagName('script')[0];
-    entry.parentNode.insertBefore(script, entry);
-}());
+	if (typeof(page_id) !== 'undefined' && page_id == 'search-page') {
+	    Swiftype.renderStyle = "inline";
+	}
+
+	var script = document.createElement('script');
+	script.type = 'text/javascript';
+	script.async = true;
+	script.src = "//swiftype.com/embed.js";
+	var entry = document.getElementsByTagName('script')[0];
+	entry.parentNode.insertBefore(script, entry);
+    }());
+}
 
 //////////////////////////////////////////////////////////////////////
 
