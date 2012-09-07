@@ -1,6 +1,6 @@
 #!perl
 
-use lib '/var/www/html/cores/tools/code/lib';
+use lib '.', 'lib', '../lib';
 use Test::More;
 use strict;
 binmode STDOUT, ':utf8';
