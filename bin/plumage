@@ -24,7 +24,8 @@ use open ':encoding(utf8)';
 
 ###############################################################################
 
-my $config        = get_config();
+my $role          = shift;
+my $config        = get_config( role => $role );
 my $output_path   = $config->{output_path};
 my $template_path = $config->{template_path};
 

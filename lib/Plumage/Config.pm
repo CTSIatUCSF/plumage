@@ -5,6 +5,7 @@ use 5.12.0;
 use Config::Tiny 2.14;
 use Cwd qw( realpath );
 use File::Spec;
+use Params::Validate 1.00;
 use Regexp::Common 2010010201 qw( URI );
 use base 'Exporter';
 use warnings;
@@ -15,7 +16,9 @@ our @EXPORT_OK = ('get_config');
 
 sub get_config {
 
-    my ( $role, $config_file ) = @_;
+    # "role" is a role (e.g. main, dev) configured in the config file
+    # "config_file" (optional) is path to configuration file to use
+    my %options = validate( @_, { role => 0, config_file => 0 } );
 
     my @potential_config_dirs = ( '/etc/',
                                   File::HomeDir->my_home,
@@ -28,17 +31,19 @@ sub get_config {
     my @potential_config_files
         = map { realpath( File::Spec->catfile( $_, 'plumage.conf' ) ) }
         @potential_config_dirs;
-    if ($config_file) {
-        @potential_config_files = ($config_file);
+    if ( $options{config_file} ) {
+        @potential_config_files = ( $options{config_file} );
     }
 
     my ( $path, $raw_config );
-    foreach $path (@potential_config_files) {
-        if ( -e $path ) {
-            $raw_config = Config::Tiny->read($path)
-                || die "Could not read configuration file at $path: "
-                . Config::Tiny->errstr;
-            last;
+    foreach my $potential_path (@potential_config_files) {
+        if ( -e $potential_path ) {
+            $raw_config = Config::Tiny->read($potential_path);
+            unless ($raw_config) {
+                die "Could not read configuration file at $potential_path: "
+                    . Config::Tiny->errstr;
+            }
+            $path = $potential_path;
         }
     }
 
@@ -52,14 +57,22 @@ sub get_config {
 
     my $config = $raw_config->{_};
 
-    if ($role) {
-        if ( $raw_config->{$role} ) {
-            foreach my $key ( keys %{ $raw_config->{$role} } ) {
-                $config->{$key} = $raw_config->{$role}->{$key};
-            }
+    my $num_roles_supported = ( scalar( keys %{$raw_config} ) - 1 );
+
+    if ($num_roles_supported) {
+        if ( !defined $options{role} ) {
+            die "No role defined";
+        } elsif ( !$raw_config->{ $options{role} } ) {
+            die
+                "Tried to load role `$options{role}`, but that's not defined at $path\n";
         } else {
-            die "Tried to load role `$role`, but that's not defined at $path";
+            foreach my $key ( keys %{ $raw_config->{ $options{role} } } ) {
+                $config->{$key} = $raw_config->{ $options{role} }->{$key};
+            }
         }
+    } elsif ( !$num_roles_supported and exists $options{role} ) {
+        die
+            "No roles defined in configuration file at $path, but was sent role $role";
     }
 
     my $output_path   = $config->{output_path};
