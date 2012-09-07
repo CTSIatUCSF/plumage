@@ -2,14 +2,13 @@
 
 package Plumage;
 use 5.12.0;
-use lib '/var/www/html/cores/tools/code/lib';
+use lib '.', 'lib', '../lib';
 use JSON qw( decode_json );
 use LWP::Simple qw( get );
 use LWP::Simple::WithCache;
 use Memoize qw( memoize );
 use Text::Elide qw( elide );
 use Plumage::Ontology qw( load_ontology_data clean_ontology_term );
-use Plumage::OntologyGuess qw( guess_ontology_mappings );
 use URI::Escape qw( uri_escape );
 use base 'Exporter';
 use strict;
