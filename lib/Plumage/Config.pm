@@ -72,7 +72,7 @@ sub get_config {
         }
     } elsif ( !$num_roles_supported and exists $options{role} ) {
         die
-            "No roles defined in configuration file at $path, but was sent role $role";
+            "No roles defined in configuration file at $path, but was sent role `$options{role}`";
     }
 
     my $output_path   = $config->{output_path};
