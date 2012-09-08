@@ -2,7 +2,7 @@
 [% INCLUDE _header.html.tt
    header_id           = 'resource-page'
    header_search       = 1
-   header_title        = "$name at UCSF? See all $count options"
+   header_title        = "$name at UCSF? See all $data.count options"
    header_title_simple = "$name ($data.count)"
 %]
 
