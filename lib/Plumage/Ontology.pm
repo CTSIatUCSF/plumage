@@ -3,6 +3,7 @@
 package Plumage::Ontology;
 use 5.12.0;
 use CHI;
+use File::ShareDir::ProjectDistDir;
 use File::Spec 3.33 ();
 use List::MoreUtils 0.33 qw( any apply uniq );
 use Log::Log4perl 1.33 qw(:easy);
@@ -26,9 +27,10 @@ Log::Log4perl->easy_init($ERROR);
 ###############################################################################
 
 my $tmp_dir = File::Spec->catdir( File::Spec->tmpdir(), 'plumage' );
-my @owl_files = ( '/var/www/html/cores/tools/code/data/ero.r623.owl',
-                  '/var/www/html/cores/tools/code/data/obi-imports.r623.owl',
-);
+my $eagle_i_data_dir
+    = File::Spec->catdir( dist_dir('Plumage'), 'eagle-i_data' );
+my @owl_files = map { File::Spec->catdir( $eagle_i_data_dir, $_ ) }
+    ( 'ero.r623.owl', 'obi-imports.r623.owl' );
 
 ###############################################################################
 
