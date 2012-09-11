@@ -32,11 +32,6 @@
     <script src="[% config.url %]assets/js/bootstrap-collapse.js"></script>
     <script src="[% config.url %]assets/js/bootstrap-tooltip.js"></script>
 
-[% IF header_jquery_ui %]
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/themes/base/jquery.ui.all.css" rel='stylesheet' type='text/css'>
-[% END %]
-
     <script type="text/javascript">
 [% IF config.google_analytics_id %]
     var _gaq = _gaq || [];
