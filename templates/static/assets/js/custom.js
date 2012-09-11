@@ -12,7 +12,7 @@ var ResizeEvents={baseTextHeight:null,currentTextHeight:null,baseWindowWidth:nul
 
 // Swiftype JS
 
-if (Swiftype.key) {
+if (Swiftype && Swiftype.key) {
     $(document).ready(function() {
 	// add a container for search results, unless one's already there
 	if ($('#st-results-container').length == 0) {
@@ -22,7 +22,6 @@ if (Swiftype.key) {
 	}
     });
 
-    var Swiftype = window.Swiftype || {};
     (function() {
 	Swiftype.inputElement = '#search';
 	Swiftype.resultContainingElement = '#st-results-container';
@@ -30,7 +29,7 @@ if (Swiftype.key) {
 	Swiftype.renderStyle = "overlay";
 
 	if (typeof(page_id) !== 'undefined' && page_id == 'search-page') {
-	    Swiftype.renderStyle = "inline";
+            Swiftype.renderStyle = "inline";
 	}
 
 	var script = document.createElement('script');
@@ -48,7 +47,7 @@ if (Swiftype.key) {
 $(document).ready(function() {
     page_id = $('body').attr('id') || page_id;
     Placeholders.init();
-    
+
     function positionFooter() {
 	return;
 	var footer = $("#footer");
