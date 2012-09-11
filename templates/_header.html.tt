@@ -25,14 +25,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/img/favicon.ico">
     <meta http-equiv="X-UA-Compatible" value="IE=9">
-    <script type="text/javascript">var page_id = "[% header_id %]"</script>
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-    <script src="[% config.url %]assets/js/custom.js"></script>
-    <script src="[% config.url %]assets/js/bootstrap-collapse.js"></script>
-    <script src="[% config.url %]assets/js/bootstrap-tooltip.js"></script>
-
     <script type="text/javascript">
+    var page_id = "[% header_id %]";
 [% IF config.google_analytics_id %]
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', '[% config.google_analytics_id %]']);
@@ -48,7 +42,10 @@
     Swiftype.key = '[% config.swiftype_key %]';
 [% END %]
     </script>
-
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="[% config.url %]assets/js/custom.js"></script>
+    <script src="[% config.url %]assets/js/bootstrap-collapse.js"></script>
+    <script src="[% config.url %]assets/js/bootstrap-tooltip.js"></script>
   </head>
 
   <body id="[% header_id %]">
