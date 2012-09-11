@@ -1,7 +1,7 @@
 use 5.006;
 use strict;
 use warnings;
-use Module::Build;
+use Module::Build 0.36;
 
 my $builder = Module::Build->new(
     module_name         => 'Plumage',
@@ -12,8 +12,9 @@ my $builder = Module::Build->new(
         'Test::More' => 0,
     },
     requires => {
-        'perl' => 5.006,
+        'perl' => 5.012,
     },
+    share_dir => 'share',
     add_to_cleanup      => [ 'Plumage-*' ],
     create_makefile_pl => 'traditional',
 );
