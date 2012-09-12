@@ -20,6 +20,8 @@ sub get_config {
     # "config_file" (optional) is path to configuration file to use
     my %options = validate( @_, { role => 0, config_file => 0 } );
 
+    # Part 1: Load config file data
+
     my @potential_config_dirs = ( '/etc/',
                                   File::HomeDir->my_home,
                                   File::Spec->curdir(),
@@ -55,6 +57,8 @@ sub get_config {
         die "Config file at $path appeared to be empty\n";
     }
 
+    # Part 2: Validate config file data
+
     my $config = $raw_config->{_};
 
     my $num_roles_supported = ( scalar( keys %{$raw_config} ) - 1 );
@@ -79,13 +83,15 @@ sub get_config {
     my $template_path = $config->{template_path};
     foreach my $set ( [ $output_path, 'output_path' ],
                       [ $template_path, 'template_path' ] ) {
-        unless ( $set->[0] ) {
+        if ( !$set->[0] ) {
             die
                 "No valid `$set->[1]` directory configured in configuration file at $path";
-        }
-        unless ( -d $set->[0] ) {
+        } elsif ( !-d $set->[0] ) {
             die
                 "Can't find `$set->[1]` directory at `$set->[0]` (as configured in $path)";
+        } elsif ( !-w $set->[0] ) {
+            die
+                "The `$set->[1]` directory at `$set->[0]` (as configured in $path) is not writable";
         }
     }
 
