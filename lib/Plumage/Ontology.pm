@@ -2,6 +2,7 @@
 
 package Plumage::Ontology;
 use 5.12.0;
+use Plumage::Config qw( get_config );
 use CHI;
 use File::ShareDir::ProjectDistDir;
 use File::Spec 3.33 ();
@@ -26,7 +27,6 @@ Log::Log4perl->easy_init($ERROR);
 
 ###############################################################################
 
-my $tmp_dir = File::Spec->catdir( File::Spec->tmpdir(), 'plumage' );
 my $eagle_i_data_dir
     = File::Spec->catdir( dist_dir('Plumage'), 'eagle-i_data' );
 my @owl_files = map { File::Spec->catdir( $eagle_i_data_dir, $_ ) }
@@ -52,11 +52,9 @@ sub load_ontology_data {
 
     state $cache;
     unless ($cache) {
-        unless ( -d $tmp_dir ) {
-            mkdir $tmp_dir || die $!;
-        }
+	my $config = get_config();
         $cache = CHI->new( driver   => 'File',
-                           root_dir => "$tmp_dir/ontology_cache" );
+                           root_dir => "$config->{temp_dir}/ontology_cache" );
     }
     if ( $use_cache and $cache ) {
         my $return = $cache->get('ontology');

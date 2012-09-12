@@ -16,6 +16,12 @@ our @EXPORT_OK = ('get_config');
 
 sub get_config {
 
+    # return cached configuration data, if available
+    state $config;
+    if ($config) {
+        return $config;
+    }
+
     # "role" is a role (e.g. main, dev) configured in the config file
     # "config_file" (optional) is path to configuration file to use
     my %options = validate( @_, { role => 0, config_file => 0 } );
@@ -59,7 +65,7 @@ sub get_config {
 
     # Part 2: Validate config file data
 
-    my $config = $raw_config->{_};
+    $config = $raw_config->{_};
 
     my $num_roles_supported = ( scalar( keys %{$raw_config} ) - 1 );
 
@@ -69,7 +75,7 @@ sub get_config {
         } elsif ( !$raw_config->{ $options{role} } ) {
             die
                 "Tried to load role `$options{role}`, but that's not defined at $path\n";
-        } else {
+        } else {    # load role options as main options
             foreach my $key ( keys %{ $raw_config->{ $options{role} } } ) {
                 $config->{$key} = $raw_config->{ $options{role} }->{$key};
             }
@@ -106,6 +112,21 @@ sub get_config {
     unless (     $config->{url}
              and $config->{url} =~ m/$RE{URI}{HTTP}/ ) {
         die "No valid `url` URL configured in configuration file at $path";
+    }
+
+    if ( defined $config->{temp_dir} ) {
+        unless ( -d $config->{temp_dir} ) {
+            mkdir $config->{temp_dir} || die $!;
+        }
+        unless ( -d $config->{temp_dir} and -w $config->{temp_dir} ) {
+            warn
+                "`temp_dir` configured in $path isn't a valid writable directory, will switch back to default\n";
+            delete $config->{temp_dir};
+        }
+    }
+    unless ( defined $config->{temp_dir} ) {
+        $config->{temp_dir}
+            = File::Spec->catdir( File::Spec->tmpdir(), 'plumage' );
     }
 
     return $config;
