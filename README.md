@@ -29,17 +29,35 @@ Easy to deploy:
 
 ## Who is Plumage?
 
-Plumage was developed by Anirvan Chatterjee and the Virtual Home team
-at the [Clinical & Translational Science Institute][CTSI] at the
-University of California, San Francisco, in collaboration with UCSF's
-[Research Resources Program][RRP].
+The Plumage software was developed by Anirvan Chatterjee and the
+Virtual Home team at the [Clinical & Translational Science
+Institute][CTSI] at the University of California, San Francisco, in
+collaboration with UCSF's [Research Resources Program][RRP].
+
+This project was supported by the National Center for Research
+Resources and the National Center for Advancing Translational
+Sciences, National Institutes of Health, through UCSF-CTSI Grant
+Number UL1 RR024131. Its contents are solely the responsibility of the
+authors and do not necessarily represent the official views of the
+NIH.
 
 ## Learn more
 
 * [UCSF Cores Search 2.0: Design Strategy Overview](slides) (Slideshare presentation)
 
+## License Information
+
+Plumage is Copyright (c) 2012, The Regents of the University of
+California. All rights reserved.
+
+This application is free software; you can redistribute it and/or
+modify it under the terms of the BSD license (revised, three clause).
+For more details, see the full text of the license in the file
+LICENSE. (TLDRLegal offers a _non-binding_ [human-readable
+description](TLDRLegal) of this license.)
 
 [UCSF Cores Search]: http://cores.ucsf.edu/
 [CTSI]: http://ctsi.ucsf.edu/
 [RRP]: http://rrp.ucsf.edu/
 [slides]: http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview
+[TLDRLegal]: http://www.tldrlegal.com/license/bsd-3-clause-license-(revised)
