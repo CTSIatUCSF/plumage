@@ -2,6 +2,7 @@
 
 package Plumage::Ontology;
 use 5.12.0;
+use lib '.', '..', 'lib', '../lib';
 use Plumage::Config qw( get_config );
 use CHI;
 use File::ShareDir::ProjectDistDir;
