@@ -5,6 +5,7 @@ use Module::Build 0.36;
 
 my $builder = Module::Build->new(
     module_name         => 'Plumage',
+    dist_abstract       => 'Generate website making eagle-i data more accesible',
     license             => 'bsd',
     dist_author         => q{Anirvan Chatterjee <anirvan.chatterjee at ucsf dot edu>},
     dist_version_from   => 'lib/Plumage.pm',
