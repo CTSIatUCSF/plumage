@@ -99,7 +99,7 @@
            <span itemprop="telephone" class="core-phone-primary-link">[% core.info.phone %]</span>
     [% END -%]
   [% END %]
-  [% email_subject = "Request for information about $name (via cores.ucsf.edu)" %]
+  [% email_subject = "Request for information about $name (via $config.url)" %]
   [% IF core.info.email %]
     [% IF core.info.url -%]
            <span class="core-email"><a 
