@@ -2,10 +2,9 @@
 
 package Plumage::OntologyGuess;
 use 5.12.0;
-use lib '/var/www/html/cores/tools/code/lib';
+use lib '.', '..', 'lib', '../lib';
 use Plumage::Ontology qw( load_ontology_data );
 use File::Temp;
-use Data::Dump;
 use KSx::Simple;
 use List::MoreUtils qw( none uniq );
 use base 'Exporter';
