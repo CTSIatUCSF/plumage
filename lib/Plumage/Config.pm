@@ -101,6 +101,13 @@ sub get_config {
         }
     }
 
+    if ( !exists $config->{resource_listings_file_path} ) {
+        die "`resource_listings_file_path` is not configured in $path";
+    } elsif ( !-r $config->{resource_listings_file_path} ) {
+        die
+            "Can't find a valid resource data file at $config->{resource_listings_file_path}, as configured in $path";
+    }
+
     if ( $config->{site_name} !~ m/\w/ ) {
         die "No valid `site_name` configured in configuration file at $path";
     }
@@ -112,6 +119,18 @@ sub get_config {
     unless (     $config->{url}
              and $config->{url} =~ m/$RE{URI}{HTTP}/ ) {
         die "No valid `url` URL configured in configuration file at $path";
+    }
+
+    if ( $config->{disable_location_filter} ) {
+        if ( $config->{disable_location_filter}
+             =~ m/^\s*(1|yes|on|true)\s*$/i ) {
+            $config->{disable_location_filter} = 1;
+        } else {
+            die
+                "`disable_location_filter` is set to '$config->{disable_location_filter}' -- please set it to either 1 or 0";
+        }
+    } else {
+        $config->{disable_location_filter} = 0;
     }
 
     if ( defined $config->{temp_dir} ) {

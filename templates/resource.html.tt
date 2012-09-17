@@ -65,6 +65,7 @@
 [% END %]
 
 
+[% UNLESS config.disable_location_filter %]
      <div class="row" id="core-location-filter">
        <div class="span2 offset1" id="core-location-filter-label-block">
          Filter by location:
@@ -76,12 +77,17 @@
 [% END %]
        </div>
      </div>
+[% END %]
 
 [% FOREACH core IN data.cores_sorted %]
      <meta property="st:section" content="[% core.info.core %]">
      <div class="core row [% FOREACH location IN core.info.locations %]core-at-[% location.replace('[^A-Za-z]+', '-') %] [% END %]" itemscope itemtype="http://schema.org/Organization">
        <div class="span2 offset1">
+[% IF core.info.location AND !config.disable_location_filter %]
          <span class="core-location label">[% core.info.location %]</span>
+[% ELSE %]
+         &nbsp;
+[% END %]
        </div>
        <div class="span8">
          <h2>[% IF core.info.url %]<a href="[% core.info.url %]" target="_blank" title="Open this core's website in new window">[% END -%]<span itemprop="name">[% core.info.core %]</span>[% IF core.info.url %]</a>[% END %]</h2>

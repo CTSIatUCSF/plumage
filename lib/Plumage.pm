@@ -3,6 +3,7 @@
 package Plumage;
 use 5.12.0;
 use lib '.', 'lib', '../lib';
+use Plumage::Config qw( get_config );
 use JSON qw( decode_json );
 use LWP::Simple qw( get );
 use LWP::Simple::WithCache;
@@ -30,6 +31,7 @@ sub load_core_data {
     my $debug = $options{debug} // 1;
 
     state $ontology ||= { load_ontology_data() };
+    state $config = get_config();
 
 # my master data hash, looks like:
 # { by_type => { freezer => cores => { 'CoreName' => { resources => ['Mr. Freeze', 'Chiller'] } } }
@@ -39,7 +41,7 @@ sub load_core_data {
     my %stats = ( num_types => 0, num_resources => 0, num_cores => 0 );
 
     {
-        my $core_data_file_path = '/var/www/html/cores/tools/CoresData.json';
+        my $core_data_file_path = $config->{resource_listings_file_path};
         open( my $fh, '<', $core_data_file_path )
             || die "Couldn't open $core_data_file_path: $!";
         my $cores_data = decode_json( join '', <$fh> );
