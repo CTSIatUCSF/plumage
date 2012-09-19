@@ -7,7 +7,6 @@ use Plumage qw( load_core_data get_freebase_definition name_to_filename );
 use Plumage::Config qw( get_config );
 use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
     'ontology_children';
-use File::HomeDir 0.98;
 use File::Copy::Recursive 0.09 qw( rcopy );
 use File::Remove 1.50 qw( remove );
 use Filesys::DiskUsage qw( du );

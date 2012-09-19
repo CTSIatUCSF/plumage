@@ -4,6 +4,7 @@ package Plumage::Config;
 use 5.12.0;
 use Config::Tiny 2.14;
 use Cwd qw( realpath );
+use File::HomeDir 0.98;
 use File::Spec;
 use Params::Validate 1.00;
 use Regexp::Common 2010010201 qw( URI );
