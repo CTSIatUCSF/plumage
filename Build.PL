@@ -17,6 +17,7 @@ my $builder = Module::Build->new(
                   'Cwd'                            => 0,
                   'Exporter'                       => 0,
 		  'File::HomeDir'                  => 0.98,
+		  'File::Remove'                   => 1.50,
                   'File::ShareDir::ProjectDistDir' => 0,
                   'File::Spec'                     => 3.33,
                   'File::Temp'                     => 0,
