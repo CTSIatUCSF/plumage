@@ -68,11 +68,16 @@ sub get_config {
 
     $config = $raw_config->{_};
 
-    my $num_roles_supported = ( scalar( keys %{$raw_config} ) - 1 );
+    my @supported_roles = sort grep { $_ ne '_' } keys %{$raw_config};
+    my $num_roles_supported = scalar @supported_roles;
 
     if ($num_roles_supported) {
         if ( !defined $options{role} ) {
-            die "No role defined";
+            my @example_calls = map {"\t$0 $_\n"} @supported_roles;
+            die
+                "No role specified. Maybe you want to run one of the following command lines:\n\n",
+                @example_calls,
+                "\nSee the configuration file at $path for details on what each of these roles mean.\n";
         } elsif ( !$raw_config->{ $options{role} } ) {
             die
                 "Tried to load role `$options{role}`, but that's not defined at $path\n";
