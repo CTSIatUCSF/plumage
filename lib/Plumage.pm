@@ -4,6 +4,7 @@ package Plumage;
 use 5.12.0;
 use lib '.', 'lib', '../lib';
 use Plumage::Config qw( get_config );
+use Encode qw( encode_utf8 );
 use JSON qw( decode_json );
 use LWP::Simple qw( get );
 use LWP::Simple::WithCache;
@@ -14,6 +15,7 @@ use URI::Escape qw( uri_escape );
 use base 'Exporter';
 use strict;
 use warnings;
+use utf8;
 binmode STDOUT, ':utf8';
 our $VERSION = '0.01';
 
@@ -44,7 +46,9 @@ sub load_core_data {
         my $core_data_file_path = $config->{resource_listings_file_path};
         open( my $fh, '<', $core_data_file_path )
             || die "Couldn't open $core_data_file_path: $!";
-        my $cores_data = decode_json( join '', <$fh> );
+        my $raw_json = join '', <$fh>;
+        $raw_json = encode_utf8($raw_json);
+        my $cores_data = decode_json($raw_json);
 
         close($fh);
         %cores = %{$cores_data};
