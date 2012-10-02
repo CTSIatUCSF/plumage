@@ -29,7 +29,21 @@ sub get_config {
 
     # Part 1: Load config file data
 
-    my @potential_config_dirs = ( '/etc/',
+    my $executable_dir;
+    {
+        my $executable_path = realpath($0);
+        if ( -f $executable_path ) {
+            my ( $volume, $directories, $file )
+                = File::Spec->splitpath($executable_path);
+            my $parent_dir = File::Spec->catpath( $volume, $directories );
+            if ( -d $parent_dir ) {
+                $executable_dir = $parent_dir;
+            }
+        }
+    }
+
+    my @potential_config_dirs = ( $executable_dir,
+                                  '/etc/',
                                   File::HomeDir->my_home,
                                   File::Spec->curdir(),
                                   File::Spec->updir(),
@@ -37,6 +51,8 @@ sub get_config {
                                                       File::Spec->updir()
                                   )
     );
+    @potential_config_dirs = grep { defined } @potential_config_dirs;
+
     my @potential_config_files
         = map { realpath( File::Spec->catfile( $_, 'plumage.conf' ) ) }
         @potential_config_dirs;
@@ -53,6 +69,7 @@ sub get_config {
                     . Config::Tiny->errstr;
             }
             $path = $potential_path;
+	    last;
         }
     }
 
@@ -85,7 +102,7 @@ sub get_config {
             foreach my $key ( keys %{ $raw_config->{ $options{role} } } ) {
                 $config->{$key} = $raw_config->{ $options{role} }->{$key};
             }
-	    $config->{role} = $options{role};
+            $config->{role} = $options{role};
         }
     } elsif ( !$num_roles_supported and exists $options{role} ) {
         die
@@ -125,7 +142,8 @@ sub get_config {
 
     $config->{institution_short_name} //= $config->{site_name};
     if ( $config->{institution_short_name} !~ m/\w/ ) {
-        die "No valid `institution_short_name` configured in configuration file at $path";
+        die
+            "No valid `institution_short_name` configured in configuration file at $path";
     }
 
     unless (     $config->{url}
