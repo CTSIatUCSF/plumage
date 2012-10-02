@@ -172,6 +172,13 @@ write_file( 'search.html.tt', '/search/' );
     $sitemap->write($sitemap_path);
 }
 
+{
+    if ($config->{deploy_command}) {
+	warn qq{About to run deploy command "$config->{deploy_command}\n"};
+	system $config->{deploy_command};
+    }
+}
+
 ###############################################################################
 
 sub write_file {
