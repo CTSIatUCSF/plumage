@@ -6,12 +6,12 @@
 %]
 
       <div id="main-heading">
-	<h1>Find instruments and services at UCSF</h1>
+	<h1>Find instruments and services at [% config.institution_short_name %]</h1>
 	<p id="stats"><strong>[% stats.num_resources %]</strong> resources &middot; <strong>[% stats.num_types %]</strong> categories &middot; <strong>[% stats.num_cores %]</strong> providers</p>
       </div>
 
       <form id="search-form" class="form-search">
-	<input type="text" class="span5" id="search" placeholder="e.g. flow cytometer, SDI">
+	<input type="text" class="span5" id="search" placeholder="[% config.search_placeholder %]">
 	<button type="submit" class="btn btn-primary btn-large">
 	  <i class="icon-search icon-white"></i> Search
 	</button>

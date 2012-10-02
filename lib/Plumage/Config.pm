@@ -85,6 +85,7 @@ sub get_config {
             foreach my $key ( keys %{ $raw_config->{ $options{role} } } ) {
                 $config->{$key} = $raw_config->{ $options{role} }->{$key};
             }
+	    $config->{role} = $options{role};
         }
     } elsif ( !$num_roles_supported and exists $options{role} ) {
         die
@@ -100,7 +101,7 @@ sub get_config {
                 "No valid `$set->[1]` directory configured in configuration file at $path";
         } elsif ( !-d $set->[0] ) {
             die
-                "Can't find `$set->[1]` directory at `$set->[0]` (as configured in $path)";
+                "Can't access the `$set->[1]` directory at `$set->[0]` (as configured in $path)";
         } elsif ( !-w $set->[0] ) {
             die
                 "The `$set->[1]` directory at `$set->[0]` (as configured in $path) is not writable";
@@ -120,6 +121,11 @@ sub get_config {
     if ( $config->{site_name} =~ m/\"/ ) {
         die
             "`site_name` in configuration file at $path can't have a quote in it";
+    }
+
+    $config->{institution_short_name} //= $config->{site_name};
+    if ( $config->{institution_short_name} !~ m/\w/ ) {
+        die "No valid `institution_short_name` configured in configuration file at $path";
     }
 
     unless (     $config->{url}

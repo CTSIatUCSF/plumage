@@ -52,6 +52,7 @@
 
     <header id="header" class="container" role="banner">
 
+[% IF (config.role == 'ucsfmain' || config.role == 'ucsfdev') %]
       <div id="leaderboard" class="row">
 	<div class="span12">
 	  <div id="ucsfnav-container">
@@ -67,6 +68,7 @@
 	  </div>
 	</div>
       </div>
+[% END %]
 
       <div class="row hidden-phone">
 	<div class="span12">
@@ -79,10 +81,14 @@
 	      </a>
 	    </h1>
 	  </div>
+
+[% IF (config.role == 'ucsfmain' || config.role == 'ucsfdev') %]
 	  <div id="powered-by-block">
 	    <a id="powered-by-ctsi" href="http://ctsi.ucsf.edu/">Powered by CTSI</a>
 	    <a id="powered-by-rrp" href="http://rrp.ucsf.edu/">in partnership with RRP</a>
 	  </div>
+[% END %]
+
 	</div>
       </div>
 
@@ -104,13 +110,12 @@
 		    <ul class="nav" role="navigation">
 		      <li><a id="header-home-link" href="[% config.url %]">Home</a></li>
 		      <li><a id="header-about-link" href="[% config.url %]about/">About</a></li>
-		      <li><a id="header-contact-link" href="[% config.url %]about/">Contact</a></li>
 		    </ul>
 		    
 		    [% IF header_search %]
 
 		    <form id="search-form" role="search" class="form-search" style="margin: 0; padding: 0; float: right">
-		      <input type="text" class="span3" id="search" placeholder="e.g. flow cytometer, SDI">
+		      <input type="text" class="span3" id="search" placeholder="[% config.search_placeholder %]">
 		      <button type="submit" class="btn btn-small">
 			<i class="icon-search"></i> Search
 		      </button>

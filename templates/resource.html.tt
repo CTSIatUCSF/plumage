@@ -2,14 +2,14 @@
 [% INCLUDE _header.html.tt
    header_id           = 'resource-page'
    header_search       = 1
-   header_title        = "$name at UCSF? See all $data.count options"
+   header_title        = "$name at $config.institution_short_name? See all $data.count options"
    header_title_simple = "$name ($data.count)"
 %]
 
      <div class="row">
        <div id="context" class="well span10 offset1">
 
-	 <h1>[% name %] at UCSF</h1>
+	 <h1>[% name %] at [% config.institution_short_name %]</h1>
 
 	 <dl id="context-list" class="dl-horizontal">
 
@@ -94,7 +94,10 @@
 	 <p class="core-details">
   [% IF core.info.organization %]
            [% core.info.organization %],
-  [% END %][% core.info.location %]<br />
+  [% END %]
+  [% IF core.info.location %]
+           [% core.info.location %]<br />
+  [% END %]
   [% IF core.info.contact %]
            <span>Contact: [% core.info.contact %]</span>
   [% END %]
