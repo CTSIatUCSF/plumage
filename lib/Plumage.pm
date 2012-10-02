@@ -75,7 +75,7 @@ sub load_core_data {
                 my $field (qw( core url organization contact phone email )) {
                 $core->{$field} //= '';
             }
-            $core->{location} //= '[Unknown]';
+            $core->{location} //= '';
             $core->{location} =~ s/ Campus(?=,|$)//g;
             $core->{location} =~ s/\s*,\s*/, /g;
             $core->{locations} = [ split( /, ?/, $core->{location} ) ];
