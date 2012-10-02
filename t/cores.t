@@ -1,7 +1,6 @@
 #!perl
 
-use lib '/var/www/html/cores/tools';
-use lib '/var/www/html/cores/tools/code/lib';
+use lib '.', 'lib', '../lib';
 use Plumage::Ontology qw( load_ontology_data );
 use Test::More;
 use strict;
