@@ -56,8 +56,23 @@ For more details, see the full text of the license in the file
 LICENSE. (TLDRLegal offers a _non-binding_ [human-readable
 description](TLDRLegal) of this license.)
 
+### Bundled code
+
+The default Plumage distribution is bundled with several other open
+source projects:
+
+* [Twitter Bootstrap], released under an [Apache 2.0 license]
+* [Placeholders.js]
+* [Resize Events], released under the [GPL]
+
+
 [UCSF Cores Search]: http://cores.ucsf.edu/
 [CTSI]: http://ctsi.ucsf.edu/
 [RRP]: http://rrp.ucsf.edu/
 [slides]: http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview
 [TLDRLegal]: http://www.tldrlegal.com/license/bsd-3-clause-license-(revised)
+[Twitter Bootstrap]: http://twitter.github.com/bootstrap/
+[Placeholders.js]: https://github.com/jamesallardice/Placeholders.js
+[Resize Events]: http://irama.org/web/dhtml/resize-events/
+[Apache 2.0 license]: http://www.apache.org/licenses/LICENSE-2.0
+[GPL]: http://www.gnu.org/licenses/gpl.html
