@@ -182,7 +182,7 @@ sub build {
     {
         if ( $config->{deploy_command} ) {
             warn
-                qq{About to run deploy command "$config->{deploy_command}\n"};
+                qq{About to run deploy command "$config->{deploy_command}"\n};
             system $config->{deploy_command};
         }
     }
