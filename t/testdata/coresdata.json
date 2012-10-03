@@ -1,0 +1,46 @@
+{
+   "Nanodispenser Core" : {
+      "resources" : {
+         "Commercial software" : [
+            "Nanodispenser Analysis Toolkit 2.0"
+         ],
+         "Nanodispenser" : [
+            "Sequenom MassARRAY RS1000 Nanodispenser"
+         ]
+      },
+      "core" : "Nanodispenser Core",
+      "location" : "North Campus",
+      "rdf_url" : "http://eaglei.example.com/i/1000012a-24ff-4a31-d994-629180000000",
+      "contact" : "Jane Doe",
+      "phone" : "555-555-1212",
+      "email" : "jane.doe@example.com",
+      "url" : "http://www.example.com/core/nanodispenser/",
+      "organization" : "Example Cancer Institute"
+   },
+
+
+   "Electron Microscopy Core" : {
+      "resources" : {
+         "electron microscopy" : [
+            "Electron microscopy"
+         ],
+         "Transmission electron microscope" : [
+            "JEOL JEM-1230 Transmission electron microscope"
+         ],
+         "Electron microscope" : [
+            "Electron microscope"
+         ],
+         "digital imaging" : [
+            "Gatan Ultrascan USC1000 digital camera"
+         ]
+      },
+      "core" : "Electron Microscopy Core",
+      "location" : "South Campus",
+      "rdf_url" : "http://eaglei.example.com/i/10000138-44bb-17c9-4123-da1380000000",
+      "contact" : "John Doe",
+      "phone" : "555-555-7890",
+      "email" : "electron.microscope.core@example.com",
+      "url" : null,
+      "organization" : null
+   }
+}
