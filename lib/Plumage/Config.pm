@@ -51,7 +51,7 @@ sub get_config {
                                                       File::Spec->updir()
                                   )
     );
-    @potential_config_dirs = grep { defined } @potential_config_dirs;
+    @potential_config_dirs = grep {defined} @potential_config_dirs;
 
     my @potential_config_files
         = map { realpath( File::Spec->catfile( $_, 'plumage.conf' ) ) }
@@ -69,7 +69,7 @@ sub get_config {
                     . Config::Tiny->errstr;
             }
             $path = $potential_path;
-	    last;
+            last;
         }
     }
 
@@ -96,8 +96,11 @@ sub get_config {
                 @example_calls,
                 "\nSee the configuration file at $path for details on what each of these roles mean.\n";
         } elsif ( !$raw_config->{ $options{role} } ) {
+            my @example_calls = map {"\t$0 $_\n"} @supported_roles;
             die
-                "Tried to load role `$options{role}`, but that's not defined at $path\n";
+                "Tried to load role `$options{role}`, but that's not defined at $path. Maybe you want to run one of the following command lines:\n\n",
+                @example_calls,
+                "\nSee the configuration file at $path for details on what each of these roles mean.\n";
         } else {    # load role options as main options
             foreach my $key ( keys %{ $raw_config->{ $options{role} } } ) {
                 $config->{$key} = $raw_config->{ $options{role} }->{$key};
