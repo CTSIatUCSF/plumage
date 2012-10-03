@@ -62,7 +62,7 @@ The default Plumage distribution is bundled with several other open
 source projects:
 
 * [Twitter Bootstrap], released under an [Apache 2.0 license]
-* [Placeholders.js]
+* [Placeholders.js], released under an [MIT license]
 * [Resize Events], released under the [GPL]
 
 
@@ -76,3 +76,4 @@ source projects:
 [Resize Events]: http://irama.org/web/dhtml/resize-events/
 [Apache 2.0 license]: http://www.apache.org/licenses/LICENSE-2.0
 [GPL]: http://www.gnu.org/licenses/gpl.html
+[MIT license]: http://opensource.org/licenses/mit-license.php
