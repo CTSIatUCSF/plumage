@@ -128,11 +128,22 @@ sub get_config {
         }
     }
 
-    if ( !exists $config->{resource_listings_file_path} ) {
-        die "`resource_listings_file_path` is not configured in $path";
-    } elsif ( !-r $config->{resource_listings_file_path} ) {
+    if ( exists $config->{eagle_i_base_url}
+         and $config->{eagle_i_base_url} !~ m/$RE{URI}{HTTP}/ ) {
+        die
+            "No valid `eagle_i_base_url` URL configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
+    }
+
+    if ( exists $config->{resource_listings_file_path}
+         and !-r $config->{resource_listings_file_path} ) {
         die
             "Can't find a valid resource data file at $config->{resource_listings_file_path}, as configured in $path";
+    }
+
+    unless ( exists $config->{eagle_i_base_url}
+             or $config->{resource_listings_file_path} ) {
+        die
+            "Don't know where to get our data. Either configure the Eagle-I base URL at `eagle_i_base_url` or the JSON file containing data at `resource_listings_file_path` in the configuration file at $path";
     }
 
     if ( $config->{site_name} !~ m/\w/ ) {

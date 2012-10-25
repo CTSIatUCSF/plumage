@@ -4,6 +4,7 @@ package Plumage;
 use 5.12.0;
 use lib '.', 'lib', '../lib';
 use Plumage::Config qw( get_config );
+use Plumage::EagleIData qw( extract_eagle_i_data );
 use Encode qw( encode_utf8 );
 use JSON qw( decode_json );
 use LWP::Simple qw( get );
@@ -43,14 +44,28 @@ sub load_core_data {
     my %stats = ( num_types => 0, num_resources => 0, num_cores => 0 );
 
     {
-        my $core_data_file_path = $config->{resource_listings_file_path};
-        open( my $fh, '<', $core_data_file_path )
-            || die "Couldn't open $core_data_file_path: $!";
-        my $raw_json = join '', <$fh>;
-        $raw_json = encode_utf8($raw_json);
-        my $cores_data = decode_json($raw_json);
+        my ( $raw_json, $cores_data );
 
-        close($fh);
+        if ( $config->{eagle_i_base_url} ) {
+            local $Plumage::EagleIData::debug = $debug;
+            $raw_json = extract_eagle_i_data( $config->{eagle_i_base_url} );
+        }
+
+        if ( !$raw_json ) {
+            my $core_data_file_path = $config->{resource_listings_file_path};
+            open( my $fh, '<', $core_data_file_path )
+                || die "Couldn't open $core_data_file_path: $!";
+            $raw_json = join '', <$fh>;
+            $raw_json = encode_utf8($raw_json);
+            close($fh);
+        }
+
+        $cores_data = decode_json($raw_json);
+
+        unless ( $cores_data and ref $cores_data ) {
+            die "Sorry, could not retrieve cores data";
+        }
+
         %cores = %{$cores_data};
 
         state %valid_ontology_terms_lc;
