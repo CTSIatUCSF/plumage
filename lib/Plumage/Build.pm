@@ -4,8 +4,9 @@ package Plumage::Build;
 use 5.12.0;
 use lib '.', 'lib', '../lib';
 use File::Spec;
-use Plumage qw( load_core_data get_freebase_definition name_to_filename );
 use Plumage::Config qw( get_config );
+use Plumage::Tools
+    qw( load_core_data get_freebase_definition name_to_filename );
 use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
     'ontology_children';
 use File::Copy::Recursive 0.09 qw( rcopy );
