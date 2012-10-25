@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 package Plumage::EagleIData;
+use Encode qw( encode_utf8 );
 use JSON 2.0 qw( encode_json );
 use HTTP::Request::Common;
 use LWP::UserAgent::Determined;
@@ -189,6 +190,8 @@ select ?resource ?technique_label where {
 
     my $json   = JSON->new->allow_nonref;
     my $pretty = $json->pretty->encode( \%core_data );
+    $pretty = encode_utf8($pretty);
+
     return $pretty;
 }
 
