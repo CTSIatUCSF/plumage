@@ -27,6 +27,7 @@ my $builder = Module::Build->new(
                   'Log::Log4perl'                  => 1.33,
                   'LWP::Simple'                    => 0,
                   'LWP::Simple::WithCache'         => 0,
+		  'LWP::UserAgent::Determined'     => 1.0.6,
                   'Memoize'                        => 0,
                   'OWL::Simple::Parser'            => 1.01,
                   'Params::Validate'               => 1.00,
