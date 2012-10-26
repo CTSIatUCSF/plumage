@@ -23,8 +23,6 @@ t/manifest.t
 t/ontology.t
 t/ontology_guess.t
 t/plumage.conf
-t/pod-coverage.t
-t/pod.t
 t/testdata/coresdata.json
 templates/_footer.html.tt
 templates/_header.html.tt
