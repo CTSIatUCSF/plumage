@@ -1,9 +1,10 @@
-#!/usr/bin/perl
+#!perl
 
 package Plumage::EagleIData;
 use Encode qw( encode_utf8 );
 use JSON 2.0 qw( encode_json );
 use HTTP::Request::Common;
+use Log::Log4perl qw(:easy);
 use LWP::UserAgent::Determined;
 use LWP::Protocol::https;
 use LWP::Simple qw( head );
@@ -18,14 +19,13 @@ binmode STDOUT, ':utf8';
 
 our @EXPORT_OK = qw( extract_eagle_i_data );
 
-our $debug = 0;
 our $ua;
 
 sub extract_eagle_i_data {
 
     my $base_uri_text = shift;
     my $base_uri      = URI->new($base_uri_text)
-        || die
+        || LOGCROAK
         qq{Invalid base URI "$base_uri_text", expected something more like "http://example.eagle-i.net/" or "https://eaglei.example.com/"};
     $base_uri = $base_uri->canonical;
 
@@ -48,17 +48,17 @@ sub extract_eagle_i_data {
     my $provider_url = $base_uri->clone;
     $provider_url->path('/sweet/provider');
 
-    _debug('Starting');
+    DEBUG("Starting downloading data from $base_uri ...");
 
     my %core_data;
 
     my %core_to_rdf_url;
     {
-        _debug('Begin SWEET query');
+        DEBUG('  Begin SWEET query');
         my $request = HTTP::Request->new( GET => $cores_list_url );
         my $response = $ua->request($request);
         unless ( $response->is_success ) {
-            die "COULD NOT DOWNLOAD MASTER FILE AT $cores_list_url: ",
+            LOGDIE "COULD NOT DOWNLOAD MASTER FILE AT $cores_list_url: ",
                 $response->status_line;
         }
 
@@ -73,12 +73,13 @@ sub extract_eagle_i_data {
             }
         }
         unless (%core_to_rdf_url) {
-            die "COULD NOT FIND ANY CORES IN MASTER FILE at $cores_list_url";
+            LOGDIE
+                "COULD NOT FIND ANY CORES IN MASTER FILE at $cores_list_url";
         }
-        _debug('  End SWEET query');
+        DEBUG('    End SWEET query');
     }
 
-    _debug('Begin 1 of 3 SPARQL queries');
+    DEBUG('  Begin 1 of 3 SPARQL queries');
     my %core_to_website = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -87,9 +88,9 @@ select ?core ?website where {
 ?core ero:ERO_0000480 ?website .
 }
 ', $sparql_url );
-    _debug('  End 1 of 3 SPARQL queries');
+    DEBUG('    End 1 of 3 SPARQL queries');
 
-    _debug('Begin 2 of 3 SPARQL queries');
+    DEBUG('  Begin 2 of 3 SPARQL queries');
     my %core_to_location = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -98,9 +99,9 @@ select ?core ?address where {
 ?core ero:ERO_0000055 ?address .
 }
 ', $sparql_url );
-    _debug('  End 2 of 3 SPARQL queries');
+    DEBUG('    End 2 of 3 SPARQL queries');
 
-    _debug('Begin 3 of 3 SPARQL queries');
+    DEBUG('  Begin 3 of 3 SPARQL queries');
     my %resource_to_technique = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -111,7 +112,7 @@ select ?resource ?technique_label where {
 ?technique_uri rdfs:label ?technique_label
 }
 ', $sparql_url );
-    _debug('  End 3 of 3 SPARQL queries');
+    DEBUG('    End 3 of 3 SPARQL queries');
 
     my $num_cores_done  = 0;
     my $num_cores_to_do = scalar keys %core_to_rdf_url;
@@ -119,7 +120,7 @@ select ?resource ?technique_label where {
     foreach my $core_name ( sort { lc $a cmp lc $b } keys %core_to_rdf_url ) {
         $num_cores_done++;
 
-        _debug("Begin $num_cores_done of $num_cores_to_do cores");
+        DEBUG("  Begin $num_cores_done of $num_cores_to_do cores");
         my $core_rdf_url = $core_to_rdf_url{$core_name};
         my $core_url     = $provider_url->clone;
         $core_url->query_form( uri    => $core_rdf_url,
@@ -127,12 +128,12 @@ select ?resource ?technique_label where {
         my $request = HTTP::Request->new( GET => $core_url );
         my $response = $ua->request($request);
         unless ( $response->is_success ) {
-            die
+            LOGDIE
                 "COULD NOT DOWNLOAD CORE $num_cores_done/$num_cores_to_do $core_name AT $core_url: ",
                 $response->status_line;
         }
 
-        _debug("  End $num_cores_done of $num_cores_to_do cores");
+        DEBUG("    End $num_cores_done of $num_cores_to_do cores");
 
         my $data = XMLin(
             $response->content,
@@ -186,7 +187,7 @@ select ?resource ?technique_label where {
         $core_data{ $coreinfo{core} } = \%coreinfo;
     }
 
-    _debug('Done');
+    DEBUG("  End download of data from $base_uri");
 
     my $json   = JSON->new->allow_nonref;
     my $pretty = $json->pretty->encode( \%core_data );
@@ -210,10 +211,11 @@ sub _get_sparql_data {
 
     my $response = $ua->request($request);
     if ( !$response->is_success ) {
-        die 'COULD NOT DOWNLOAD DATA VIA SPARQL INTERFACE: ',
+        LOGDIE 'COULD NOT DOWNLOAD DATA VIA SPARQL INTERFACE: ',
             $request->as_string, "\nReponse was: ", $response->status_line;
     } elsif ( $response->content_type !~ m{^text/plain} ) {
-        die 'SPARQL INTERFACE RETURNED RESULTS WITH INVALID CONTENT-TYPE (',
+        LOGDIE
+            'SPARQL INTERFACE RETURNED RESULTS WITH INVALID CONTENT-TYPE (',
             $response->content_type, '): ', $request->as_string;
     }
 
@@ -230,13 +232,6 @@ sub _get_sparql_data {
     }
 
     return %data;
-}
-
-sub _debug {
-    return unless $debug;
-    my $message = shift;
-    my $time    = scalar localtime;
-    print "# $message [$time]\n";
 }
 
 1;

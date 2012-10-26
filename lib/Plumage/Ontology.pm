@@ -24,8 +24,6 @@ our @EXPORT_OK = ( 'load_ontology_data',    'clean_ontology_term',
                    'ontology_unrelated_near_matches'
 );
 
-Log::Log4perl->easy_init($ERROR);
-
 ###############################################################################
 
 my $eagle_i_data_dir
@@ -53,7 +51,7 @@ sub load_ontology_data {
 
     state $cache;
     unless ($cache) {
-	my $config = get_config();
+        my $config = get_config();
         $cache = CHI->new( driver   => 'File',
                            root_dir => "$config->{temp_dir}/ontology_cache" );
     }
@@ -65,6 +63,9 @@ sub load_ontology_data {
     my ( %ontology, %id_to_label );
 
     for my $owl_file_path (@owl_files) {
+
+        # disable irritating messages from OWL::Simple::Parser
+        get_logger('OWL::Simple::Parser')->level($ERROR);
 
         my $parser =
             OWL::Simple::Parser->new( owlfile        => $owl_file_path,

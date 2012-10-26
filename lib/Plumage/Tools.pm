@@ -7,6 +7,7 @@ use Plumage::Config qw( get_config );
 use Plumage::EagleIData qw( extract_eagle_i_data );
 use Encode qw( encode_utf8 );
 use JSON qw( decode_json );
+use Log::Log4perl qw(:easy);
 use LWP::Simple qw( get );
 use LWP::Simple::WithCache;
 use Memoize qw( memoize );
@@ -31,7 +32,6 @@ memoize('load_core_data');
 
 sub load_core_data {
     my %options = @_;
-    my $debug = $options{debug} // 1;
 
     state $ontology ||= { load_ontology_data() };
     state $config = get_config();
@@ -47,14 +47,18 @@ sub load_core_data {
         my ( $raw_json, $cores_data );
 
         if ( $config->{eagle_i_base_url} ) {
-            local $Plumage::EagleIData::debug = $debug;
+	    INFO("Loading eagle-i data via APIs");
             $raw_json = extract_eagle_i_data( $config->{eagle_i_base_url} );
+	    if (!$raw_json) {
+		WARN "Could not load eagle-i data via APIs";
+	    }
         }
 
         if ( !$raw_json ) {
+	    INFO("Loading data via external JSON file");
             my $core_data_file_path = $config->{resource_listings_file_path};
             open( my $fh, '<', $core_data_file_path )
-                || die "Couldn't open $core_data_file_path: $!";
+                || LOGDIE "Couldn't open $core_data_file_path: $!";
             $raw_json = join '', <$fh>;
             $raw_json = encode_utf8($raw_json);
             close($fh);
@@ -63,7 +67,7 @@ sub load_core_data {
         $cores_data = decode_json($raw_json);
 
         unless ( $cores_data and ref $cores_data ) {
-            die "Sorry, could not retrieve cores data";
+            LOGDIE "Sorry, could not retrieve cores data";
         }
 
         %cores = %{$cores_data};
@@ -78,9 +82,7 @@ sub load_core_data {
         foreach my $core_name ( keys %cores ) {
             my $core = $cores{$core_name};
             unless ( $core->{resources} and %{ $core->{resources} } ) {
-                $debug
-                    and warn
-                    qq{Skipping core "$core_name" which has no resouces};
+                DEBUG(qq{Skipping core "$core_name" which has no resouces});
                 delete $cores{$core_name};
                 next;
             }
@@ -101,7 +103,7 @@ sub load_core_data {
                 my $canonical_type = $valid_ontology_terms_lc{ lc $raw_type }
                     || $raw_type;
                 unless ( $ontology->{$canonical_type} ) {
-                    warn qq{Could not match type "$raw_type" to the ontology};
+                    WARN qq{Could not match type "$raw_type" to the ontology};
                     next EachResource;
                 }
 
@@ -123,9 +125,9 @@ sub load_core_data {
 
     $stats{num_types} = scalar keys %resources_by_type;
 
-    $debug
-        and warn
-        "Used $stats{num_resources} items for $stats{num_types} types of core items\n";
+    DEBUG(
+        "Used $stats{num_resources} items for $stats{num_types} types of core items"
+    );
 
     # add sorted cores to each type
     foreach my $canonical_type ( sort keys %resources_by_type ) {

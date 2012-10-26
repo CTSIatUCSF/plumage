@@ -14,6 +14,7 @@ use File::Remove 1.50 qw( remove );
 use Filesys::DiskUsage qw( du );
 use File::Spec;
 use File::Path qw( remove_tree );
+use Log::Log4perl qw(:easy);
 use Search::Sitemap 2.13;
 use Template 2.22;
 use Template::Stash::AutoEscaping 0.0301;
@@ -34,11 +35,13 @@ sub build {
 
     ###########################################################################
 
-    my %ontology = load_ontology_data();
-    my $core_data = load_core_data( ontology => \%ontology, debug => 0 );
+    my %ontology          = load_ontology_data();
+    my $core_data         = load_core_data( ontology => \%ontology );
     my $core_data_by_type = $core_data->{by_type};
 
     ###########################################################################
+
+    INFO("Building website");
 
     # blow away output directory
     {
@@ -48,7 +51,7 @@ sub build {
         {
             my $total_size_of_output_dir_in_kb = du($output_path) / 1024;
             if ( $total_size_of_output_dir_in_kb >= 10_240 ) {
-                die
+                LOGDIE
                     "Output directory `$output_path` is over 10 MB in size -- not going to delete it, just to be safe\n\nTo disable this check, add `disable_safety_check_before_deleting_output_directory = 1` to the config file";
             }
         }
@@ -62,7 +65,7 @@ sub build {
     {
         my $static_dir = File::Spec->catdir( $template_path, 'static' );
         unless ( -e $static_dir ) {
-            die "Can't find directory of static content `$static_dir`";
+            LOGDIE "Can't find directory of static content `$static_dir`";
         }
         rcopy( $static_dir, $output_path );
     }
@@ -182,11 +185,13 @@ sub build {
 
     {
         if ( $config->{deploy_command} ) {
-            warn
+            INFO
                 qq{About to run deploy command "$config->{deploy_command}"\n};
             system $config->{deploy_command};
         }
     }
+
+    INFO "Done";
 
     return 1;
 }
@@ -198,7 +203,7 @@ sub write_file {
 
     # ensure URL path is reasonable
     unless ( defined $url_path and $url_path =~ m{^/} ) {
-        die qq{Invalid URL path "$url_path"};
+        LOGCROAK qq{Invalid URL path "$url_path"};
     }
 
     # add config options to options hash
@@ -220,7 +225,7 @@ sub write_file {
     open my $out, '>', $full_path;
     $template->process( $template_name, $options, $out,
                         { binmode => ':encoding(UTF-8)' } )
-        || die $template->error();
+        || LOGCROAK( "Template processing error: " . $template->error() );
 
     # add to sitemap
     add_url_to_sitemap($url_path);

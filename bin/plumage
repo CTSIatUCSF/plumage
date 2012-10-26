@@ -2,10 +2,31 @@
 
 use 5.12.0;
 use lib '.', 'lib', '../lib';
+use Getopt::Long;
+use Log::Log4perl qw(:easy :no_extra_logdie_message);
 use Plumage::Build;
 use strict;
 use warnings;
 
-my $role          = shift;
+my $error_level = $INFO;
+my $getopt_worked = GetOptions( 'verbose' => sub { $error_level = $INFO },
+                                'quiet'   => sub { $error_level = $ERROR },
+                                'debug'   => sub { $error_level = $DEBUG }
+);
+
+unless ($getopt_worked) {
+    print "
+Format: $0 -vqd [role]
+
+-v = verbose (default, describes what's happening)
+-d = debug   (prints even more details)
+-q = quiet   (only prints errors)
+
+";
+    exit;
+}
+
+Log::Log4perl->easy_init($error_level);
+my $role = shift;
 
 Plumage::Build::build($role);

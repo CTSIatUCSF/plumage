@@ -6,6 +6,7 @@ use Config::Tiny 2.14;
 use Cwd qw( realpath );
 use File::HomeDir 0.98;
 use File::Spec;
+use Log::Log4perl qw(:easy);
 use Params::Validate 1.00;
 use Regexp::Common 2010010201 qw( URI );
 use base 'Exporter';
@@ -65,7 +66,8 @@ sub get_config {
         if ( -e $potential_path ) {
             $raw_config = Config::Tiny->read($potential_path);
             unless ($raw_config) {
-                die "Could not read configuration file at $potential_path: "
+                LOGDIE
+                    "Could not read configuration file at $potential_path: "
                     . Config::Tiny->errstr;
             }
             $path = $potential_path;
@@ -74,11 +76,11 @@ sub get_config {
     }
 
     unless ($raw_config) {
-        die "Could not find config file, looked in: ",
+        LOGDIE "Could not find config file, looked in: ",
             join( ', ', @potential_config_files ), "\n";
     }
     unless ( $raw_config->{_} ) {
-        die "Config file at $path appeared to be empty\n";
+        LOGDIE "Config file at $path appeared to be empty\n";
     }
 
     # Part 2: Validate config file data
@@ -91,13 +93,13 @@ sub get_config {
     if ($num_roles_supported) {
         if ( !defined $options{role} ) {
             my @example_calls = map {"\t$0 $_\n"} @supported_roles;
-            die
+            LOGDIE
                 "No role specified. Maybe you want to run one of the following command lines:\n\n",
                 @example_calls,
                 "\nSee the configuration file at $path for details on what each of these roles mean.\n";
         } elsif ( !$raw_config->{ $options{role} } ) {
             my @example_calls = map {"\t$0 $_\n"} @supported_roles;
-            die
+            LOGDIE
                 "Tried to load role `$options{role}`, but that's not defined at $path. Maybe you want to run one of the following command lines:\n\n",
                 @example_calls,
                 "\nSee the configuration file at $path for details on what each of these roles mean.\n";
@@ -108,7 +110,7 @@ sub get_config {
             $config->{role} = $options{role};
         }
     } elsif ( !$num_roles_supported and exists $options{role} ) {
-        die
+        LOGDIE
             "No roles defined in configuration file at $path, but was sent role `$options{role}`";
     }
 
@@ -117,52 +119,53 @@ sub get_config {
     foreach my $set ( [ $output_path, 'output_path' ],
                       [ $template_path, 'template_path' ] ) {
         if ( !$set->[0] ) {
-            die
+            LOGDIE
                 "No valid `$set->[1]` directory configured in configuration file at $path";
         } elsif ( !-d $set->[0] ) {
-            die
+            LOGDIE
                 "Can't access the `$set->[1]` directory at `$set->[0]` (as configured in $path)";
         } elsif ( !-w $set->[0] ) {
-            die
+            LOGDIE
                 "The `$set->[1]` directory at `$set->[0]` (as configured in $path) is not writable";
         }
     }
 
     if ( exists $config->{eagle_i_base_url}
          and $config->{eagle_i_base_url} !~ m/$RE{URI}{HTTP}/ ) {
-        die
+        LOGDIE
             "No valid `eagle_i_base_url` URL configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
     }
 
     if ( exists $config->{resource_listings_file_path}
          and !-r $config->{resource_listings_file_path} ) {
-        die
+        LOGDIE
             "Can't find a valid resource data file at $config->{resource_listings_file_path}, as configured in $path";
     }
 
     unless ( exists $config->{eagle_i_base_url}
              or $config->{resource_listings_file_path} ) {
-        die
+        LOGDIE
             "Don't know where to get our data. Either configure the Eagle-I base URL at `eagle_i_base_url` or the JSON file containing data at `resource_listings_file_path` in the configuration file at $path";
     }
 
     if ( $config->{site_name} !~ m/\w/ ) {
-        die "No valid `site_name` configured in configuration file at $path";
+        LOGDIE
+            "No valid `site_name` configured in configuration file at $path";
     }
     if ( $config->{site_name} =~ m/\"/ ) {
-        die
+        LOGDIE
             "`site_name` in configuration file at $path can't have a quote in it";
     }
 
     $config->{institution_short_name} //= $config->{site_name};
     if ( $config->{institution_short_name} !~ m/\w/ ) {
-        die
+        LOGDIE
             "No valid `institution_short_name` configured in configuration file at $path";
     }
 
     unless (     $config->{url}
              and $config->{url} =~ m/$RE{URI}{HTTP}/ ) {
-        die "No valid `url` URL configured in configuration file at $path";
+        LOGDIE "No valid `url` URL configured in configuration file at $path";
     }
 
     if ( $config->{disable_location_filter} ) {
@@ -170,7 +173,7 @@ sub get_config {
              =~ m/^\s*(1|yes|on|true)\s*$/i ) {
             $config->{disable_location_filter} = 1;
         } else {
-            die
+            LOGDIE
                 "`disable_location_filter` is set to '$config->{disable_location_filter}' -- please set it to either 1 or 0";
         }
     } else {
@@ -179,10 +182,12 @@ sub get_config {
 
     if ( defined $config->{temp_dir} ) {
         unless ( -d $config->{temp_dir} ) {
-            mkdir $config->{temp_dir} || die $!;
+            mkdir $config->{temp_dir}
+                || LOGDIE
+                qq{Could not create temporary directory at $config->{temp_dir} as configured at $path -- due to "$!"};
         }
         unless ( -d $config->{temp_dir} and -w $config->{temp_dir} ) {
-            warn
+            WARN
                 "`temp_dir` configured in $path isn't a valid writable directory, will switch back to default\n";
             delete $config->{temp_dir};
         }
