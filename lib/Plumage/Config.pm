@@ -91,14 +91,13 @@ sub get_config {
     my $num_roles_supported = scalar @supported_roles;
 
     if ($num_roles_supported) {
+        my @example_calls = map {"\t$0 --build $_\n"} @supported_roles;
         if ( !defined $options{role} ) {
-            my @example_calls = map {"\t$0 $_\n"} @supported_roles;
             LOGDIE
                 "No role specified. Maybe you want to run one of the following command lines:\n\n",
                 @example_calls,
                 "\nSee the configuration file at $path for details on what each of these roles mean.\n";
         } elsif ( !$raw_config->{ $options{role} } ) {
-            my @example_calls = map {"\t$0 $_\n"} @supported_roles;
             LOGDIE
                 "Tried to load role `$options{role}`, but that's not defined at $path. Maybe you want to run one of the following command lines:\n\n",
                 @example_calls,

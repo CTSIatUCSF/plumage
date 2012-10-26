@@ -24,6 +24,14 @@ our $ua;
 sub extract_eagle_i_data {
 
     my $base_uri_text = shift;
+    unless ($base_uri_text) {
+	eval q{
+	    use Plumage::Config qw( get_config );
+	    my $config = get_config();
+	    $base_uri_text = $config->{eagle_i_base_url};
+	};
+    }
+
     my $base_uri      = URI->new($base_uri_text)
         || LOGCROAK
         qq{Invalid base URI "$base_uri_text", expected something more like "http://example.eagle-i.net/" or "https://eaglei.example.com/"};
@@ -48,7 +56,7 @@ sub extract_eagle_i_data {
     my $provider_url = $base_uri->clone;
     $provider_url->path('/sweet/provider');
 
-    DEBUG("Starting downloading data from $base_uri ...");
+    INFO("Downloading data from $base_uri");
 
     my %core_data;
 

@@ -5,28 +5,52 @@ use lib '.', 'lib', '../lib';
 use Getopt::Long;
 use Log::Log4perl qw(:easy :no_extra_logdie_message);
 use Plumage::Build;
+use Plumage::Config qw( get_config );
+use Plumage::EagleIData qw( extract_eagle_i_data );
 use strict;
 use warnings;
+use utf8;
+binmode STDOUT, ':utf8';
 
 my $error_level = $INFO;
-my $getopt_worked = GetOptions( 'verbose' => sub { $error_level = $INFO },
-                                'quiet'   => sub { $error_level = $ERROR },
-                                'debug'   => sub { $error_level = $DEBUG }
+my $action      = '';
+my $role;
+my $getopt_worked = GetOptions( 'v|verbose' => sub { $error_level = $INFO },
+                                'q|quiet'   => sub { $error_level = $ERROR },
+                                'd|debug'   => sub { $error_level = $DEBUG },
+                                'dump:s'  => sub { ( $action, $role ) = @_ },
+                                'build:s' => sub { ( $action, $role ) = @_ },
 );
 
 unless ($getopt_worked) {
-    print "
-Format: $0 -vqd [role]
-
--v = verbose (default, describes what's happening)
--d = debug   (prints even more details)
--q = quiet   (only prints errors)
-
-";
+    print help();
     exit;
 }
-
 Log::Log4perl->easy_init($error_level);
-my $role = shift;
 
-Plumage::Build::build($role);
+my $config = get_config( role => $role );
+
+if ( $action eq 'dump' ) {
+    my $json = extract_eagle_i_data();
+    print $json;
+} elsif ( $action eq 'build' ) {
+    Plumage::Build::build();
+}
+
+sub help {
+    return "
+To build a Plumage site:
+    $0 --build [role]
+
+To dump eagle-i data:
+    $0 --dump [role]
+
+Modifiers:
+    -v or --verbose (default, describes what's happening)
+    -d or --debug   (prints even more details)
+    -q or --quiet   (only prints errors)
+
+";
+}
+
+exit;

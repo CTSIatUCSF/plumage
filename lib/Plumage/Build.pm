@@ -27,9 +27,7 @@ use open ':encoding(utf8)';
 our ( $template, $config, $output_path, $template_path, $sitemap );
 
 sub build {
-    my $role = shift;
-
-    $config        = get_config( role => $role );
+    $config        = get_config();
     $output_path   = $config->{output_path};
     $template_path = $config->{template_path};
 
