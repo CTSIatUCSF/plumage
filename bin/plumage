@@ -13,8 +13,7 @@ use utf8;
 binmode STDOUT, ':utf8';
 
 my $error_level = $INFO;
-my $action      = '';
-my $role;
+my ( $action, $role );
 my $getopt_worked = GetOptions( 'v|verbose' => sub { $error_level = $INFO },
                                 'q|quiet'   => sub { $error_level = $ERROR },
                                 'd|debug'   => sub { $error_level = $DEBUG },
@@ -22,7 +21,7 @@ my $getopt_worked = GetOptions( 'v|verbose' => sub { $error_level = $INFO },
                                 'build:s' => sub { ( $action, $role ) = @_ },
 );
 
-unless ($getopt_worked) {
+unless ( $getopt_worked and $action ) {
     print help();
     exit;
 }
@@ -49,6 +48,10 @@ Modifiers:
     -v or --verbose (default, describes what's happening)
     -d or --debug   (prints even more details)
     -q or --quiet   (only prints errors)
+
+
+P.S. Don't forget to add a plumage.conf file to /etc/, your home
+     directory, or to the current directory.
 
 ";
 }
