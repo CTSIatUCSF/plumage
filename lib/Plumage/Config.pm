@@ -36,7 +36,7 @@ sub get_config {
         if ( -f $executable_path ) {
             my ( $volume, $directories, $file )
                 = File::Spec->splitpath($executable_path);
-            my $parent_dir = File::Spec->catpath( $volume, $directories );
+            my $parent_dir = File::Spec->catdir( $volume, $directories );
             if ( -d $parent_dir ) {
                 $executable_dir = $parent_dir;
             }
