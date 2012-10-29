@@ -189,6 +189,23 @@ sub get_config {
         $config->{disable_location_filter} = 0;
     }
 
+    if ( defined $config->{swiftype_key} ) {
+        unless ( $config->{swiftype_key} =~ m/\w/ ) {
+            delete $config->{swiftype_key};
+        }
+    }
+    if ( defined $config->{swiftype_api_key} ) {
+        unless ( $config->{swiftype_api_key} =~ m/\w/ ) {
+            delete $config->{swiftype_api_key};
+        }
+    }
+    if ( $config->{swiftype_api_key} or $config->{swiftype_key} ) {
+        unless ( $config->{swiftype_api_key} and $config->{swiftype_key} ) {
+            LOGDIE
+                "For Swiftype support, please add both the master `swiftype_api_key` as well as the domain-specific `swiftype_key` in configuration file at $path";
+        }
+    }
+
     if ( defined $config->{build_deploy_command} ) {
         unless ( length $config->{build_deploy_command}
                  and $config->{build_deploy_command} =~ m/\w/ ) {

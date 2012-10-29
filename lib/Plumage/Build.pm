@@ -4,17 +4,18 @@ package Plumage::Build;
 use 5.12.0;
 use lib '.', 'lib', '../lib';
 use File::Spec;
-use Plumage::Config qw( get_config );
-use Plumage::Tools
-    qw( load_core_data get_freebase_definition name_to_filename );
-use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
-    'ontology_children';
 use File::Copy::Recursive 0.09 qw( rcopy );
 use File::Remove 1.50 qw( remove );
 use Filesys::DiskUsage qw( du );
 use File::Spec;
 use File::Path qw( remove_tree );
 use Log::Log4perl qw(:easy);
+use Plumage::Config qw( get_config );
+use Plumage::Tools
+    qw( load_core_data get_freebase_definition name_to_filename );
+use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
+    'ontology_children';
+use Plumage::Swiftype;
 use Search::Sitemap 2.13;
 use Template 2.22;
 use Template::Stash::AutoEscaping 0.0301;
@@ -188,6 +189,13 @@ sub build {
             system $config->{build_deploy_command};
         }
     }
+
+    {
+        if ( $config->{swiftype_key} ) {
+	    Plumage::Swiftype::swiftype_reindex();
+        }
+    }
+
 
     INFO "Done";
 
