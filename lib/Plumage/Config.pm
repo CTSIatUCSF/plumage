@@ -9,6 +9,7 @@ use File::Spec;
 use Log::Log4perl qw(:easy);
 use Params::Validate 1.00;
 use Regexp::Common 2010010201 qw( URI );
+use URI;
 use base 'Exporter';
 use warnings;
 use utf8;
@@ -133,10 +134,14 @@ sub get_config {
         }
     }
 
-    if ( exists $config->{eagle_i_base_url}
-         and $config->{eagle_i_base_url} !~ m/$RE{URI}{HTTP}/ ) {
-        LOGDIE
-            "No valid `eagle_i_base_url` URL configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
+    if ( exists $config->{eagle_i_base_url} ) {
+        if ( $config->{eagle_i_base_url} =~ m/$RE{URI}{HTTP}/ ) {
+            $config->{eagle_i_base_url}
+                = URI->new( $config->{eagle_i_base_url} )->canonical;
+        } else {
+            LOGDIE
+                "No valid `eagle_i_base_url` URL configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
+        }
     }
 
     if ( exists $config->{resource_listings_file_path}
@@ -170,6 +175,7 @@ sub get_config {
              and $config->{url} =~ m/$RE{URI}{HTTP}/ ) {
         LOGDIE "No valid `url` URL configured in configuration file at $path";
     }
+    $config->{url} = URI->new( $config->{url} )->canonical;
 
     if ( $config->{disable_location_filter} ) {
         if ( $config->{disable_location_filter}
