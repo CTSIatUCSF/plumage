@@ -1,0 +1,37 @@
+SIGNIFICANT USER-VISIBLE CHANGES SINCE PUBLIC RELEASE
+(EXCLUDES BUGS, INFRASTRUCTURE CHANGES, ETC.)
+
+2012-10-27
+
+* Renamed deploy_command configuration option to build_deploy_command
+
+2012-10-26
+
+* Plumage builds now queries Eagle-I directly, instead of requiring an
+  intermediary JSON representation. "eagle_i_base_url" configuration
+  option now highly recommended ("resource_listings_file_path" is now
+  optional).
+
+* plumage command line app now requires a "--build" option to build a
+  site (and a "--dump" option to dump JSON Eagle-I data, if needed)
+
+* Entire platform now has unified logging and debug messages via
+  Log4perl. Use "plumage -v" for verbose output (default), "-q" for
+  quiet mode (errors only), or "-d" for extra debugging output.
+
+2012-10-02
+
+* When looking for a configuration file, software now also looks in
+  the plumage excutable file's directory.
+
+* Added support for deploy_command configuration option, allowing for
+  a command line to get called after every build.
+
+* Added support for "institution_short_name" config option, e.g.
+  "UCSF" or "OHSU".
+
+* Added support for "search_placeholder" config option, e.g. "e.g.
+  flow cytometer".
+
+* Add support for automatic role-based configurations, e.g. for
+  development or production builds.
