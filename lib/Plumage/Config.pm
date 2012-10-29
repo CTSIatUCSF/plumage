@@ -50,7 +50,11 @@ sub get_config {
                                   File::Spec->updir(),
                                   File::Spec->catdir( File::Spec->updir(),
                                                       File::Spec->updir()
-                                  )
+                                  ),
+                                  File::Spec->catdir( File::Spec->updir(),
+                                                      File::Spec->updir(),
+                                                      File::Spec->updir()
+                                  ),
     );
     @potential_config_dirs = grep {defined} @potential_config_dirs;
 
