@@ -182,10 +182,10 @@ sub build {
     }
 
     {
-        if ( $config->{deploy_command} ) {
+        if ( $config->{build_deploy_command} ) {
             INFO
-                qq{About to run deploy command "$config->{deploy_command}"\n};
-            system $config->{deploy_command};
+                qq{About to run deploy command "$config->{build_deploy_command}"\n};
+            system $config->{build_deploy_command};
         }
     }
 

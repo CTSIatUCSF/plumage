@@ -179,6 +179,13 @@ sub get_config {
         $config->{disable_location_filter} = 0;
     }
 
+    if ( defined $config->{build_deploy_command} ) {
+        unless ( length $config->{build_deploy_command}
+                 and $config->{build_deploy_command} =~ m/\w/ ) {
+            delete $config->{build_deploy_command};
+        }
+    }
+
     if ( defined $config->{temp_dir} ) {
         unless ( -d $config->{temp_dir} ) {
             mkdir $config->{temp_dir}
