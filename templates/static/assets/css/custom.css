@@ -1,0 +1,60 @@
+/* head */
+
+body { background: #ddd }
+#main-container { background: white; padding-top: 2em; padding-bottom: 0 }
+
+#header { background: #e9e9e9 }
+
+#leaderboard img { border: none }
+#leaderboard div#ucsfnav-container { background: #666 }
+#leaderboard div#ucsfnav { height: 30px; padding-left: 20px; }
+#leaderboard div#ucsfnav a.ucsf-logo{ display: block; float: left; background: #666 url(../img/custom/ucsf_header_42x25_666transparentbg.gif) no-repeat 0 0; width: 42px; height:25px; text-indent: -99999px; }
+#leaderboard ul { position: relative; float:left; margin: 4px 0 0; padding-left: 20px; list-style-type: none; }
+#leaderboard ul li { display: inline; color:#fff; }
+#leaderboard div#ucsfnav ul li a { font-size: 11px; color: #fff; border-left: 1px solid #fff; padding: 0 5px 0 10px; }
+#leaderboard div#ucsfnav ul li.first a { border: none; padding-left: 5px; }
+
+#header .navbar { margin-bottom: 0 }
+#header .navbar-inner { background-color: #036; background-image: none !important; padding-left: 12px }
+#header .navbar .nav > li > a { color: #d8d8d8; font-weight: bold; border-right: 1px solid #258; padding-left: 20px; padding-right: 20px }
+#header .navbar .nav > li > a:hover, #header .navbar .nav > li > a.active { color: #ffffff; text-decoration: underline }
+
+#header-brand-block { float: left; margin: 10px 0 10px 20px }
+#header-brand-block h1 { line-height: 100%; margin: 5px 0 }
+#header-brand-block h1 a { color: #036; font-size: 44px }
+#header-brand-block h1 a:hover, #header-brand-block h1 a:hover #tagline { color: #08C !important; text-decoration: none }
+#header-brand-block h1 #tagline { font-size: 20px; line-height: 30px; font-style: italic; color: #666 }
+
+#header-collapsed-brand { display: none; font-weight: bold; color: white }
+
+#powered-by-block { text-align: right; float: right; margin: 10px 20px 0 0; }
+#powered-by-block a { display: block; font-weight: bold; text-align: right }
+#powered-by-ctsi { color: #c60 }
+#powered-by-rrp { color: #777 }
+
+#powered-by-ctsi {
+  background: url("../img/custom/ctsi-logo.16x16.png") no-repeat scroll 0 0 transparent;
+  background-position: 17px 0;
+  padding-left: 24px;
+  color: #D18146;
+}
+
+@media (max-width: 767px) {
+   body { background: #fff }
+   #leaderboard, #powered-by-block { display: none }
+   #header { margin-bottom: 1em }
+   #header-brand-block { margin: 0; padding: 0; font-size: 20px; float: none; display: block; background: #ddd; text-align: center }
+   #header-brand-block h1 a { font-size: 20px; margin: 0; padding: 0 }
+   #header-brand-block p { display: none }
+   #header #search-form { float: none !important; text-align: center }
+   #footer { background: #ddd; padding: 0.75em; margin: 0 }
+   #header-collapsed-brand { display: inline; font-size: 16px }
+}
+
+/* footer */
+
+#footer #footer-collaboration { border-top: 3px solid #666; border-bottom: 3px solid #666; background: white; zcolor: #666; padding-top: 0.5em; padding-bottom: 0.5em }
+#footer #footer-contact { background: #666; font-weight: bold ; color: white; border-bottom: 1px solid white  }
+#footer #footer-contact a { color: white }
+#footer #footer-copyright { background: #666; font-weight: bold ; color: white }
+#footer .row > div { padding-top: 0.5em; padding-bottom: 0.5em }

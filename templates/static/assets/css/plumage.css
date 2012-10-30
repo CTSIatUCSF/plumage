@@ -1,0 +1,105 @@
+/* ###################################################################### */
+/* SITEWIDE */
+/* ###################################################################### */
+
+#footer { text-align: center }
+
+.navbar-inner {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+
+#header a.brand { font-weight: bold; color: white }
+
+
+/* ###################################################################### */
+/* INDEX PAGE */
+/* ###################################################################### */
+
+#index-page #main-container { text-align: center }
+#index-page #main-heading h1 { font-size: 42px; line-height: 1; letter-spacing: -1px; padding: 0 0 0.3em 0; margin-bottom: 0; text-align: center; display:inline-block; max-width: 12em; color: #036; }
+#index-page #stats { font-size: 16px; color: #666 }
+
+#index-page #browse { display:inline-block; text-align: left }
+#index-page #browse h2 { margin-bottom: 1em; text-align: center; font-size: 36px; line-height: 36px; color: #036 }
+#index-page #browse li small { color: #999; font-size: 90% }
+
+#index-page #search-form { margin: 3.5em auto; text-align: center; max-width: 625px; padding: 1.75em; background-color: #e0e0e0; -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px; -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; }
+
+#index-page #search { font-size: 200%; min-height: 1.5em }
+
+
+@media (min-width: 768px) {
+   #index-page #browse { width: 100% }
+   #index-page #browse ul {
+      -moz-column-width: 280px;
+      -webkit-column-width: 280px;
+      column-width: 280px;
+   }
+}
+
+@media (max-width: 767px) {
+   #index-page #search-form { margin: 1em 0 }
+   #index-page #main-heading h1 { max-width: none; font-size: 24px; padding: 0.2em 0 1em 0 }
+   #index-page #stats { display: none }
+   #index-page #browse h2 { font-size: 20px; line-height: 25px }
+   #index-page #search-form { margin: 1em auto 3em auto; text-align: center; padding: 0; background: none }
+}
+
+/* ###################################################################### */
+/* RESOURCE PAGE */
+/* ###################################################################### */
+
+#resource-page h1 { color: #036; font-size: 30px; line-height: 30px; margin: 0 }
+#resource-page .core h2 { font-size: 24px; line-height: 24px; text-decoration: underline }
+#resource-page #context-list { margin-bottom: 0; padding-bottom: 0 }
+#resource-page #synonym-list a { color: #333 }
+#resource-page #synonym-list a:hover { color: #005580; text-decoration: underline; }
+
+#resource-page #see-also { padding-bottom: 2em }
+#resource-page .see-also-label { color: #990000; font-weight: bold }
+#resource-page .see-also-links a { font-weight: bold }
+
+#resource-page .core-details { padding-left: 2em; margin-bottom: 0; padding-bottom: 0; color: #999 }
+#resource-page .core-details span:after { content: ", " }
+#resource-page .core-details span:last-child:after { content: "" }
+#resource-page .core-location { float: right; text-align: center; background-color: #c60}
+
+#resource-page .core-email a { color: #999; text-decoration: underline }
+#resource-page .core-email a:hover { color: #005580; text-decoration: underline; }
+#resource-page .core-email-primary-link { font-weight: bold; text-decoration: underline }
+
+#resource-page .core-phone-primary-link { color: black; font-weight: bold }
+
+#resource-page ul.match { margin: 1em 2em 3em 3.3em }
+
+#resource-page #core-location-filter { display: none; margin-bottom: 3em }
+#resource-page #core-location-filter-label-block { text-align: right }
+
+#resource-page .well { margin-bottom: 3em }
+
+@media (max-width: 767px) {
+   #index-page h1 { color: black }
+   #resource-page #core-location-filter-label-block { text-align: left }
+}
+
+@media (max-width: 480px) {
+   #resource-page #context { background: none; border: none }
+   #resource-page #context-list { display: none }
+   #resource-page h1 { text-align: center }
+}
+
+/* ###################################################################### */
+/* SEARCH PAGE */
+/* ###################################################################### */
+
+#search-page #main-container { min-height: 30em !important }
+#search-page #st-results-container { margin-bottom: 3em }
+
+/* ###################################################################### */
+/* placeholder_polyfill.min.css
+/* ###################################################################### */
+
+label span.placeholder{position:absolute;font-size:75%;color:#999;font-family:sans-serif;padding:4px 3px;z-index:1}label span.placeholder-hide-exept-screenreader{clip:rect(1px 1px 1px 1px);clip:rect(1px,1px,1px,1px);padding:0!important;border:0!important;height:1px!important;width:1px!important;overflow:hidden}
+label span.placeholder-hide{display:none}label.visuallyhidden-with-placeholder{height:auto!important;overflow:visible!important;position:absolute!important;left:-999em}

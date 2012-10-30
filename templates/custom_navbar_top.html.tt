@@ -1,0 +1,35 @@
+      <div id="leaderboard" class="row">
+	<div class="span12">
+	  <div id="ucsfnav-container">
+	    <div id="ucsfnav">
+	      <a class="ucsf-logo" target="_blank" href="http://www.ucsf.edu/">UCSF</a>
+	      <ul>
+		<li class="first"><a title="University of California, San Francisco" href="http://www.ucsf.edu/" target="_blank">University of California, San Francisco</a></li>
+		<li><a title="About UCSF" href="http://www.ucsf.edu/about" target="_blank">About UCSF</a></li>
+		<li><a title="Search UCSF" href="http://www.ucsf.edu/ucsf/search" target="_blank">Search UCSF</a></li>
+		<li><a title="UCSF Medical Center" href="http://www.ucsfhealth.org/" target="_blank">UCSF Medical Center</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="span12">
+	  <div id="header-brand-block">
+
+	    <h1>
+	      <a href="[% config.url %]">
+		[% config.site_name %]
+		<div id="tagline">Equipment and services for researchers</div>
+	      </a>
+	    </h1>
+	  </div>
+
+	  <div id="powered-by-block">
+	    <a id="powered-by-ctsi" href="http://ctsi.ucsf.edu/">Powered by CTSI</a>
+	    <a id="powered-by-rrp" href="http://rrp.ucsf.edu/">in partnership with RRP</a>
+	  </div>
+
+	</div>
+      </div>
