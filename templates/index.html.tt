@@ -10,8 +10,8 @@
 	<p id="stats"><strong>[% stats.num_resources %]</strong> resources &middot; <strong>[% stats.num_types %]</strong> categories &middot; <strong>[% stats.num_cores %]</strong> providers</p>
       </div>
 
-      <form id="search-form" class="form-search">
-	<input type="text" class="span5" id="search" placeholder="[% config.search_placeholder %]">
+      <form id="search-form" class="form-search" autocomplete="off">
+	<input type="text" class="span5" id="search" placeholder="[% config.search_placeholder %]" autocomplete="off">
 	<button type="submit" class="btn btn-primary btn-large">
 	  <i class="icon-search icon-white"></i> Search
 	</button>

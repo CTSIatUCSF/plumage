@@ -2,7 +2,7 @@
 /* SITEWIDE */
 /* ###################################################################### */
 
-#footer { text-align: center }
+#main-container { padding-top: 2em }
 
 .navbar-inner {
   -webkit-border-radius: 0 !important;

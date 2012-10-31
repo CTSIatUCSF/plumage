@@ -13,7 +13,7 @@ var ResizeEvents={baseTextHeight:null,currentTextHeight:null,baseWindowWidth:nul
 
 // Swiftype JS
 
-if (Swiftype && Swiftype.key) {
+if ((typeof(Swiftype) != "undefined") && Swiftype.key) {
     $(document).ready(function() {
 	// add a container for search results, unless one's already there
 	if ($('#st-results-container').length == 0) {
@@ -40,6 +40,33 @@ if (Swiftype && Swiftype.key) {
 	var entry = document.getElementsByTagName('script')[0];
 	entry.parentNode.insertBefore(script, entry);
     }());
+
+} else {
+
+    // fall back to Bootstrap typeahead
+
+    $(document).ready(function() {
+        $('#search').typeahead({
+            'source': Object.keys(typeahead_names_to_urls),
+            updater:function (item) {
+
+                window.setTimeout(function() {
+                    target_url = typeahead_names_to_urls[item];
+		    if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
+			var referLink = document.createElement('a');
+			referLink.href = target_url;
+			document.body.appendChild(referLink);
+			referLink.click();
+		    } else {
+			window.location.href = target_url;
+		    }
+                }, 50);
+
+                return item;
+            }
+        });
+    });
+
 }
 
 //////////////////////////////////////////////////////////////////////

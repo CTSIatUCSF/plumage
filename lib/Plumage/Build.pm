@@ -9,6 +9,7 @@ use File::Remove 1.50 qw( remove );
 use Filesys::DiskUsage qw( du );
 use File::Spec;
 use File::Path qw( remove_tree );
+use JSON 2.0 qw( encode_json );
 use Log::Log4perl qw(:easy);
 use Plumage::Config qw( get_config );
 use Plumage::Tools
@@ -169,6 +170,17 @@ sub build {
             }
         }
         write_file( 'index.html.tt', '/', $options );
+    }
+
+    {
+	my %term_to_url;
+	foreach my $ontology_term (sort keys %terms_done) {
+	    my $filename = name_to_filename($ontology_term);
+	    my $url = "$config->{url}$filename";
+	    $term_to_url{$ontology_term} = $url;
+	}
+	my $term_to_url_json = encode_json(\%term_to_url);
+	write_file( 'generated.js.tt', '/assets/js/generated.js', { typeahead_data_json => $term_to_url_json } );
     }
 
     {

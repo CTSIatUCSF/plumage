@@ -44,6 +44,7 @@
 [% END %]
     </script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="[% config.url %]assets/js/generated.js"></script>
     <script src="[% config.url %]assets/js/plumage.js"></script>
     <script src="[% config.url %]assets/js/custom.js"></script>
     <script src="[% config.url %]assets/js/bootstrap.min.js"></script>
@@ -76,8 +77,8 @@
               <li><a href="[% config.url %]about/">About</a></li>
             </ul>
 	    [% IF header_search %]
-            <form id="search-form" role="search" class="form-search navbar-form pull-right">
-	      <input id="search" placeholder="[% config.search_placeholder %]" type="search" class="span3">
+            <form id="search-form" role="search" class="form-search navbar-form pull-right" autocomplete="off">
+	      <input id="search" placeholder="[% config.search_placeholder %]" type="search" class="span3" autocomplete="off" />
 	      <button type="submit" class="btn btn-small hidden-phone">
 		<i class="icon-search"></i> Search
 	      </button>
