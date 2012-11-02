@@ -28,7 +28,7 @@ templates/_footer.html.tt
 templates/_header.html.tt
 templates/about.html.tt
 templates/contact.html.tt
-templates/custom_navbar_top.html.tt
+templates/generated.js.tt
 templates/index.html.tt
 templates/resource.html.tt
 templates/search.html.tt
@@ -36,9 +36,6 @@ templates/static/assets/css/bootstrap-responsive.min.css
 templates/static/assets/css/bootstrap.min.css
 templates/static/assets/css/custom.css
 templates/static/assets/css/plumage.css
-templates/static/assets/img/custom/ctsi-logo.16x16.png
-templates/static/assets/img/custom/favicon.ico
-templates/static/assets/img/custom/ucsf_header_42x25_666transparentbg.gif
 templates/static/assets/img/glyphicons-halflings-white.png
 templates/static/assets/img/glyphicons-halflings.png
 templates/static/assets/js/bootstrap.min.js
