@@ -54,7 +54,15 @@
 
     <header id="header" role="banner" class="container">
 
-[% IF config.html_custom_navbar_top %]
+[% PERL %]
+if (eval { $context->template('custom_navbar_top.html.tt') }) {
+   $stash->set('using_custom_navbar_top', 1);
+} else {
+   $stash->set('using_custom_navbar_top', 0);
+}
+[% END %]
+
+[% IF using_custom_navbar_top %]
 <div class="hidden-phone">
 [% INCLUDE custom_navbar_top.html.tt %]
 </div>
@@ -69,7 +77,7 @@
             <span class="icon-bar"></span>
 	  </a>
 
-          <a class="brand [% IF config.html_custom_navbar_top %]visible-phone[% END %]" href="[% config.url %]">[% config.site_name %]</a>
+          <a class="brand [% IF config.using_custom_navbar_top %]visible-phone[% END %]" href="[% config.url %]">[% config.site_name %]</a>
 
 	  <div class="nav-collapse">
             <ul class="nav">
