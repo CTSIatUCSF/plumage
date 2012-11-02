@@ -3,28 +3,22 @@
 <!-- end main content -->
     </div> <!-- /container -->
 
-[% IF (config.role == 'ucsfmain' || config.role == 'ucsfdev') %]
+[% PERL %]
+if (eval { $context->template('custom_footer.html.tt') }) {
+   $stash->set('using_custom_footer', 1);
+} else {
+   $stash->set('using_custom_footer', 0);
+}
+[% END %]
 
+[% IF using_custom_footer %]
     <footer id="footer" role="contentinfo">
       <div class="container">
 
-	<div class="row"><div id="footer-collaboration" class="span12">
-	    This site is a collaborative effort of
-	    UCSF's <a href="http://rrp.ucsf.edu/">Research Resource
-	    Program (RRP)</a> and
-	    the <a href="http://ctsi.ucsf.edu/">Clinical and
-	    Translational Science Institute (CTSI)</a>.
-	</div></div>
-	<div class="row"><div id="footer-contact" class="span12">
-	    <a href="about/">Contact us</a>
-	</div></div>
-	<div class="row"><div id="footer-copyright" class="span12">
-	    &copy; 2012 The Regents of the University of California
-	</div></div>
+[% INCLUDE custom_footer.html.tt %]
 
       </div>
     </footer>
-
 [% END %]
 
 </body>
