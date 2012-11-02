@@ -21,6 +21,7 @@ my $builder = Module::Build->new(
                   'File::ShareDir::ProjectDistDir' => 0,
                   'File::Spec'                     => 3.33,
                   'File::Temp'                     => 0,
+                  'Filesys::DiskUsage'             => 0,
                   'HTTP::Request::Common'          => 0,
                   'JSON'                           => 0,
                   'LWP::Protocol::https'           => 0,
