@@ -113,7 +113,9 @@ sub get_config {
             }
             $config->{role} = $options{role};
         }
-    } elsif ( !$num_roles_supported and exists $options{role} ) {
+    } elsif (     !$num_roles_supported
+              and exists $options{role}
+              and length $options{role} ) {
         LOGDIE
             "No roles defined in configuration file at $path, but was sent role `$options{role}`";
     }
@@ -178,7 +180,7 @@ sub get_config {
     }
 
     unless (     $config->{url}
-             and $config->{url} =~ m/$RE{URI}{HTTP}/ ) {
+             and $config->{url} =~ m/$RE{URI}{HTTP}|$RE{URI}{file}/ ) {
         LOGDIE "No valid `url` URL configured in configuration file at $path";
     }
     $config->{url} = URI->new( $config->{url} )->canonical;
