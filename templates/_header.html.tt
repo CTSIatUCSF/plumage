@@ -77,7 +77,7 @@ if (eval { $context->template('custom_navbar_top.html.tt') }) {
             <span class="icon-bar"></span>
 	  </a>
 
-          <a class="brand [% IF config.using_custom_navbar_top %]visible-phone[% END %]" href="[% config.url %]">[% config.site_name %]</a>
+          <a class="brand [% IF using_custom_navbar_top %]visible-phone[% END %]" href="[% config.url %]">[% config.site_name %]</a>
 
 	  <div class="nav-collapse">
             <ul class="nav">
