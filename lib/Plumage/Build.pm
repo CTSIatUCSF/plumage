@@ -26,12 +26,14 @@ binmode STDERR, ':utf8';
 binmode STDOUT, ':utf8';
 use open ':encoding(utf8)';
 
-our ( $template, $config, $output_path, $template_path, $sitemap );
+our ( $template, $config, $output_path, $template_path, $custom_template_path,
+      $sitemap );
 
 sub build {
-    $config        = get_config();
-    $output_path   = $config->{output_path};
-    $template_path = $config->{template_path};
+    $config               = get_config();
+    $output_path          = $config->{output_path};
+    $template_path        = $config->{template_path};
+    $custom_template_path = $config->{custom_template_path};
 
     ###########################################################################
 
@@ -68,14 +70,26 @@ sub build {
             LOGDIE "Can't find directory of static content `$static_dir`";
         }
         rcopy( $static_dir, $output_path );
+
+        if ($custom_template_path) {
+            my $custom_static_dir
+                = File::Spec->catdir( $custom_template_path, 'static' );
+            if ( -e $custom_static_dir ) {
+                rcopy( $custom_static_dir, $output_path );
+            }
+        }
+
     }
+
+    my @valid_template_paths
+        = grep {defined} ( $template_path, $custom_template_path );
 
     $template = Template->new( { EVAL_PERL  => 1,
                                  PRE_CHOMP  => 0,
                                  POST_CHOMP => 1,
                                  STASH => Template::Stash::AutoEscaping->new,
                                  ENCODING     => 'utf8',
-                                 INCLUDE_PATH => $template_path,
+                                 INCLUDE_PATH => \@valid_template_paths,
                                }
     );
 
@@ -173,14 +187,15 @@ sub build {
     }
 
     {
-	my %term_to_url;
-	foreach my $ontology_term (sort keys %terms_done) {
-	    my $filename = name_to_filename($ontology_term);
-	    my $url = "$config->{url}$filename";
-	    $term_to_url{$ontology_term} = $url;
-	}
-	my $term_to_url_json = encode_json(\%term_to_url);
-	write_file( 'generated.js.tt', '/assets/js/generated.js', { typeahead_data_json => $term_to_url_json } );
+        my %term_to_url;
+        foreach my $ontology_term ( sort keys %terms_done ) {
+            my $filename = name_to_filename($ontology_term);
+            my $url      = "$config->{url}$filename";
+            $term_to_url{$ontology_term} = $url;
+        }
+        my $term_to_url_json = encode_json( \%term_to_url );
+        write_file( 'generated.js.tt', '/assets/js/generated.js',
+                    { typeahead_data_json => $term_to_url_json } );
     }
 
     {
@@ -204,10 +219,9 @@ sub build {
 
     {
         if ( $config->{swiftype_key} ) {
-	    Plumage::Swiftype::swiftype_reindex();
+            Plumage::Swiftype::swiftype_reindex();
         }
     }
-
 
     INFO "Done";
 

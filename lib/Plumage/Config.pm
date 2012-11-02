@@ -144,6 +144,12 @@ sub get_config {
         }
     }
 
+    if ( exists $config->{custom_template_path}
+         and !-d $config->{custom_template_path} ) {
+        LOGDIE
+            "Can't find a valid custom template path directory at $config->{custom_template_path}, as configured in $path";
+    }
+
     if ( exists $config->{resource_listings_file_path}
          and !-r $config->{resource_listings_file_path} ) {
         LOGDIE
