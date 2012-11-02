@@ -35,6 +35,7 @@ my $builder = Module::Build->new(
                   'OWL::Simple::Parser'            => 1.01,
                   'Params::Validate'               => 1.00,
                   'Regexp::Common'                 => 2010010201,
+		  'Search::Sitemap'                => 2.13,
                   'String::Approx'                 => 3.26,
                   'Text::Elide'                    => 0,
                   'Tree::Simple'                   => 1.18,
