@@ -37,6 +37,8 @@ sub swiftype_reindex {
           "https://api.swiftype.com/api/v1/engines.json?auth_token=$api_key");
     if ( $engines_response
          and my $engines_data = eval { decode_json($engines_response) } ) {
+
+    EachEngine:
         foreach my $engine ( @{$engines_data} ) {
             my $domains_response
                 = get(
@@ -45,6 +47,8 @@ sub swiftype_reindex {
             if ( $domains_response
                  and my $domains_data
                  = eval { decode_json($domains_response) } ) {
+
+            EachDomain:
                 foreach my $domain ( @{$domains_data} ) {
                     my $crawl_url
                         = URI->new( $domain->{start_crawl_url} )->canonical;
@@ -73,21 +77,21 @@ sub swiftype_reindex {
                         }
                     }
                 }
-
-                unless ($found_url_to_reindex) {
-                    WARN(
-                        "Tried to ask Swiftype to reindex $config->{url} but Swiftype hasn't seen that exact domain URL before (though it HAD seen: ",
-                        join( ', ', @supported_crawl_urls ),
-                        ") -- make sure that at least you have the URL set in your Plumage configuration file also added to Swiftype"
-                    );
-                }
-
             } else {
                 ERROR(
                     "[Optional] manual Swiftype reindex failed -- could not access Swiftype list of domains for search engine '$engine->{slug}'"
                 );
             }
         }
+
+        unless ($found_url_to_reindex) {
+            WARN(
+                "Tried to ask Swiftype to reindex $config->{url} but Swiftype hasn't seen that exact domain URL before (though it HAD seen: ",
+                join( ', ', @supported_crawl_urls ),
+                ") -- make sure that at least you have the URL set in your Plumage configuration file also added to Swiftype"
+            );
+        }
+
     } else {
         WARN(
             "[Optional] manual Swiftype reindex failed -- could not access Swiftype list of search engines, for reindex"
