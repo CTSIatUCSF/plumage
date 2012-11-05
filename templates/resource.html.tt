@@ -90,7 +90,7 @@
 [% END %]
        </div>
        <div class="span8">
-         <h2>[% IF core.info.url %]<a href="[% core.info.url %]" target="_blank" title="Open this core's website in new window">[% END -%]<span itemprop="name">[% core.info.core %]</span>[% IF core.info.url %]</a>[% END %]</h2>
+         <h2>[% IF core.info.url %]<a href="[% core.info.url %]" target="_blank" title="Open core's website in new window">[% END -%]<span itemprop="name">[% core.info.core %]</span>[% IF core.info.url %]</a>[% END %]</h2>
 	 <p class="core-details">
   [% IF core.info.organization %]
            [% core.info.organization %],
