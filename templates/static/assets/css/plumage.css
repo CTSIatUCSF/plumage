@@ -52,7 +52,7 @@
 /* ###################################################################### */
 
 #resource-page h1 { color: #036; font-size: 30px; line-height: 30px; margin: 0 }
-#resource-page .core h2 { font-size: 24px; line-height: 24px; text-decoration: underline; padding-bottom: 0; margin-bottom: 0 }
+#resource-page .core h2 { font-size: 24px; line-height: 24px; text-decoration: underline; padding-bottom: 0; margin-bottom: 0; margin-top: 0 }
 #resource-page #context-list { margin-bottom: 0; padding-bottom: 0 }
 #resource-page #synonym-list a { color: #333 }
 #resource-page #synonym-list a:hover { color: #005580; text-decoration: underline; }
