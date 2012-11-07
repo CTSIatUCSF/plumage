@@ -8,7 +8,7 @@ Biomedical resource discovery for institutions, powered by Eagle-I
 
 Plumage is free software to make biomedical resources at large
 institutions more discoverable. It was developed at the University of
-California, San Francisco, to power [UCSF Cores Search][], the
+California, San Francisco, to power [UCSF Cores Search], the
 campus-wide search engine for core resources.
 
 ### Why Plumage?
@@ -174,10 +174,6 @@ your installation is centrally hosted, it might look like
 `http://yourname.eagle-i.net/`. If it's password protected, you can
 put the authentication details in the URL, e.g
 `http://username:password@youreagle-i.server.url/`.
-
-`url` is the URL where this website will be viewed. The URL you
-provide wil be used to create absolute links between pages. If you
-don't have a web server, feel free to create `file://` URLs.
 
 `output_path` is the place on disk where the new website will be
 written. Create a new directory, and enter the path here; Plumage
