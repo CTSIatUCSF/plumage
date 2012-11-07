@@ -2,8 +2,6 @@ Plumage: Biomedical resource discovery for institutions, powered by Eagle-I
 
 # About Plumage
 
-## What is Plumage?
-
 Plumage is free software to make biomedical resources at large
 institutions more discoverable. It was developed at the University of
 California, San Francisco, to power [UCSF Cores Search], the
