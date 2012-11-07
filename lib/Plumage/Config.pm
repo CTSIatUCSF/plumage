@@ -122,6 +122,22 @@ sub get_config {
 
     my $output_path   = $config->{output_path};
     my $template_path = $config->{template_path};
+
+    unless ($template_path) {
+        my $possible_template_directory = realpath(
+            File::Spec->catdir( File::Spec->curdir(), 'templates' ) );
+        if (    -d $possible_template_directory
+            and
+            -r File::Spec->catdir( $possible_template_directory, 'static' ) )
+        {
+            $template_path = $possible_template_directory;
+            $config->{template_path} = $possible_template_directory;
+            WARN(
+                "No `template_path` configured in $path -- using $possible_template_directory instead"
+            );
+        }
+    }
+
     foreach my $set ( [ $output_path, 'output_path' ],
                       [ $template_path, 'template_path' ] ) {
         if ( !$set->[0] ) {
