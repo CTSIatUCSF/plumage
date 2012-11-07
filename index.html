@@ -59,7 +59,7 @@ campus-wide search engine for core resources.</p>
 
 <ul>
 <li>every synonym for every concept has its own page</li>
-<li>page titles tunes to meet needs of searchers</li>
+<li>page titles and content are tuned to meet needs of searchers</li>
 <li>pages include semantic data in microformats</li>
 </ul><p>Easy to deploy:</p>
 
@@ -207,7 +207,7 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.</p>
 
 <h2>Configuation details</h2>
 
-<p><em>to be written</em></p>
+<h3>Required</h3>
 
 <p><code>institution_short_name</code> to the most colloqial way your users refer to
 your institution when running searches. For example, most users at the
@@ -222,14 +222,59 @@ put the authentication details in the URL, e.g
 
 <p><code>output_path</code> is the place on disk where the new website will be
 written. Create a new directory, and enter the path here; Plumage
-builds will not run if this directory does not exist. <strong>The contents
-of this directory will be overwritten on every build.</strong></p>
+builds will not run if this directory does not exist. <strong>Important: The
+contents of this directory will be overwritten on every build.</strong></p>
 
 <p><code>url</code> is the URL where the generated website will be viewed. If you
 have a local web server, you might use an <code>http://localhost/</code> URL. If
 you don't, you can use a <code>file://</code> URL that corresponds with your
 <code>output_path</code>; if your <code>output_path</code> is <code>/tmp/plumage-test</code> you can
 set your URL to `<code>file:///tmp/plumage-test/</code>.</p>
+
+<p><code>template_path</code> -- to be documented</p>
+
+<h3>Customizing look and feel</h3>
+
+<p><code>custom_template_path</code> -- to be documented</p>
+
+<h3>Upgrading the search engine</h3>
+
+<p>Plumage works out of the box with <a href="http://swiftype.com/">Swiftype</a>, a free search provider
+(analogous to Google Custm Search, but more easily flexible, and free
+for many users). Swiftype is optional, but highly recommended over the
+minimal default typeahead search. Set up a new Swiftype account, and
+an engine for every website for which you want to use Swiftype search.</p>
+
+<p>For Swiftype to work, you need to set both an overall
+<code>swiftype_api_key</code> and a <code>swiftype_key</code> for every website role.</p>
+
+<p><code>swiftype_api_key</code> is the private account-wide API key listed at
+<a href="http://swiftype.com/user/edit">http://swiftype.com/user/edit</a></p>
+
+<p><code>swiftype_key</code> comes from the line that reads <code>Swiftype.key = '...'</code> on
+the "Install Options" page of every Swiftype search engine. If you
+have different versions of your content on main and dev servers,
+you'll have to create two different Swiftype engines, each indexing
+the different sections of your content, and need to ensure that
+Swiftype's servers can index your dev server.</p>
+
+<h3>Tracking usage</h3>
+
+<p><code>google_analytics_id</code> is optional, and should be set to your new
+site's Google Analytics account ID. It should look something like
+<code>UA-1234-5678</code>. Make sure to create a new Google Anaytics account for
+every Plumage instance you create. Example usage: if you have
+cores.institution.edu, and dev-cores.institution.edu, set a Google
+Analytics ID for the former role, and not the latter role.</p>
+
+<h3>Deploy hook</h3>
+
+<p><code>build_deploy_command</code> is an optional command line that gets run after
+every Plumage site build. For example, you might want to run Plumage
+on a staging server, and set <code>build_deploy_command</code> to <code>rsync -avz -e
+ssh --delete /where/html/files/should/get/written
+username@cores.exampleuniversity.edu:/final/output/location/</code> to push
+the contents out to your live server.</p>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/CTSIatUCSF">CTSIatUCSF</a></p>
