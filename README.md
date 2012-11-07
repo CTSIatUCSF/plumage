@@ -160,7 +160,7 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 
 *to be written*
 
-## Configuation details
+## Configuration details
 
 ### Required
 
