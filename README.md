@@ -158,11 +158,11 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 
 ### Real World Usage
 
-<to be written>
+*to be written*
 
 ### Configuation Details
 
-<to be written>
+*to be written*
 
 `institution_short_name` to the most colloqial way your users refer to
 your institution when running searches. For example, most users at the
