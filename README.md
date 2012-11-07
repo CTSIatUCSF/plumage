@@ -96,7 +96,8 @@ version of Perl bundled with your system, use [Perlbrew] to install a
 newer version of Perl. Plumage may work on Windows, but hasn't been
 tested.
 
-Download a tarball or ZIP file of Plumage from Github. Unarchive it.
+Download a [tarball] or [ZIP file] of Plumage from Github. Unarchive
+it.
 
 Install Plumage and its Perl dependencies. You may be prompted to
 configure [CPAN] settings; if so, just follow the instructions, and
@@ -197,5 +198,7 @@ set your URL to ``file:///tmp/plumage-test/`.
 [Apache 2.0 license]: http://www.apache.org/licenses/LICENSE-2.0
 [GPL]: http://www.gnu.org/licenses/gpl.html
 [MIT license]: http://opensource.org/licenses/mit-license.php
+[tarball]: https://github.com/CTSIatUCSF/plumage/tarball/master
+[ZIP file]: https://github.com/CTSIatUCSF/plumage/zipball/master
 [Perlbrew]: http://perlbrew.pl/
 [CPAN]: http://www.cpan.org/
