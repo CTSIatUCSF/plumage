@@ -46,7 +46,7 @@ Number UL1 RR024131. Its contents are solely the responsibility of the
 authors and do not necessarily represent the official views of the
 NIH.
 
-## License Information
+## License information
 
 Plumage is Copyright (c) 2012, The Regents of the University of
 California. All rights reserved.
@@ -156,11 +156,11 @@ You should see messages showing the website being built.
 Pay attention to error messages. Still having problems? Feel free to
 contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 
-## Real World Usage
+## Real world usage
 
 *to be written*
 
-## Configuation Details
+## Configuation details
 
 *to be written*
 
