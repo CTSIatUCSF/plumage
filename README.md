@@ -19,7 +19,7 @@ Designed to maximize resource discoverability:
 Carefully optimized for search engine users:
 
 * every synonym for every concept has its own page
-* page titles tunes to meet needs of searchers
+* page titles and content are tuned to meet needs of searchers
 * pages include semantic data in microformats
 
 Easy to deploy:
@@ -162,7 +162,7 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 
 ## Configuation details
 
-*to be written*
+### Required
 
 `institution_short_name` to the most colloqial way your users refer to
 your institution when running searches. For example, most users at the
@@ -177,8 +177,8 @@ put the authentication details in the URL, e.g
 
 `output_path` is the place on disk where the new website will be
 written. Create a new directory, and enter the path here; Plumage
-builds will not run if this directory does not exist. **The contents
-of this directory will be overwritten on every build.**
+builds will not run if this directory does not exist. **Important: The
+contents of this directory will be overwritten on every build.**
 
 `url` is the URL where the generated website will be viewed. If you
 have a local web server, you might use an `http://localhost/` URL. If
@@ -186,6 +186,50 @@ you don't, you can use a `file://` URL that corresponds with your
 `output_path`; if your `output_path` is `/tmp/plumage-test` you can
 set your URL to ``file:///tmp/plumage-test/`.
 
+`template_path` -- to be documented
+
+### Customizing look and feel
+
+`custom_template_path` -- to be documented
+
+### Upgrading the search engine
+
+Plumage works out of the box with [Swiftype], a free search provider
+(analogous to Google Custm Search, but more easily flexible, and free
+for many users). Swiftype is optional, but highly recommended over the
+minimal default typeahead search. Set up a new Swiftype account, and
+an engine for every website for which you want to use Swiftype search.
+
+For Swiftype to work, you need to set both an overall
+`swiftype_api_key` and a `swiftype_key` for every website role.
+
+`swiftype_api_key` is the private account-wide API key listed at
+http://swiftype.com/user/edit
+
+`swiftype_key` comes from the line that reads `Swiftype.key = '...'` on
+the "Install Options" page of every Swiftype search engine. If you
+have different versions of your content on main and dev servers,
+you'll have to create two different Swiftype engines, each indexing
+the different sections of your content, and need to ensure that
+Swiftype's servers can index your dev server.
+
+### Tracking usage
+
+`google_analytics_id` is optional, and should be set to your new
+site's Google Analytics account ID. It should look something like
+`UA-1234-5678`. Make sure to create a new Google Anaytics account for
+every Plumage instance you create. Example usage: if you have
+cores.institution.edu, and dev-cores.institution.edu, set a Google
+Analytics ID for the former role, and not the latter role.
+
+### Deploy hook
+
+`build_deploy_command` is an optional command line that gets run after
+every Plumage site build. For example, you might want to run Plumage
+on a staging server, and set `build_deploy_command` to `rsync -avz -e
+ssh --delete /where/html/files/should/get/written
+username@cores.exampleuniversity.edu:/final/output/location/` to push
+the contents out to your live server.
 
 [UCSF Cores Search]: http://cores.ucsf.edu/
 [CTSI]: http://ctsi.ucsf.edu/
@@ -203,3 +247,4 @@ set your URL to ``file:///tmp/plumage-test/`.
 [ZIP file]: https://github.com/CTSIatUCSF/plumage/zipball/master
 [Perlbrew]: http://perlbrew.pl/
 [CPAN]: http://www.cpan.org/
+[Swiftype]: http://swiftype.com/
