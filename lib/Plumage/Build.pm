@@ -223,7 +223,7 @@ sub build {
         }
     }
 
-    INFO "Done";
+    INFO "Done building website for $config->{url}";
 
     return 1;
 }
