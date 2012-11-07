@@ -125,10 +125,10 @@ sub get_config {
 
     unless ($template_path) {
         my $possible_template_directory = realpath(
-            File::Spec->catdir( File::Spec->curdir(), 'templates' ) );
-        if (    -d $possible_template_directory
-            and
-            -r File::Spec->catdir( $possible_template_directory, 'static' ) )
+                    File::Spec->catdir( File::Spec->curdir(), 'templates' ) );
+        if (     -d $possible_template_directory
+             and
+             -r File::Spec->catdir( $possible_template_directory, 'static' ) )
         {
             $template_path = $possible_template_directory;
             $config->{template_path} = $possible_template_directory;
