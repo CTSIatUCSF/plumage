@@ -204,4 +204,4 @@ set your URL to ``file:///tmp/plumage-test/`.
 [GPL]: http://www.gnu.org/licenses/gpl.html
 [MIT license]: http://opensource.org/licenses/mit-license.php
 [Perlbrew]: https://github.com/gugod/App-perlbrew/
-[CPAN](http://www.cpan.org/)
+[CPAN]: http://www.cpan.org/
