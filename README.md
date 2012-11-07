@@ -65,8 +65,11 @@ source projects:
 * [Twitter Bootstrap], released under an [Apache 2.0 license]
 * [Placeholders.js], released under an [MIT license]
 * [Resize Events], released under the [GPL]
-* [jQuery], released under the [MIT license] (linked dynamically)
-* [html5shiv], released under the [MIT license] (linked dynamically)
+
+It also dynamically pulls in [jQuery] and [html5shiv] (both released
+under the [MIT license]), and uses a number of Perl [CPAN] modules,
+distributed under several open source licenses, typically under the
+[same terms][Perl license] as Perl itself.
 
 # Technical documentation
 
@@ -241,9 +244,11 @@ out to your live server.
 [Placeholders.js]: https://github.com/jamesallardice/Placeholders.js
 [Resize Events]: http://irama.org/web/dhtml/resize-events/
 [jQuery]: http://jquery.com/
+[html5shiv]: http://code.google.com/p/html5shiv/
 [Apache 2.0 license]: http://www.apache.org/licenses/LICENSE-2.0
 [GPL]: http://www.gnu.org/licenses/gpl.html
 [MIT license]: http://opensource.org/licenses/mit-license.php
+[Perl license]: http://dev.perl.org/licenses/
 [tarball]: https://github.com/CTSIatUCSF/plumage/tarball/master
 [ZIP file]: https://github.com/CTSIatUCSF/plumage/zipball/master
 [Perlbrew]: http://perlbrew.pl/
