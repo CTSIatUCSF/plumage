@@ -46,7 +46,7 @@ Number UL1 RR024131. Its contents are solely the responsibility of the
 authors and do not necessarily represent the official views of the
 NIH.
 
-## License information
+## License
 
 Plumage is Copyright (c) 2012, The Regents of the University of
 California. All rights reserved.
