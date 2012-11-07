@@ -69,8 +69,8 @@ source projects:
 It also dynamically pulls in [jQuery] and [html5shiv] JavaScript
 libraries (both released under the [MIT license]), and uses a number
 of Perl [CPAN] modules during the build process, distributed under
-several open source licenses, typically under the [same terms][Perl
-license] as Perl itself.
+several open source licenses, typically under the [same terms](Perl
+license) as Perl itself.
 
 # Technical documentation
 
