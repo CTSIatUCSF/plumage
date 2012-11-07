@@ -66,10 +66,11 @@ source projects:
 * [Placeholders.js], released under an [MIT license]
 * [Resize Events], released under the [GPL]
 
-It also dynamically pulls in [jQuery] and [html5shiv] (both released
-under the [MIT license]), and uses a number of Perl [CPAN] modules,
-distributed under several open source licenses, typically under the
-[same terms][Perl license] as Perl itself.
+It also dynamically pulls in [jQuery] and [html5shiv] JavaScript
+libraries (both released under the [MIT license]), and uses a number
+of Perl [CPAN] modules during the build process, distributed under
+several open source licenses, typically under the [same terms][Perl
+license] as Perl itself.
 
 # Technical documentation
 
