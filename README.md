@@ -27,6 +27,11 @@ Easy to deploy:
 * pulls data from an eagle-i instance, or from a compatible data source (e.g. CSV file with Eagle-I ontology mappings)
 * generates a static site, compatible with all web servers on all platforms
 
+Designed for success:
+
+* Learn more about Plumage's design strategy in the [UCSF Cores Search 2.0: Design Strategy Overview](slides) Slideshare presentation.
+
+
 ## Who is Plumage?
 
 The Plumage software was developed by Anirvan Chatterjee and the
@@ -40,10 +45,6 @@ Sciences, National Institutes of Health, through UCSF-CTSI Grant
 Number UL1 RR024131. Its contents are solely the responsibility of the
 authors and do not necessarily represent the official views of the
 NIH.
-
-## Learn more
-
-* [UCSF Cores Search 2.0: Design Strategy Overview](slides) (Slideshare presentation)
 
 ## License Information
 
