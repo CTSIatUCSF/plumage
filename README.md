@@ -1,17 +1,15 @@
-# Plumage
+Plumage: Biomedical resource discovery for institutions, powered by Eagle-I
 
-Biomedical resource discovery for institutions, powered by Eagle-I
+# About Plumage
 
-## About Plumage
-
-### What is Plumage?
+## What is Plumage?
 
 Plumage is free software to make biomedical resources at large
 institutions more discoverable. It was developed at the University of
 California, San Francisco, to power [UCSF Cores Search], the
 campus-wide search engine for core resources.
 
-### Why Plumage?
+## Why Plumage?
 
 Designed to maximize resource discoverability:
 
@@ -29,7 +27,7 @@ Easy to deploy:
 * pulls data from an eagle-i instance, or from a compatible data source (e.g. CSV file with Eagle-I ontology mappings)
 * generates a static site, compatible with all web servers on all platforms
 
-### Who is Plumage?
+## Who is Plumage?
 
 The Plumage software was developed by Anirvan Chatterjee and the
 Virtual Home team at the [Clinical & Translational Science
@@ -43,11 +41,11 @@ Number UL1 RR024131. Its contents are solely the responsibility of the
 authors and do not necessarily represent the official views of the
 NIH.
 
-### Learn more
+## Learn more
 
 * [UCSF Cores Search 2.0: Design Strategy Overview](slides) (Slideshare presentation)
 
-### License Information
+## License Information
 
 Plumage is Copyright (c) 2012, The Regents of the University of
 California. All rights reserved.
@@ -58,7 +56,7 @@ For more details, see the full text of the license in the file
 LICENSE. (TLDRLegal offers a _non-binding_ [human-readable
 description](TLDRLegal) of this license.)
 
-#### Bundled code
+### Bundled code
 
 The default Plumage distribution is bundled with several other open
 source projects:
@@ -68,7 +66,7 @@ source projects:
 * [Placeholders.js], released under an [MIT license]
 * [Resize Events], released under the [GPL]
 
-## Technical documentation
+# Technical documentation
 
 Plumage is an application written in Perl 5.12, and tested on Linux
 and MacOS. It extracts data from an instance of eagle-i (or data
@@ -89,7 +87,7 @@ easily customized in two ways:
   templates. These customizations are stored in a way that allows for
   easy upgrades of the base templates.
 
-### Quick start
+## Quick start
 
 Ensure you have Perl 5.12 or higher installed on your server. Perl
 5.12+ is installed on virtually all current Unix-like distributions,
@@ -156,11 +154,11 @@ You should see messages showing the website being built.
 Pay attention to error messages. Still having problems? Feel free to
 contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 
-### Real World Usage
+## Real World Usage
 
 *to be written*
 
-### Configuation Details
+## Configuation Details
 
 *to be written*
 
