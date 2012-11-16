@@ -97,7 +97,7 @@ sub get_config {
 
     if ($num_roles_supported) {
         my @example_calls = map {"\t$0 --build $_\n"} @supported_roles;
-        if ( !defined $options{role} ) {
+        if ( !defined $options{role} or !length $options{role} ) {
             LOGDIE
                 "No role specified. Maybe you want to run one of the following command lines:\n\n",
                 @example_calls,
