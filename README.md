@@ -105,10 +105,11 @@ it.
 
 Install Plumage and its Perl dependencies. You may be prompted to
 configure [CPAN] settings; if so, just follow the instructions, and
-stick with the default options.
+hit return to stick with the default options.
 
     perl Build.PL
-    ./Build installdeps
+    PERL_MM_USE_DEFAULT=1 ./Build installdeps
+    # if previous line doesn't work, use only "./Build installdeps"
 
 Then try running the Plumage app.
 
