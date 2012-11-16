@@ -16,6 +16,7 @@ my $builder = Module::Build->new(
                   'Config::Tiny'                   => 2.14,
                   'Cwd'                            => 0,
                   'Exporter'                       => 0,
+		  'File::Copy::Recursive'          => 0.09,
                   'File::HomeDir'                  => 0.98,
                   'File::Remove'                   => 1.50,
                   'File::ShareDir::ProjectDistDir' => 0,
