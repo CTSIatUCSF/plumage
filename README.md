@@ -70,7 +70,7 @@ number of Perl [CPAN] modules during the build process, distributed
 under several open source licenses, typically under the
 [same terms][Perl license] as Perl itself.
 
-# 2. Technical documentation
+# 2. Technical Overview
 
 Plumage is an application written in Perl 5.12, and tested on Linux
 and MacOS. It extracts data from an instance of eagle-i (or data
@@ -91,7 +91,11 @@ Generated website can be easily customized in two ways:
   templates. These customizations are stored in a way that allows for
   easy upgrades of the Plumage code and base templates.
 
-## 2.1. Quick start guide
+# 3. Quick Start Guide
+
+This quick start guide is intended to help technical users with an
+existing eagle-i installation get up and running with Plumage in
+minutes.
 
 Ensure you have Perl 5.12 or higher installed on your server. Perl
 5.12+ is installed on virtually all current Unix-like distributions,
@@ -131,15 +135,18 @@ as an example.)
 
 Here's how to set the configuration options:
 
-* Set `site_name` to the name of the website you're creating e.g. UCSF
-  calls its Plumage site "UCSF Cores Search".
+* Set `site_name` to the name of the website you're creating. For
+  example, UCSF calls its Plumage site "UCSF Cores Search".
 
 * Set `institution_short_name` to however your users refer to your
-  institution when running searches, e.g "UCSF" or "Howard".
+  institution when running searches. For example, users at the
+  University of California, San Francisco are likely to run web
+  searches for things like "ucsf nmr" therefore this is set to "UCSF".
 
-* Set `eagle_i_base_url` to the root URL of your eagle-i
-  installation. If it's password protected, put the username and
-  password in the URL, e.g
+* Set `eagle_i_base_url` to the root URL of your eagle-i installation.
+  If your installation is centrally hosted, it might look like
+  `http://yourname.eagle-i.net/`. If it's password protected, you can
+  put the authentication details in the URL, e.g
   `http://username:password@youreagle-i.server.url/`.
 
 * Set `template_path` to the full path to the `templates` directory
@@ -150,13 +157,16 @@ Here's how to set the configuration options:
 * The `output_path` is the place on disk where the new website will be
   written. **Create a new directory**, and enter the path here;
   Plumage will not run if this directory doesn't exist. **Plumage will
-  delete the contents of this directory every time it runs.**
+  delete and regenerate the contents of this directory every time it
+  runs.**
 
 * Set `url` to the URL where this website will be viewed. If you have
-  a local web server, you might use an `http://localhost/` URL. Or you
-  can use a `file://` URL that corresponds with your `output_path`; if
-  your `output_path` is `/tmp/plumage-test` you can set your URL to
-  ``file:///tmp/plumage-test/`.
+  a local web server, you might use an `http://localhost/` URL. If you
+  want to put this on a subdirectory of your dev server you could set
+  it to `http://dev.yoursite.edu/cores/`. If you want to use it
+  offline, you can use a `file://` URL that corresponds with your
+  `output_path` (if your `output_path` is `/tmp/plumage-test` try
+  setting your URL to ``file:///tmp/plumage-test/`).
 
 Done? Let's build the website:
 
@@ -170,17 +180,17 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 If all goes well, your fancy new Plumage website will be written to
 `output_path` and you'll be able to view it in a web browser at `url`.
 
-## 2.2. Real world usage
+# 4. Real World Usage
 
 The quick start guide left you with a reasonably clean and generic
 installation of Plumage. Now we're going to customize Plumage to meet
 your needs.
 
-### Using roles [IMPORTANT]
+## 4.1 Using Roles [IMPORTANT]
 
 *to be written*
 
-### Customizing look and feel [IMPORTANT]
+## 4.2 Customizing Look and Feel [IMPORTANT]
 
 Almost every institution will want to customize the look and feel of
 Plumage to match your local branding needs. Plumage is designed to
@@ -206,11 +216,11 @@ wanted to override a default template, just copy it to
 default. But most of the time, you don't even need to do that. Look at
 the HOWTOs below.
 
-#### Static and dynamic content
+### Static and Dynamic Content
 
 *actual documentation to be written*
 
-#### How templates work
+### How Templates Work
 
 All site templates are written using [Template Toolkit], a popular and
 very well-documented templating system for Perl, sort of like PHP's
@@ -218,7 +228,7 @@ Smarty or Ruby's ERB.
 
 *actual documentation to be written*
 
-#### How Bootstrap works
+### How Bootstrap Works
 
 All HTML and CSS on the site is written using [Twitter Bootstrap], a
 popular responsive HTML5/CSS framework. Go read the Bootstrap
@@ -226,14 +236,14 @@ documentation. You will be confused if you don't.
 
 *actual documentation to be written*
 
-#### HOWTO: add custom CSS
+### HOWTO: Add Custom CSS
 
 1. Configure a `custom_template_path` directory
 2. Create a new file at `static/assets/css/custom.css` inside the directory
 3. Put your CSS there
 4. The contents of this file will be read _after_ the default Plumage CSS, which means it should override CSS rules of equal [CSS specificity] (if needed, you can make your CSS more specific or use `!important` for added weight)
 
-#### HOWTO: add a custom institutional navbar
+### HOWTO: Add a Custom Institutional Navbar
 
 1. Configure a `custom_template_path` directory
 2. Create a new file called `custom_navbar_top.html.tt` inside the directory
@@ -241,7 +251,7 @@ documentation. You will be confused if you don't.
 4. The contents of this file will be automatically included above the Plumage menu in the defaultpage header template (`_header.html.tt`)
 5. If needed, add custom CSS styles to #leaderboard as described above
 
-#### HOWTO: customize the footer
+### HOWTO: Customize the Footer
 
 1. Configure a `custom_template_path` directory
 2. Create a new file called `custom_footer.html.tt` inside the directory
@@ -249,14 +259,14 @@ documentation. You will be confused if you don't.
 4. The content of this file will be automatically included in the default footer template (`_footer.html.tt`)
 5. If needed, add custom CSS styles to the contents of #footer as described above
 
-#### HOWTO: change the contents of the about page
+### HOWTO: Change the Contents of the About Page
 
 1. Configure a `custom_template_path` directory
 2. Create a new file called `custom_about_page.html.tt` inside the directory
 3. Put content there (e.g. `<h2>`s and `<p>`s)
 4. The content of this file will be automatically included in the default About page template (`about.html.tt`)
 
-### Upgrading the search engine
+## 4.3 Upgrading the Search Engine via Swiftype
 
 Plumage comes packaged with a minimal typeahead search, but we
 recommend plugging in a professional hosted search system.
@@ -285,7 +295,7 @@ servers, and use your API keys to kick off a reindex of your content.
 (Swiftype may not reindex as frequently as you'd like; check their
 documentation for details.)
 
-### Tracking usage
+## 4.4 Tracking Usage via Google Analytics
 
 Plumage comes with support for Google Analytics out of the box, just
 by adding one line to the configuration file. Start off by creating a
@@ -309,11 +319,11 @@ production role, like this:
     [dev]
     url = http://dev-cores.yoursite.edu/
 
-#### Tracking Swiftype usage
+### Tracking Swiftype usage
 
 *to be written*
 
-### Managing builds
+## 4.5 Managing Deployments
 
 `build_deploy_command` is an optional command line that gets run after
 every Plumage site build. You can use this to create a deploy hook on
@@ -331,37 +341,6 @@ server.
     [dev]
     url = http://dev-cores.yoursite.edu/
     output_path = /var/www/html/cores-dev/
-
-## 2.3. Configuration details
-
-### Required
-
-`institution_short_name` to the most colloquial way your users refer
-to your institution when running searches. For example, most users at
-the University of California, San Francisco will write "UCSF" and are
-likely to run web searches for things like "ucsf nmr".
-
-`eagle_i_base_url` is the root URL of your eagle-i installation. If
-your installation is centrally hosted, it might look like
-http://yourname.eagle-i.net/. If it's password protected, you can
-put the authentication details in the URL, e.g
-http://username:password@youreagle-i.server.url/.
-
-`template_path` is the place on disk where the `templates` directory
-that comes with this distribution is located. If you don't set this,
-Plumage will try looking in your current directory for a `templates`
-folder.
-
-`output_path` is the place on disk where the new website will be
-written. Create a new directory, and enter the path here; Plumage
-builds will not run if this directory does not exist. **Important: The
-contents of this directory will be overwritten on every build.**
-
-`url` is the URL where the generated website will be viewed. If you
-have a local web server, you might use an http://localhost/ URL. If
-you don't, you can use a file:// URL that corresponds with your
-output_path; if your output_path is /tmp/plumage-test you can
-set your URL to file:///tmp/plumage-test/.
 
 [UCSF Cores Search]: http://cores.ucsf.edu/
 [CTSI]: http://ctsi.ucsf.edu/
