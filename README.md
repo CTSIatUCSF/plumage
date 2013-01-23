@@ -1,13 +1,13 @@
 Plumage: Biomedical resource discovery for institutions, powered by Eagle-I
 
-# About Plumage
+# 1. About Plumage
 
 Plumage is free software to make biomedical resources at large
 institutions more discoverable. It was developed at the University of
 California, San Francisco, to power [UCSF Cores Search], the
 campus-wide search engine for core resources.
 
-## Why Plumage?
+## 1.1 Why Plumage?
 
 Designed to maximize resource discoverability:
 
@@ -31,7 +31,7 @@ Designed for success:
 * learn about Plumage's design strategy in the [UCSF Cores Search 2.0: Design Strategy Overview](slides) Slideshare presentation.
 
 
-## Who is Plumage?
+## 1.2 Who is Plumage?
 
 The Plumage software was developed by Anirvan Chatterjee and the
 Virtual Home team at the [Clinical & Translational Science
@@ -44,7 +44,7 @@ UL1 TR000004. Its contents are solely the responsibility of the
 authors and do not necessarily represent the official views of the
 NIH.
 
-## License
+## 1.3 License
 
 Plumage is Copyright (c) 2012-2013, The Regents of the University of
 California. All rights reserved.
@@ -70,7 +70,7 @@ number of Perl [CPAN] modules during the build process, distributed
 under several open source licenses, typically under the
 [same terms][Perl license] as Perl itself.
 
-# Technical documentation
+# 2. Technical documentation
 
 Plumage is an application written in Perl 5.12, and tested on Linux
 and MacOS. It extracts data from an instance of eagle-i (or data
@@ -91,7 +91,7 @@ Generated website can be easily customized in two ways:
   templates. These customizations are stored in a way that allows for
   easy upgrades of the Plumage code and base templates.
 
-## Quick start
+## 2.1. Quick start
 
 Ensure you have Perl 5.12 or higher installed on your server. Perl
 5.12+ is installed on virtually all current Unix-like distributions,
@@ -170,7 +170,7 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 If all goes well, your fancy new Plumage website will be written to
 `output_path` and you'll be able to view it in a web browser at `url`.
 
-## Real world usage
+## 2.2. Real world usage
 
 The Quick Start left you with a reasonably clean and generic
 installation of Plumage. Now we're going to customize Plumage to meet
@@ -180,11 +180,41 @@ your needs.
 
 *to be written*
 
-### Customizing look and feel
+### Customizing look and feel [IMPORTANT]
+
+Almost every institution will want to customize the look and feel of
+Plumage to match your local branding needs. Plumage is designed to
+make it incredibly easy to make local look and feel changes without
+needing to tweak the default templates, so you can take advantage of
+upgraded default templates without losing your local changes.
 
 *to be written*
 
-`custom_template_path` -- to be documented
+The default templates are stored in the directory specified in
+`template_path`. We suggest that you _don't_ edit these templates at
+all.
+
+Instead, create a new directory for your custom local edits, and put
+the path in your configuration file as `custom_template_path`. For
+example:
+
+    template_path          = /home/webmaster/plumage/templates
+    custom_template_path   = /home/webmaster/plumage/custom_templates
+
+When Plumage is looking for templates, it'll look first in
+`custom_template_path`, and only then in `template_path`. So if you
+wanted to override a default template, just copy it to
+`custom_template_path` and it'll override the default. For example,
+
+*to be written*
+
+#### How templates work
+
+*to be written*
+
+#### Static content
+
+*to be written*
 
 ### Upgrading the search engine
 
@@ -197,7 +227,7 @@ users). Swiftype is optional, but *very highly recommended*. Set up a
 new Swiftype account, and an engine for every website for which you
 want to use Swiftype search.
 
-For Swiftype to work, you need to set both an overall
+For Swiftype to work, you need to configure both an overall
 `swiftype_api_key` and a `swiftype_key` for every website role.
 
 * `swiftype_api_key` is the private account-wide API key listed at
@@ -227,9 +257,17 @@ site's Google Analytics account ID, e.g.:
     google_analytics_id = UA-1234567-01
 
 Make sure to create a new Google Analytics account for every
-*production* Plumage instance you create. For example, if you have
-cores.institution.edu, and dev-cores.institution.edu, set a Google
-Analytics ID for the former role, and not the latter role.
+*production* Plumage instance you create. For example, if you have a
+production cores.institution.edu and a development
+dev-cores.institution.edu, set a Google Analytics ID only for the
+production role, like this:
+
+    [production]
+    url = http://cores.yoursite.edu/
+    google_analytics_id = UA-1234567-01
+
+    [dev]
+    url = http://dev-cores.yoursite.edu/
 
 #### Tracking Swiftype usage
 
@@ -254,7 +292,7 @@ server.
     url = http://dev-cores.yoursite.edu/
     output_path = /var/www/html/cores-dev/
 
-## Configuration details
+## 2.3. Configuration details
 
 ### Required
 
