@@ -142,7 +142,8 @@ select ?resource ?technique_label where {
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
-select ?resource ?technique_label where {                                                           ?core a vivo:CoreLaboratory .
+select ?resource ?technique_label where {
+?core a vivo:CoreLaboratory .
 ?resource ?any_relationship ?core .
 ?resource ero:ERO_0000543 ?technique_uri .
 ?technique_uri rdfs:label ?technique_label
