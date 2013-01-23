@@ -91,7 +91,7 @@ Generated website can be easily customized in two ways:
   templates. These customizations are stored in a way that allows for
   easy upgrades of the Plumage code and base templates.
 
-## 2.1. Quick start
+## 2.1. Quick start guide
 
 Ensure you have Perl 5.12 or higher installed on your server. Perl
 5.12+ is installed on virtually all current Unix-like distributions,
@@ -172,7 +172,7 @@ If all goes well, your fancy new Plumage website will be written to
 
 ## 2.2. Real world usage
 
-The Quick Start left you with a reasonably clean and generic
+The quick start guide left you with a reasonably clean and generic
 installation of Plumage. Now we're going to customize Plumage to meet
 your needs.
 
@@ -188,14 +188,12 @@ make it incredibly easy to make local look and feel changes without
 needing to tweak the default templates, so you can take advantage of
 upgraded default templates without losing your local changes.
 
-*to be written*
-
 The default templates are stored in the directory specified in
 `template_path`. We suggest that you _don't_ edit these templates at
 all.
 
-Instead, create a new directory for your custom local edits, and put
-the path in your configuration file as `custom_template_path`. For
+Instead, **create a new directory for your custom local edits**, and
+put the path in your configuration file as `custom_template_path`. For
 example:
 
     template_path          = /home/webmaster/plumage/templates
@@ -204,17 +202,59 @@ example:
 When Plumage is looking for templates, it'll look first in
 `custom_template_path`, and only then in `template_path`. So if you
 wanted to override a default template, just copy it to
-`custom_template_path` and it'll override the default. For example,
+`custom_template_path`, make some tweaks and it'll override the
+default. But most of the time, you don't even need to do that. Look at
+the HOWTOs below.
 
-*to be written*
+#### Static and dynamic content
+
+*actual documentation to be written*
 
 #### How templates work
 
-*to be written*
+All site templates are written using [Template Toolkit], a popular and
+very well-documented templating system for Perl, sort of like PHP's
+Smarty or Ruby's ERB.
 
-#### Static content
+*actual documentation to be written*
 
-*to be written*
+#### How Bootstrap works
+
+All HTML and CSS on the site is written using [Twitter Bootstrap], a
+popular responsive HTML5/CSS framework. Go read the Bootstrap
+documentation. You will be confused if you don't.
+
+*actual documentation to be written*
+
+#### HOWTO: add custom CSS
+
+1. Configure a `custom_template_path` directory
+2. Create a new file at `static/assets/css/custom.css` inside the directory
+3. Put your CSS there
+4. The contents of this file will be read _after_ the default Plumage CSS, which means it should override CSS rules of equal [CSS specificity] (if needed, you can make your CSS more specific or use `!important` for added weight)
+
+#### HOWTO: add a custom institutional navbar
+
+1. Configure a `custom_template_path` directory
+2. Create a new file called `custom_navbar_top.html.tt` inside the directory
+3. Put content there (preferably inside `<div id="leaderboard" class="row"><div class="span12">`)
+4. The contents of this file will be automatically included above the Plumage menu in the defaultpage header template (`_header.html.tt`)
+5. If needed, add custom CSS styles to #leaderboard as described above
+
+#### HOWTO: customize the footer
+
+1. Configure a `custom_template_path` directory
+2. Create a new file called `custom_footer.html.tt` inside the directory
+3. Put content there, inside one or more `<div class="row">` blocks
+4. The content of this file will be automatically included in the default footer template (`_footer.html.tt`)
+5. If needed, add custom CSS styles to the contents of #footer as described above
+
+#### HOWTO: change the contents of the about page
+
+1. Configure a `custom_template_path` directory
+2. Create a new file called `custom_about_page.html.tt` inside the directory
+3. Put content there (e.g. `<h2>`s and `<p>`s)
+4. The content of this file will be automatically included in the default About page template (`about.html.tt`)
 
 ### Upgrading the search engine
 
@@ -342,3 +382,5 @@ set your URL to file:///tmp/plumage-test/.
 [Perlbrew]: http://perlbrew.pl/
 [CPAN]: http://www.cpan.org/
 [Swiftype]: http://swiftype.com/
+[CSS specificity]: http://www.htmldog.com/guides/cssadvanced/specificity/
+[Template Toolkit]: http://template-toolkit.org/
