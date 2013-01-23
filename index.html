@@ -39,52 +39,52 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>About Plumage</h1>
+        <h1>1. About Plumage</h1>
 
 <p>Plumage is free software to make biomedical resources at large
 institutions more discoverable. It was developed at the University of
 California, San Francisco, to power <a href="http://cores.ucsf.edu/">UCSF Cores Search</a>, the
 campus-wide search engine for core resources.</p>
 
-<h2>Why Plumage?</h2>
+<h2>1.1 Why Plumage?</h2>
 
 <p>Designed to maximize resource discoverability:</p>
 
 <ul>
 <li>typeahead search available on every page</li>
 <li>users can browse through a complete A-Z index of options, including synonyms</li>
+<li>works on cell phones, tablets, and desktop computers</li>
 </ul><p>Carefully optimized for search engine users:</p>
 
 <ul>
 <li>every synonym for every concept has its own page</li>
+<li>pages include semantic data via HTML5 + Schema.org microdata</li>
 <li>page titles and content are tuned to meet needs of searchers</li>
-<li>pages include semantic data in microformats</li>
 </ul><p>Easy to deploy:</p>
 
 <ul>
-<li>pulls data from an eagle-i instance, or from a compatible data source (e.g. CSV file with Eagle-I ontology mappings)</li>
+<li>pulls data from eagle-i, or from a compatible data source (e.g. CSV file with eagle-i ontology mappings)</li>
 <li>generates a static site, compatible with all web servers on all platforms</li>
 </ul><p>Designed for success:</p>
 
 <ul>
-<li>Learn more about Plumage's design strategy in the <a href="slides">UCSF Cores Search 2.0: Design Strategy Overview</a> Slideshare presentation.</li>
-</ul><h2>Who is Plumage?</h2>
+<li>learn about Plumage's design strategy in the <a href="slides">UCSF Cores Search 2.0: Design Strategy Overview</a> Slideshare presentation.</li>
+</ul><h2>1.2 Who is Plumage?</h2>
 
 <p>The Plumage software was developed by Anirvan Chatterjee and the
 Virtual Home team at the <a href="http://ctsi.ucsf.edu/">Clinical &amp; Translational Science
 Institute</a> at the University of California, San Francisco, in
-collaboration with UCSF's <a href="http://rrp.ucsf.edu/">Research Resources Program</a>.</p>
-
-<p>This project was supported by the National Center for Research
-Resources and the National Center for Advancing Translational
-Sciences, National Institutes of Health, through UCSF-CTSI Grant
-Number UL1 RR024131. Its contents are solely the responsibility of the
+collaboration with UCSF's <a href="http://rrp.ucsf.edu/">Research Resources Program</a>. This
+project was supported by the National Center for Research Resources
+and the National Center for Advancing Translational Sciences, National
+Institutes of Health, through UCSF-CTSI Grant Numbers UL1 RR024131 and
+UL1 TR000004. Its contents are solely the responsibility of the
 authors and do not necessarily represent the official views of the
 NIH.</p>
 
-<h2>License</h2>
+<h2>1.3 License</h2>
 
-<p>Plumage is Copyright (c) 2012, The Regents of the University of
+<p>Plumage is Copyright (c) 2012-2013, The Regents of the University of
 California. All rights reserved.</p>
 
 <p>This application is free software; you can redistribute it and/or
@@ -114,18 +114,18 @@ number of Perl <a href="http://www.cpan.org/">CPAN</a> modules during the build 
 under several open source licenses, typically under the
 <a href="http://dev.perl.org/licenses/">same terms</a> as Perl itself.</p>
 
-<h1>Technical documentation</h1>
+<h1>2. Technical Overview</h1>
 
 <p>Plumage is an application written in Perl 5.12, and tested on Linux
 and MacOS. It extracts data from an instance of eagle-i (or data
-marked up with the eagle-i ontology), and generates a new web site --
-static HTML, JavaScript, and images that can be deployed on any
-server.</p>
+marked up with the eagle-i ontology), and generates a new web site: a
+bundle of static HTML, JavaScript, and images that can be deployed on
+any server.</p>
 
-<p>The software is bundled with a standard set of web templates created
-with Template Toolkit incorporating cores discoverability best
-practices originally implemented at UCSF. Generated website can be
-easily customized in two ways:</p>
+<p>The software is bundled with a standard set of modern HTML5 web
+templates created with Template Toolkit, and incorporating cores
+discoverability best practices originally implemented at UCSF.
+Generated website can be easily customized in two ways:</p>
 
 <ul>
 <li><p>Basic changes (e.g. to the name of the generated website) can be
@@ -133,8 +133,12 @@ made in the plumage.conf configuration file.</p></li>
 <li><p>Many look and feel changes can be made by adding custom header and
 footer HTML, CSS, and JavaScript, to enhance or override the base
 templates. These customizations are stored in a way that allows for
-easy upgrades of the base templates.</p></li>
-</ul><h2>Quick start</h2>
+easy upgrades of the Plumage code and base templates.</p></li>
+</ul><h1>3. Quick Start Guide</h1>
+
+<p>This quick start guide is intended to help technical users with an
+existing eagle-i installation get up and running with Plumage in
+minutes.</p>
 
 <p>Ensure you have Perl 5.12 or higher installed on your server. Perl
 5.12+ is installed on virtually all current Unix-like distributions,
@@ -148,10 +152,11 @@ it.</p>
 
 <p>Install Plumage and its Perl dependencies. You may be prompted to
 configure <a href="http://www.cpan.org/">CPAN</a> settings; if so, just follow the instructions, and
-stick with the default options.</p>
+hit return to stick with the default options.</p>
 
 <pre><code>perl Build.PL
-./Build installdeps
+PERL_MM_USE_DEFAULT=1 ./Build installdeps
+# if previous line doesn't work, use only "./Build installdeps"
 </code></pre>
 
 <p>Then try running the Plumage app.</p>
@@ -169,6 +174,7 @@ as an example.)</p>
 <pre><code>site_name              = Howard Cores Search
 institution_short_name = Howard
 eagle_i_base_url       = http://howard.eagle-i.net/
+template_path          = /home/webmaster/plumage/templates
 output_path            = /var/www/html/plumage_example
 url                    = http://localhost/plumage_example/
 </code></pre>
@@ -176,22 +182,33 @@ url                    = http://localhost/plumage_example/
 <p>Here's how to set the configuration options:</p>
 
 <ul>
-<li><p>Set <code>site_name</code> to the name of the website you're creating.</p></li>
+<li><p>Set <code>site_name</code> to the name of the website you're creating. For
+example, UCSF calls its Plumage site "UCSF Cores Search".</p></li>
 <li><p>Set <code>institution_short_name</code> to however your users refer to your
-institution when running searches, e.g UCSF, Howard OHSU.</p></li>
-<li><p>Set <code>eagle_i_base_url</code> to the root URL of your eagle-i
-installation. If it's password protected, put the username and
-password in the URL, e.g
+institution when running searches. For example, users at the
+University of California, San Francisco are likely to run web
+searches for things like "ucsf nmr" therefore this is set to "UCSF".</p></li>
+<li><p>Set <code>eagle_i_base_url</code> to the root URL of your eagle-i installation.
+If your installation is centrally hosted, it might look like
+<code>http://yourname.eagle-i.net/</code>. If it's password protected, you can
+put the authentication details in the URL, e.g
 <code>http://username:password@youreagle-i.server.url/</code>.</p></li>
+<li><p>Set <code>template_path</code> to the full path to the <code>templates</code> directory
+that comes with this distribution (or a copy thereof). If you don't
+set this, Plumage will try looking in your current directory for a
+<code>templates</code> folder.</p></li>
 <li><p>The <code>output_path</code> is the place on disk where the new website will be
 written. <strong>Create a new directory</strong>, and enter the path here;
-Plumage will not run if this directory doesn't exist. <em>NOTE: Plumage
-will delete the contents of this directory</em>* every time it runs.</p></li>
+Plumage will not run if this directory doesn't exist. <strong>Plumage will
+delete and regenerate the contents of this directory every time it
+runs.</strong></p></li>
 <li><p>Set <code>url</code> to the URL where this website will be viewed. If you have
 a local web server, you might use an <code>http://localhost/</code> URL. If you
-don't, you can use a <code>file://</code> URL that corresponds with your
-<code>output_path</code>; if your <code>output_path</code> is <code>/tmp/plumage-test</code> you can
-set your URL to `<code>file:///tmp/plumage-test/</code>.</p></li>
+want to put this on a subdirectory of your dev server you could set
+it to <code>http://dev.yoursite.edu/cores/</code>. If you want to use it
+offline, you can use a <code>file://</code> URL that corresponds with your
+<code>output_path</code> (if your <code>output_path</code> is <code>/tmp/plumage-test</code> try
+setting your URL to `<code>file:///tmp/plumage-test/</code>).</p></li>
 </ul><p>Done? Let's build the website:</p>
 
 <pre><code>./bin/plumage --build
@@ -202,80 +219,174 @@ set your URL to `<code>file:///tmp/plumage-test/</code>.</p></li>
 <p>Pay attention to error messages. Still having problems? Feel free to
 contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.</p>
 
-<h2>Real world usage</h2>
+<p>If all goes well, your fancy new Plumage website will be written to
+<code>output_path</code> and you'll be able to view it in a web browser at <code>url</code>.</p>
+
+<h1>4. Real World Usage</h1>
+
+<p>The quick start guide left you with a reasonably clean and generic
+installation of Plumage. Now we're going to customize Plumage to meet
+your needs.</p>
+
+<h2>4.1 Using Roles [IMPORTANT]</h2>
 
 <p><em>to be written</em></p>
 
-<h2>Configuration details</h2>
+<h2>4.2 Customizing Look and Feel [IMPORTANT]</h2>
 
-<h3>Required</h3>
+<p>Almost every institution will want to customize the look and feel of
+Plumage to match your local branding needs. Plumage is designed to
+make it incredibly easy to make local look and feel changes without
+needing to tweak the default templates, so you can take advantage of
+upgraded default templates without losing your local changes.</p>
 
-<p><code>institution_short_name</code> to the most colloquial way your users refer
-to your institution when running searches. For example, most users at
-the University of California, San Francisco will write "UCSF" and are
-likely to run web searches for things like "ucsf nmr".</p>
+<p>The default templates are stored in the directory specified in
+<code>template_path</code>. We suggest that you <em>don't</em> edit these templates at
+all.</p>
 
-<p><code>eagle_i_base_url</code> is the root URL of your eagle-i installation. If
-your installation is centrally hosted, it might look like
-<a href="http://yourname.eagle-i.net/">http://yourname.eagle-i.net/</a>. If it's password protected, you can
-put the authentication details in the URL, e.g
-http://username:<a href="mailto:password@youreagle-i.server.url">password@youreagle-i.server.url</a>/.</p>
+<p>Instead, <strong>create a new directory for your custom local edits</strong>, and
+put the path in your configuration file as <code>custom_template_path</code>. For
+example:</p>
 
-<p><code>output_path</code> is the place on disk where the new website will be
-written. Create a new directory, and enter the path here; Plumage
-builds will not run if this directory does not exist. <strong>Important: The
-contents of this directory will be overwritten on every build.</strong></p>
+<pre><code>template_path          = /home/webmaster/plumage/templates
+custom_template_path   = /home/webmaster/plumage/custom_templates
+</code></pre>
 
-<p><code>url</code> is the URL where the generated website will be viewed. If you
-have a local web server, you might use an http://localhost/ URL. If
-you don't, you can use a file:// URL that corresponds with your
-output_path; if your output_path is /tmp/plumage-test you can
-set your URL to file:///tmp/plumage-test/.</p>
+<p>When Plumage is looking for templates, it'll look first in
+<code>custom_template_path</code>, and only then in <code>template_path</code>. So if you
+wanted to override a default template, just copy it to
+<code>custom_template_path</code>, make some tweaks and it'll override the
+default. But most of the time, you don't even need to do that. Look at
+the HOWTOs below.</p>
 
-<p><code>template_path</code> -- to be documented</p>
+<h3>Static and Dynamic Content</h3>
 
-<h3>Customizing look and feel</h3>
+<p><em>actual documentation to be written</em></p>
 
-<p><code>custom_template_path</code> -- to be documented</p>
+<h3>How Templates Work</h3>
 
-<h3>Upgrading the search engine</h3>
+<p>All site templates are written using <a href="http://template-toolkit.org/">Template Toolkit</a>, a popular and
+very well-documented templating system for Perl, sort of like PHP's
+Smarty or Ruby's ERB.</p>
+
+<p><em>actual documentation to be written</em></p>
+
+<h3>How Bootstrap Works</h3>
+
+<p>All HTML and CSS on the site is written using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>, a
+popular responsive HTML5/CSS framework. Go read the Bootstrap
+documentation. You will be confused if you don't.</p>
+
+<p><em>actual documentation to be written</em></p>
+
+<h3>HOWTO: Add Custom CSS</h3>
+
+<ol>
+<li>Configure a <code>custom_template_path</code> directory</li>
+<li>Create a new file at <code>static/assets/css/custom.css</code> inside the directory</li>
+<li>Put your CSS there</li>
+<li>The contents of this file will be read <em>after</em> the default Plumage CSS, which means it should override CSS rules of equal <a href="if%20needed,%20you%20can%20make%20your%20CSS%20more%20specific%20or%20use%20%60!important%60%20for%20added%20weight">CSS specificity</a>
+</li>
+</ol><h3>HOWTO: Add a Custom Institutional Navbar</h3>
+
+<ol>
+<li>Configure a <code>custom_template_path</code> directory</li>
+<li>Create a new file called <code>custom_navbar_top.html.tt</code> inside the directory</li>
+<li>Put content there (preferably inside <code>&lt;div id="leaderboard" class="row"&gt;&lt;div class="span12"&gt;</code>)</li>
+<li>The contents of this file will be automatically included above the Plumage menu in the defaultpage header template (<code>_header.html.tt</code>)</li>
+<li>If needed, add custom CSS styles to #leaderboard as described above</li>
+</ol><h3>HOWTO: Customize the Footer</h3>
+
+<ol>
+<li>Configure a <code>custom_template_path</code> directory</li>
+<li>Create a new file called <code>custom_footer.html.tt</code> inside the directory</li>
+<li>Put content there, inside one or more <code>&lt;div class="row"&gt;</code> blocks</li>
+<li>The content of this file will be automatically included in the default footer template (<code>_footer.html.tt</code>)</li>
+<li>If needed, add custom CSS styles to the contents of #footer as described above</li>
+</ol><h3>HOWTO: Change the Contents of the About Page</h3>
+
+<ol>
+<li>Configure a <code>custom_template_path</code> directory</li>
+<li>Create a new file called <code>custom_about_page.html.tt</code> inside the directory</li>
+<li>Put content there (e.g. <code>&lt;h2&gt;</code>s and <code>&lt;p&gt;</code>s)</li>
+<li>The content of this file will be automatically included in the default About page template (<code>about.html.tt</code>)</li>
+</ol><h2>4.3 Upgrading the Search Engine via Swiftype</h2>
+
+<p>Plumage comes packaged with a minimal typeahead search, but we
+recommend plugging in a professional hosted search system.</p>
 
 <p>Plumage works out of the box with <a href="http://swiftype.com/">Swiftype</a>, a free search provider
-(analogous to Google Custm Search, but more easily flexible, and free
-for many users). Swiftype is optional, but highly recommended over the
-minimal default typeahead search. Set up a new Swiftype account, and
-an engine for every website for which you want to use Swiftype search.</p>
+(like Google Custom Search, but more flexible, and free for most
+users). Swiftype is optional, but <em>very highly recommended</em>. Set up a
+new Swiftype account, and an engine for every website for which you
+want to use Swiftype search.</p>
 
-<p>For Swiftype to work, you need to set both an overall
-swiftype_api_key and a swiftype_key for every website role.</p>
+<p>For Swiftype to work, you need to configure both an overall
+<code>swiftype_api_key</code> and a <code>swiftype_key</code> for every website role.</p>
 
-<p><code>swiftype_api_key</code> is the private account-wide API key listed at
-<a href="http://swiftype.com/user/edit">http://swiftype.com/user/edit</a></p>
-
-<p><code>swiftype_key</code> comes from the line that reads Swiftype.key = '...' on
-the "Install Options" page of every Swiftype search engine. If you
-have different versions of your content on main and dev servers,
+<ul>
+<li><p><code>swiftype_api_key</code> is the private account-wide API key listed at
+<a href="http://swiftype.com/user/edit">http://swiftype.com/user/edit</a></p></li>
+<li><p><code>swiftype_key</code> comes from the line that reads Swiftype.key = '...'
+on the "Install Options" page of every Swiftype search engine. If
+you have different versions of your content on main and dev servers,
 you'll have to create two different Swiftype engines, each indexing
 the different sections of your content, and need to ensure that
-Swiftype's servers can index your dev server.</p>
+Swiftype's servers can index your dev server.</p></li>
+</ul><p>Every time you do a new build, Plumage will contact Swiftype's
+servers, and use your API keys to kick off a reindex of your content.
+(Swiftype may not reindex as frequently as you'd like; check their
+documentation for details.)</p>
 
-<h3>Tracking usage</h3>
+<h2>4.4 Tracking Usage via Google Analytics</h2>
 
-<p><code>google_analytics_id</code> is optional, and should be set to your new
-site's Google Analytics account ID. It should look something like
-UA-1234-5678. Make sure to create a new Google Anaytics account for
-every Plumage instance you create. Example usage: if you have
-cores.institution.edu, and dev-cores.institution.edu, set a Google
-Analytics ID for the former role, and not the latter role.</p>
+<p>Plumage comes with support for Google Analytics out of the box, just
+by adding one line to the configuration file. Start off by creating a
+new Google Analytics account for your Plumage instance.</p>
 
-<h3>Deploy hook</h3>
+<p>Then in the configuration file, set <code>google_analytics_id</code> to your new
+site's Google Analytics account ID, e.g.:</p>
+
+<pre><code>google_analytics_id = UA-1234567-01
+</code></pre>
+
+<p>Make sure to create a new Google Analytics account for every
+<em>production</em> Plumage instance you create. For example, if you have a
+production cores.institution.edu and a development
+dev-cores.institution.edu, set a Google Analytics ID only for the
+production role, like this:</p>
+
+<pre><code>[production]
+url = http://cores.yoursite.edu/
+google_analytics_id = UA-1234567-01
+
+[dev]
+url = http://dev-cores.yoursite.edu/
+</code></pre>
+
+<h3>Tracking Swiftype usage</h3>
+
+<p><em>to be written</em></p>
+
+<h2>4.5 Managing Deployments</h2>
 
 <p><code>build_deploy_command</code> is an optional command line that gets run after
-every Plumage site build. For example, you might want to run Plumage
-on a staging server, and set build_deploy_command to rsync -avz -e ssh
---delete /where/files/should/get/written
-<a href="mailto:user@cores.yoursite.edu">user@cores.yoursite.edu</a>:/final/output/location/ to push the contents
-out to your live server.</p>
+every Plumage site build. You can use this to create a deploy hook on
+specific roles.</p>
+
+<p>For example, you might want to run Plumage on a staging server, and
+use rsync to copy the final production files to a live production
+server.</p>
+
+<pre><code>[production]
+url = http://cores.yoursite.edu/
+output_path = /var/www/html/cores-prod/
+build_deploy_command = rsync -avz -e ssh --delete /var/www/html/cores-prod/ user@cores.yoursite.edu:/var/www/html/
+
+[dev]
+url = http://dev-cores.yoursite.edu/
+output_path = /var/www/html/cores-dev/
+</code></pre>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/CTSIatUCSF">CTSIatUCSF</a></p>
