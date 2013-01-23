@@ -13,21 +13,22 @@ Designed to maximize resource discoverability:
 
 * typeahead search available on every page
 * users can browse through a complete A-Z index of options, including synonyms
+* works on cell phones, tablets, and desktop computers
 
 Carefully optimized for search engine users:
 
 * every synonym for every concept has its own page
+* pages include semantic data via HTML5 + Schema.org microdata
 * page titles and content are tuned to meet needs of searchers
-* pages include semantic data in microformats
 
 Easy to deploy:
 
-* pulls data from an eagle-i instance, or from a compatible data source (e.g. CSV file with Eagle-I ontology mappings)
+* pulls data from eagle-i, or from a compatible data source (e.g. CSV file with eagle-i ontology mappings)
 * generates a static site, compatible with all web servers on all platforms
 
 Designed for success:
 
-* Learn more about Plumage's design strategy in the [UCSF Cores Search 2.0: Design Strategy Overview](slides) Slideshare presentation.
+* learn about Plumage's design strategy in the [UCSF Cores Search 2.0: Design Strategy Overview](slides) Slideshare presentation.
 
 
 ## Who is Plumage?
@@ -35,18 +36,17 @@ Designed for success:
 The Plumage software was developed by Anirvan Chatterjee and the
 Virtual Home team at the [Clinical & Translational Science
 Institute][CTSI] at the University of California, San Francisco, in
-collaboration with UCSF's [Research Resources Program][RRP].
-
-This project was supported by the National Center for Research
-Resources and the National Center for Advancing Translational
-Sciences, National Institutes of Health, through UCSF-CTSI Grant
-Number UL1 RR024131. Its contents are solely the responsibility of the
+collaboration with UCSF's [Research Resources Program][RRP]. This
+project was supported by the National Center for Research Resources
+and the National Center for Advancing Translational Sciences, National
+Institutes of Health, through UCSF-CTSI Grant Numbers UL1 RR024131 and
+UL1 TR000004. Its contents are solely the responsibility of the
 authors and do not necessarily represent the official views of the
 NIH.
 
 ## License
 
-Plumage is Copyright (c) 2012, The Regents of the University of
+Plumage is Copyright (c) 2012-2013, The Regents of the University of
 California. All rights reserved.
 
 This application is free software; you can redistribute it and/or
@@ -74,14 +74,14 @@ under several open source licenses, typically under the
 
 Plumage is an application written in Perl 5.12, and tested on Linux
 and MacOS. It extracts data from an instance of eagle-i (or data
-marked up with the eagle-i ontology), and generates a new web site --
-static HTML, JavaScript, and images that can be deployed on any
-server.
+marked up with the eagle-i ontology), and generates a new web site: a
+bundle of static HTML, JavaScript, and images that can be deployed on
+any server.
 
-The software is bundled with a standard set of web templates created
-with Template Toolkit incorporating cores discoverability best
-practices originally implemented at UCSF. Generated website can be
-easily customized in two ways:
+The software is bundled with a standard set of modern HTML5 web
+templates created with Template Toolkit, and incorporating cores
+discoverability best practices originally implemented at UCSF.
+Generated website can be easily customized in two ways:
 
 * Basic changes (e.g. to the name of the generated website) can be
   made in the plumage.conf configuration file.
@@ -89,7 +89,7 @@ easily customized in two ways:
 * Many look and feel changes can be made by adding custom header and
   footer HTML, CSS, and JavaScript, to enhance or override the base
   templates. These customizations are stored in a way that allows for
-  easy upgrades of the base templates.
+  easy upgrades of the Plumage code and base templates.
 
 ## Quick start
 
@@ -125,31 +125,38 @@ as an example.)
     site_name              = Howard Cores Search
     institution_short_name = Howard
     eagle_i_base_url       = http://howard.eagle-i.net/
+    template_path          = /home/webmaster/plumage/templates
     output_path            = /var/www/html/plumage_example
     url                    = http://localhost/plumage_example/
 
 Here's how to set the configuration options:
 
-* Set `site_name` to the name of the website you're creating.
+* Set `site_name` to the name of the website you're creating e.g. UCSF
+  calls its Plumage site "UCSF Cores Search".
 
 * Set `institution_short_name` to however your users refer to your
-  institution when running searches, e.g UCSF, Howard OHSU.
+  institution when running searches, e.g "UCSF" or "Howard".
 
 * Set `eagle_i_base_url` to the root URL of your eagle-i
   installation. If it's password protected, put the username and
   password in the URL, e.g
   `http://username:password@youreagle-i.server.url/`.
 
+* Set `template_path` to the full path to the `templates` directory
+  that comes with this distribution (or a copy thereof). If you don't
+  set this, Plumage will try looking in your current directory for a
+  `templates` folder.
+
 * The `output_path` is the place on disk where the new website will be
   written. **Create a new directory**, and enter the path here;
-  Plumage will not run if this directory doesn't exist. *NOTE: Plumage
-  will delete the contents of this directory** every time it runs.
+  Plumage will not run if this directory doesn't exist. **Plumage will
+  delete the contents of this directory every time it runs.**
 
 * Set `url` to the URL where this website will be viewed. If you have
-  a local web server, you might use an `http://localhost/` URL. If you
-  don't, you can use a `file://` URL that corresponds with your
-  `output_path`; if your `output_path` is `/tmp/plumage-test` you can
-  set your URL to ``file:///tmp/plumage-test/`.
+  a local web server, you might use an `http://localhost/` URL. Or you
+  can use a `file://` URL that corresponds with your `output_path`; if
+  your `output_path` is `/tmp/plumage-test` you can set your URL to
+  ``file:///tmp/plumage-test/`.
 
 Done? Let's build the website:
 
@@ -179,6 +186,11 @@ http://yourname.eagle-i.net/. If it's password protected, you can
 put the authentication details in the URL, e.g
 http://username:password@youreagle-i.server.url/.
 
+`template_path` is the place on disk where the `templates` directory
+that comes with this distribution is located. If you don't set this,
+Plumage will try looking in your current directory for a `templates`
+folder.
+
 `output_path` is the place on disk where the new website will be
 written. Create a new directory, and enter the path here; Plumage
 builds will not run if this directory does not exist. **Important: The
@@ -190,8 +202,6 @@ you don't, you can use a file:// URL that corresponds with your
 output_path; if your output_path is /tmp/plumage-test you can
 set your URL to file:///tmp/plumage-test/.
 
-`template_path` -- to be documented
-
 ### Customizing look and feel
 
 `custom_template_path` -- to be documented
@@ -199,23 +209,23 @@ set your URL to file:///tmp/plumage-test/.
 ### Upgrading the search engine
 
 Plumage works out of the box with [Swiftype], a free search provider
-(analogous to Google Custm Search, but more easily flexible, and free
-for many users). Swiftype is optional, but highly recommended over the
-minimal default typeahead search. Set up a new Swiftype account, and
-an engine for every website for which you want to use Swiftype search.
+(like Google Custom Search, but more flexible, and free for most
+users). Swiftype is optional, but highly recommended over the minimal
+default typeahead search. Set up a new Swiftype account, and an engine
+for every website for which you want to use Swiftype search.
 
 For Swiftype to work, you need to set both an overall
-swiftype_api_key and a swiftype_key for every website role.
+`swiftype_api_key` and a `swiftype_key` for every website role.
 
-`swiftype_api_key` is the private account-wide API key listed at
-http://swiftype.com/user/edit
+* `swiftype_api_key` is the private account-wide API key listed at
+  http://swiftype.com/user/edit
 
-`swiftype_key` comes from the line that reads Swiftype.key = '...' on
-the "Install Options" page of every Swiftype search engine. If you
-have different versions of your content on main and dev servers,
-you'll have to create two different Swiftype engines, each indexing
-the different sections of your content, and need to ensure that
-Swiftype's servers can index your dev server.
+* `swiftype_key` comes from the line that reads Swiftype.key = '...'
+  on the "Install Options" page of every Swiftype search engine. If
+  you have different versions of your content on main and dev servers,
+  you'll have to create two different Swiftype engines, each indexing
+  the different sections of your content, and need to ensure that
+  Swiftype's servers can index your dev server.
 
 ### Tracking usage
 
