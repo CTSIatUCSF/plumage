@@ -326,7 +326,7 @@ production role, like this:
 ## 4.5 Ensuring search engine visibility of all pages
 
 Plumage automatically creates a [sitemap], and lists the location via
-`[robots.txt][How to put sitemap in robots.txt]` file. But search
+[robots.txt][sitemap in robots.txt] file. But search
 engines will only discover `robots.txt` if a Plumage site is installed
 at the top level of your site (e.g. `http://cores.institution.edu/`
 works, but `http://www.institution.edu/cores/` doesn't).
@@ -388,5 +388,5 @@ server.
 [CSS specificity]: http://www.htmldog.com/guides/cssadvanced/specificity/
 [Template Toolkit]: http://template-toolkit.org/
 [sitemap]: https://support.google.com/webmasters/bin/answer.py?hl=en&answer=156184
-[How to put sitemap in robots.txt]: https://support.google.com/webmasters/bin/answer.py?hl=en&answer=183669
+[sitemap in robots.txt]: https://support.google.com/webmasters/bin/answer.py?hl=en&answer=183669
 [Multiple sitemaps in robots.txt]: http://stackoverflow.com/questions/2594179/multiple-sitemap-entries-in-robots-txt
