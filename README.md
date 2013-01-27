@@ -323,7 +323,7 @@ production role, like this:
 
 *to be written*
 
-## 4.5 Ensuring search engine visibility of all pages
+## 4.5 Ensuring Search Engine Visibility of All Pages
 
 Plumage automatically creates a [sitemap], and lists the location via
 [robots.txt][sitemap in robots.txt] file. But search
