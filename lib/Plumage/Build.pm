@@ -199,7 +199,9 @@ sub build {
     }
 
     {
-        my $sitemap_path = "$output_path/assets/sitemap.xml";
+        my $sitemap_location = "assets/sitemap.xml";
+        my $sitemap_path     = "$output_path/$sitemap_location";
+        my $sitemap_url      = "$config->{url}/$sitemap_location";
 
         my ( $vol, $dir, $file ) = File::Spec->splitpath($sitemap_path);
         mkdir($dir) unless -d $dir;
@@ -207,6 +209,9 @@ sub build {
 
         $sitemap->pretty(1);
         $sitemap->write($sitemap_path);
+
+        write_file( 'robots.txt.tt', '/robots.txt',
+                    { sitemap_url => $sitemap_url } );
     }
 
     {

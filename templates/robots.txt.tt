@@ -1,0 +1,1 @@
+Sitemap: [% config.url %]assets/sitemap.xml
