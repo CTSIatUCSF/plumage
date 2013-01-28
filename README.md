@@ -55,14 +55,14 @@ Generated website can be easily customized in two ways:
 
 The Plumage software was developed by Anirvan Chatterjee and the
 Virtual Home team at the [Clinical & Translational Science
-Institute][CTSI] at the University of California, San Francisco, in
-collaboration with UCSF's [Research Resources Program][RRP]. This
-project was supported by the National Center for Research Resources
-and the National Center for Advancing Translational Sciences, National
-Institutes of Health, through UCSF-CTSI Grant Numbers UL1 RR024131 and
-UL1 TR000004. Its contents are solely the responsibility of the
-authors and do not necessarily represent the official views of the
-NIH.
+Institute][CTSI] at the [University of California, San
+Francisco][UCSF], in collaboration with UCSF's [Research Resources
+Program][RRP]. This project was supported by the National Center for
+Research Resources and the National Center for Advancing Translational
+Sciences, National Institutes of Health, through UCSF-CTSI Grant
+Numbers UL1 RR024131 and UL1 TR000004. Its contents are solely the
+responsibility of the authors and do not necessarily represent the
+official views of the NIH.
 
 ## 1.4 License
 
@@ -407,6 +407,7 @@ server.
 [UCSF Cores Search]: http://cores.ucsf.edu/
 [CTSI]: http://ctsi.ucsf.edu/
 [RRP]: http://rrp.ucsf.edu/
+[UCSF]: http://www.ucsf.edu/
 [slides]: http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview
 [TLDRLegal]: http://www.tldrlegal.com/license/bsd-3-clause-license-(revised)
 [Twitter Bootstrap]: http://twitter.github.com/bootstrap/
