@@ -30,7 +30,7 @@ Designed for success:
 
 * learn about Plumage's design strategy in the [UCSF Cores Search 2.0: Design Strategy Overview](slides) Slideshare presentation.
 
-# 1.2. Technical overview
+## 1.2. Technical overview
 
 Plumage is an application written in Perl 5.12, and tested on Linux
 and MacOS. It extracts data from an instance of eagle-i (or data
