@@ -70,7 +70,7 @@ number of Perl [CPAN] modules during the build process, distributed
 under several open source licenses, typically under the
 [same terms][Perl license] as Perl itself.
 
-# 2. Technical Overview
+# 2. Technical overview
 
 Plumage is an application written in Perl 5.12, and tested on Linux
 and MacOS. It extracts data from an instance of eagle-i (or data
@@ -91,7 +91,7 @@ Generated website can be easily customized in two ways:
   templates. These customizations are stored in a way that allows for
   easy upgrades of the Plumage code and base templates.
 
-# 3. Quick Start Guide
+# 3. Quick start guide
 
 This quick start guide is intended to help technical users with an
 existing eagle-i installation get up and running with Plumage in
@@ -180,13 +180,13 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 If all goes well, your fancy new Plumage website will be written to
 `output_path` and you'll be able to view it in a web browser at `url`.
 
-# 4. Real World Usage
+# 4. Real world usage
 
 The quick start guide left you with a reasonably clean and generic
 installation of Plumage. Now we're going to customize Plumage to meet
 your needs.
 
-## 4.1 Using Roles [IMPORTANT]
+## 4.1 Using roles [IMPORTANT]
 
 You can very easily configure multiple instances of Plumage using the
 same configuration file. We call each configured instance a _role_.
@@ -218,7 +218,7 @@ listing the role name as an argument to `--build`, like this:
 
     ./bin/plumage --build development
 
-## 4.2 Customizing Look and Feel [IMPORTANT]
+## 4.2 Customizing look and feel [IMPORTANT]
 
 Almost every institution will want to customize the look and feel of
 Plumage to match your local branding needs. Plumage is designed to
@@ -244,11 +244,11 @@ wanted to override a default template, just copy it to
 default. But most of the time, you don't even need to do that. Look at
 the HOWTOs below.
 
-### Static and Dynamic Content
+### Static and dynamic content
 
 *documentation to be written*
 
-### How Templates Work
+### How templates work
 
 All site templates are written using [Template Toolkit], a popular and
 very well-documented templating system for Perl, sort of like PHP's
@@ -259,7 +259,7 @@ how to use loops and variables.
 
 *documentation to be written*
 
-### How Bootstrap Works
+### How Bootstrap works
 
 All HTML and CSS on the site is written using [Twitter Bootstrap], a
 popular responsive HTML5/CSS framework. Go read the Bootstrap
@@ -267,14 +267,14 @@ documentation. You will be confused if you don't.
 
 *documentation to be written*
 
-### HOWTO: Add Custom CSS
+### HOWTO: Add custom CSS
 
 1. Configure a `custom_template_path` directory
 2. Create a new file at `static/assets/css/custom.css` inside the directory
 3. Put your CSS there
 4. The contents of this file will be read _after_ the default Plumage CSS, which means it should override CSS rules of equal [CSS specificity] (if needed, you can make your CSS more specific or use `!important` for added weight)
 
-### HOWTO: Add a Custom Institutional Navbar
+### HOWTO: Add a custom institutional navbar
 
 1. Configure a `custom_template_path` directory
 2. Create a new file called `custom_navbar_top.html.tt` inside the directory
@@ -282,7 +282,7 @@ documentation. You will be confused if you don't.
 4. The contents of this file will be automatically included above the Plumage menu in the defaultpage header template (`_header.html.tt`)
 5. If needed, add custom CSS styles to #leaderboard as described above
 
-### HOWTO: Customize the Footer
+### HOWTO: Customize the footer
 
 1. Configure a `custom_template_path` directory
 2. Create a new file called `custom_footer.html.tt` inside the directory
@@ -290,14 +290,14 @@ documentation. You will be confused if you don't.
 4. The content of this file will be automatically included in the default footer template (`_footer.html.tt`)
 5. If needed, add custom CSS styles to the contents of #footer as described above
 
-### HOWTO: Change the Contents of the About Page
+### HOWTO: Change the contents of the About page
 
 1. Configure a `custom_template_path` directory
 2. Create a new file called `custom_about_page.html.tt` inside the directory
 3. Put content there (e.g. `<h2>`s and `<p>`s)
 4. The content of this file will be automatically included in the default About page template (`about.html.tt`)
 
-## 4.3 Upgrading the Search Engine via Swiftype
+## 4.3 Upgrading the search engine via Swiftype
 
 Plumage comes packaged with a minimal typeahead search, but we
 recommend plugging in a professional hosted search system.
@@ -326,7 +326,7 @@ servers, and use your API keys to kick off a reindex of your content.
 (Swiftype may not reindex as frequently as you'd like; check their
 documentation for details.)
 
-## 4.4 Tracking Usage via Google Analytics
+## 4.4 Tracking usage via Google Analytics
 
 Plumage comes with support for Google Analytics out of the box, just
 by adding one line to the configuration file. Start off by creating a
@@ -354,7 +354,7 @@ production role, like this:
 
 *documentation to be written*
 
-## 4.5 Ensuring Search Engine Visibility of All Pages
+## 4.5 Ensuring search engine visibility of all pages
 
 Plumage automatically creates a [sitemap], and lists the location via
 [robots.txt][sitemap in robots.txt] file. But search engines will
@@ -379,7 +379,7 @@ http://www.institution.edu/cores/assets/sitemap.xml` inside
 if you have a [preexisting sitemap listed][Multiple sitemaps in robots.txt]
 there.)
 
-## 4.6 Managing Deployments
+## 4.6 Managing deployments
 
 `build_deploy_command` is an optional command line that gets run after
 every Plumage site build. You can use this to create a deploy hook on
