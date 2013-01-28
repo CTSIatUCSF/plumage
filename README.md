@@ -188,7 +188,35 @@ your needs.
 
 ## 4.1 Using Roles [IMPORTANT]
 
-*to be written*
+You can very easily configure multiple instances of Plumage using the
+same configuration file. We call each configured instance a _role_.
+
+In your configuration file, put items common to every role at the top.
+Then add role blocks below that. Each role block begins with
+`[rolename]` on its own line. In this example configuration, the
+"development" role writes to an `output_path` corresponding to a
+development URL, while the "production" role specifies a different
+output path.
+
+    site_name              = Example University
+    institution_short_name = Example
+    eagle_i_base_url       = http://example.eagle-i.net/
+    template_path          = /home/webmaster/plumage/templates
+
+    [production]
+    url = http://cores.example.edu/
+    google_analytics_id = UA-1234567-01
+    # build_deploy_command = <see documentation below>
+    output_path            = /var/www/site/cores.example.edu/
+
+    [development]
+    url                    = http://dev-cores.example.edu/
+    output_path            = /var/www/site/dev-cores.example.edu/
+
+If you specify one or more roles, you can build that specific role by
+listing the role name as an argument to `--build`, like this:
+
+    ./bin/plumage --build development
 
 ## 4.2 Customizing Look and Feel [IMPORTANT]
 
@@ -218,7 +246,7 @@ the HOWTOs below.
 
 ### Static and Dynamic Content
 
-*actual documentation to be written*
+*documentation to be written*
 
 ### How Templates Work
 
@@ -226,7 +254,10 @@ All site templates are written using [Template Toolkit], a popular and
 very well-documented templating system for Perl, sort of like PHP's
 Smarty or Ruby's ERB.
 
-*actual documentation to be written*
+Pending further documentation, please see the bundled templates to see
+how to use loops and variables.
+
+*documentation to be written*
 
 ### How Bootstrap Works
 
@@ -234,7 +265,7 @@ All HTML and CSS on the site is written using [Twitter Bootstrap], a
 popular responsive HTML5/CSS framework. Go read the Bootstrap
 documentation. You will be confused if you don't.
 
-*actual documentation to be written*
+*documentation to be written*
 
 ### HOWTO: Add Custom CSS
 
@@ -321,17 +352,18 @@ production role, like this:
 
 ### Tracking Swiftype usage
 
-*to be written*
+*documentation to be written*
 
 ## 4.5 Ensuring Search Engine Visibility of All Pages
 
 Plumage automatically creates a [sitemap], and lists the location via
-[robots.txt][sitemap in robots.txt] file. But search
-engines will only discover `robots.txt` if a Plumage site is installed
-at the top level of your site (e.g. `http://cores.institution.edu/`
-works, but `http://www.institution.edu/cores/` doesn't).
+[robots.txt][sitemap in robots.txt] file. But search engines will
+automatically discover this `robots.txt` if and only if a Plumage site
+is installed at the top level of your site (e.g.
+`http://cores.institution.edu/` works, but
+`http://www.institution.edu/cores/` doesn't).
 
-If you've put Plumage in a subdirectory (e.g.
+_If_ you've put Plumage in a subdirectory (e.g.
 `http://www.institution.edu/cores/`) and want maximum search engine
 visibility, you have two choices:
 
