@@ -93,7 +93,7 @@ under several open source licenses, typically under the
 ## 1.5 Support and hosting
 
 UCSF is happy to help answer questions about Plumage, and may also be
-able to offer Plumae as a hosted service for external institutions.
+able to offer Plumage as a hosted service for external institutions.
 
 Email Anirvan Chatterjee at UCSF (anirvan.chatterjee at ucsf.edu) for
 more details.
