@@ -30,8 +30,28 @@ Designed for success:
 
 * learn about Plumage's design strategy in the [UCSF Cores Search 2.0: Design Strategy Overview](slides) Slideshare presentation.
 
+# 1.2. Technical overview
 
-## 1.2 Who is Plumage?
+Plumage is an application written in Perl 5.12, and tested on Linux
+and MacOS. It extracts data from an instance of eagle-i (or data
+marked up with the eagle-i ontology), and generates a new web site: a
+bundle of static HTML, JavaScript, and images that can be deployed on
+any server.
+
+The software is bundled with a standard set of modern HTML5 web
+templates created with Template Toolkit, and incorporating cores
+discoverability best practices originally implemented at UCSF.
+Generated website can be easily customized in two ways:
+
+* Basic changes (e.g. to the name of the generated website) can be
+  made in the plumage.conf configuration file.
+
+* Many look and feel changes can be made by adding custom header and
+  footer HTML, CSS, and JavaScript, to enhance or override the base
+  templates. These customizations are stored in a way that allows for
+  easy upgrades of the Plumage code and base templates.
+
+## 1.3 Who is Plumage?
 
 The Plumage software was developed by Anirvan Chatterjee and the
 Virtual Home team at the [Clinical & Translational Science
@@ -44,7 +64,7 @@ UL1 TR000004. Its contents are solely the responsibility of the
 authors and do not necessarily represent the official views of the
 NIH.
 
-## 1.3 License
+## 1.4 License
 
 Plumage is Copyright (c) 2012-2013, The Regents of the University of
 California. All rights reserved.
@@ -70,28 +90,15 @@ number of Perl [CPAN] modules during the build process, distributed
 under several open source licenses, typically under the
 [same terms][Perl license] as Perl itself.
 
-# 2. Technical overview
+## 1.5 Support and hosting
 
-Plumage is an application written in Perl 5.12, and tested on Linux
-and MacOS. It extracts data from an instance of eagle-i (or data
-marked up with the eagle-i ontology), and generates a new web site: a
-bundle of static HTML, JavaScript, and images that can be deployed on
-any server.
+UCSF is happy to help answer questions about Plumage, and may also be
+able to offer Plumae as a hosted service for external institutions.
 
-The software is bundled with a standard set of modern HTML5 web
-templates created with Template Toolkit, and incorporating cores
-discoverability best practices originally implemented at UCSF.
-Generated website can be easily customized in two ways:
+Email Anirvan Chatterjee at UCSF (anirvan.chatterjee at ucsf.edu) for
+more details.
 
-* Basic changes (e.g. to the name of the generated website) can be
-  made in the plumage.conf configuration file.
-
-* Many look and feel changes can be made by adding custom header and
-  footer HTML, CSS, and JavaScript, to enhance or override the base
-  templates. These customizations are stored in a way that allows for
-  easy upgrades of the Plumage code and base templates.
-
-# 3. Quick start guide
+# 2. Quick start guide
 
 This quick start guide is intended to help technical users with an
 existing eagle-i installation get up and running with Plumage in
@@ -180,13 +187,12 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.
 If all goes well, your fancy new Plumage website will be written to
 `output_path` and you'll be able to view it in a web browser at `url`.
 
-# 4. Real world usage
+# 3. Real world usage
 
-The quick start guide left you with a reasonably clean and generic
-installation of Plumage. Now we're going to customize Plumage to meet
-your needs.
+The quick start guide left you with a simple generic installation of
+Plumage. Now we're going to customize Plumage to meet your needs.
 
-## 4.1 Using roles [IMPORTANT]
+## 3.1 Using roles [IMPORTANT]
 
 You can very easily configure multiple instances of Plumage using the
 same configuration file. We call each configured instance a _role_.
@@ -218,7 +224,7 @@ listing the role name as an argument to `--build`, like this:
 
     ./bin/plumage --build development
 
-## 4.2 Customizing look and feel [IMPORTANT]
+## 3.2 Customizing look and feel [IMPORTANT]
 
 Almost every institution will want to customize the look and feel of
 Plumage to match your local branding needs. Plumage is designed to
@@ -297,7 +303,7 @@ documentation. You will be confused if you don't.
 3. Put content there (e.g. `<h2>`s and `<p>`s)
 4. The content of this file will be automatically included in the default About page template (`about.html.tt`)
 
-## 4.3 Upgrading the search engine via Swiftype
+## 3.3 Upgrading the search engine via Swiftype
 
 Plumage comes packaged with a minimal typeahead search, but we
 recommend plugging in a professional hosted search system.
@@ -326,7 +332,7 @@ servers, and use your API keys to kick off a reindex of your content.
 (Swiftype may not reindex as frequently as you'd like; check their
 documentation for details.)
 
-## 4.4 Tracking usage via Google Analytics
+## 3.4 Tracking usage via Google Analytics
 
 Plumage comes with support for Google Analytics out of the box, just
 by adding one line to the configuration file. Start off by creating a
@@ -354,7 +360,7 @@ production role, like this:
 
 *documentation to be written*
 
-## 4.5 Ensuring search engine visibility of all pages
+## 3.5 Ensuring search engine visibility of all pages
 
 Plumage automatically creates a [sitemap], and lists the location via
 [robots.txt][sitemap in robots.txt] file. But search engines will
@@ -379,7 +385,7 @@ http://www.institution.edu/cores/assets/sitemap.xml` inside
 if you have a [preexisting sitemap listed][Multiple sitemaps in robots.txt]
 there.)
 
-## 4.6 Managing deployments
+## 3.6 Managing deployments
 
 `build_deploy_command` is an optional command line that gets run after
 every Plumage site build. You can use this to create a deploy hook on
