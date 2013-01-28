@@ -39,7 +39,9 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>About Plumage</h1>
+        <p>Plumage: Biomedical resource discovery for institutions, powered by Eagle-I</p>
+
+<h1>About Plumage</h1>
 
 <p>Plumage is free software to make biomedical resources at large
 institutions more discoverable. It was developed at the University of
@@ -69,18 +71,38 @@ campus-wide search engine for core resources.</p>
 
 <ul>
 <li>learn about Plumage's design strategy in the <a href="slides">UCSF Cores Search 2.0: Design Strategy Overview</a> Slideshare presentation.</li>
+</ul><h2>Technical overview</h2>
+
+<p>Plumage is an application written in Perl 5.12, and tested on Linux
+and MacOS. It extracts data from an instance of eagle-i (or data
+marked up with the eagle-i ontology), and generates a new web site: a
+bundle of static HTML, JavaScript, and images that can be deployed on
+any server.</p>
+
+<p>The software is bundled with a standard set of modern HTML5 web
+templates created with Template Toolkit, and incorporating cores
+discoverability best practices originally implemented at UCSF.
+Generated website can be easily customized in two ways:</p>
+
+<ul>
+<li><p>Basic changes (e.g. to the name of the generated website) can be
+made in the plumage.conf configuration file.</p></li>
+<li><p>Many look and feel changes can be made by adding custom header and
+footer HTML, CSS, and JavaScript, to enhance or override the base
+templates. These customizations are stored in a way that allows for
+easy upgrades of the Plumage code and base templates.</p></li>
 </ul><h2>Who is Plumage?</h2>
 
 <p>The Plumage software was developed by Anirvan Chatterjee and the
 Virtual Home team at the <a href="http://ctsi.ucsf.edu/">Clinical &amp; Translational Science
-Institute</a> at the University of California, San Francisco, in
-collaboration with UCSF's <a href="http://rrp.ucsf.edu/">Research Resources Program</a>. This
-project was supported by the National Center for Research Resources
-and the National Center for Advancing Translational Sciences, National
-Institutes of Health, through UCSF-CTSI Grant Numbers UL1 RR024131 and
-UL1 TR000004. Its contents are solely the responsibility of the
-authors and do not necessarily represent the official views of the
-NIH.</p>
+Institute</a> at the <a href="http://www.ucsf.edu/">University of California, San
+Francisco</a>, in collaboration with UCSF's <a href="http://rrp.ucsf.edu/">Research Resources
+Program</a>. This project was supported by the National Center for
+Research Resources and the National Center for Advancing Translational
+Sciences, National Institutes of Health, through UCSF-CTSI Grant
+Numbers UL1 RR024131 and UL1 TR000004. Its contents are solely the
+responsibility of the authors and do not necessarily represent the
+official views of the NIH.</p>
 
 <h2>License</h2>
 
@@ -114,27 +136,15 @@ number of Perl <a href="http://www.cpan.org/">CPAN</a> modules during the build 
 under several open source licenses, typically under the
 <a href="http://dev.perl.org/licenses/">same terms</a> as Perl itself.</p>
 
-<h1>Technical overview</h1>
+<h2>Support and hosting</h2>
 
-<p>Plumage is an application written in Perl 5.12, and tested on Linux
-and MacOS. It extracts data from an instance of eagle-i (or data
-marked up with the eagle-i ontology), and generates a new web site: a
-bundle of static HTML, JavaScript, and images that can be deployed on
-any server.</p>
+<p>UCSF is happy to help answer questions about Plumage, and may also be
+able to offer Plumage as a hosted service for external institutions.</p>
 
-<p>The software is bundled with a standard set of modern HTML5 web
-templates created with Template Toolkit, and incorporating cores
-discoverability best practices originally implemented at UCSF.
-Generated website can be easily customized in two ways:</p>
+<p>Email Anirvan Chatterjee at UCSF (anirvan.chatterjee at ucsf.edu) for
+more details.</p>
 
-<ul>
-<li><p>Basic changes (e.g. to the name of the generated website) can be
-made in the plumage.conf configuration file.</p></li>
-<li><p>Many look and feel changes can be made by adding custom header and
-footer HTML, CSS, and JavaScript, to enhance or override the base
-templates. These customizations are stored in a way that allows for
-easy upgrades of the Plumage code and base templates.</p></li>
-</ul><h1>Quick start guide</h1>
+<h1>Quick start guide</h1>
 
 <p>This quick start guide is intended to help technical users with an
 existing eagle-i installation get up and running with Plumage in
@@ -224,9 +234,8 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.</p>
 
 <h1>Real world usage</h1>
 
-<p>The quick start guide left you with a reasonably clean and generic
-installation of Plumage. Now we're going to customize Plumage to meet
-your needs.</p>
+<p>The quick start guide left you with a simple generic installation of
+Plumage. Now we're going to customize Plumage to meet your needs.</p>
 
 <h2>Using roles [IMPORTANT]</h2>
 
