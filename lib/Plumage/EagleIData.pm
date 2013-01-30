@@ -258,8 +258,10 @@ sub _get_sparql_data {
             $request->as_string, "\nReponse was: ", $response->status_line;
     } elsif ( $response->content_type !~ m{^text/plain} ) {
         LOGDIE
-            'SPARQL INTERFACE RETURNED RESULTS WITH INVALID CONTENT-TYPE (',
-            $response->content_type, '): ', $request->as_string;
+            'SPARQL INTERFACE RETURNED RESULTS WITH INVALID CONTENT-TYPE "',
+            $response->content_type,
+            '" WHEN WE WERE EXPECTING "text/plain": ',
+            $request->as_string;
     }
 
     my %data;
