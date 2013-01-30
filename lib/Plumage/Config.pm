@@ -153,9 +153,9 @@ sub get_config {
     }
 
     if ( exists $config->{eagle_i_base_url} ) {
-	my $test_uri = URI->new($config->{eagle_i_base_url});
-	if ($test_uri and $test_uri->scheme =~ m/^https?$/) {
-	    $config->{eagle_i_base_url} = $test_uri->canonical;
+        my $test_uri = URI->new( $config->{eagle_i_base_url} );
+        if ( $test_uri and $test_uri->scheme =~ m/^https?$/ ) {
+            $config->{eagle_i_base_url} = $test_uri->canonical;
         } else {
             LOGDIE
                 "No valid `eagle_i_base_url` URL configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
@@ -196,7 +196,8 @@ sub get_config {
     }
 
     unless (     $config->{url}
-             and $config->{url} =~ m/$RE{URI}{HTTP}|$RE{URI}{file}/ ) {
+             and $config->{url}
+             =~ m/$RE{URI}{HTTP}{-scheme=>'https?'}|$RE{URI}{file}/ ) {
         LOGDIE "No valid `url` URL configured in configuration file at $path";
     }
     $config->{url} = URI->new( $config->{url} )->canonical;
