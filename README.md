@@ -73,7 +73,7 @@ This application is free software; you can redistribute it and/or
 modify it under the terms of the BSD license (revised, three clause).
 For more details, see the full text of the license in the file
 LICENSE. (TLDRLegal offers a _non-binding_ [human-readable
-description](TLDRLegal) of this license.)
+description][TLDRLegal] of this license.)
 
 ### Bundled code
 
