@@ -26,13 +26,15 @@ binmode STDERR, ':utf8';
 binmode STDOUT, ':utf8';
 use open ':encoding(utf8)';
 
-our ( $template, $config, $output_path, $template_path, $custom_template_path,
-      $sitemap );
+our ( $template, $config, $output_path, $template_path,
+      $dynamic_template_path, $custom_template_path, $sitemap );
 
 sub build {
-    $config               = get_config();
-    $output_path          = $config->{output_path};
-    $template_path        = $config->{template_path};
+    $config        = get_config();
+    $output_path   = $config->{output_path};
+    $template_path = $config->{template_path};
+    $dynamic_template_path
+        = File::Spec->catdir( $config->{template_path}, 'dynamic' );
     $custom_template_path = $config->{custom_template_path};
 
     ###########################################################################
@@ -81,8 +83,13 @@ sub build {
 
     }
 
+    # We should be using only $dynamic_template_path and
+    # $custom_template_path, but before Feb 2013, Plumage used to put
+    # dynamic templates inside the main template directory. Adding
+    # $template_path back in ensures that the system should be
+    # backwards compatible.
     my @valid_template_paths
-        = grep {defined} ( $template_path, $custom_template_path );
+        = grep {defined} ( $dynamic_template_path, $template_path, $custom_template_path );
 
     $template = Template->new( { EVAL_PERL  => 1,
                                  PRE_CHOMP  => 0,

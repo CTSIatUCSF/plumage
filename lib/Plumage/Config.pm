@@ -128,6 +128,8 @@ sub get_config {
                     File::Spec->catdir( File::Spec->curdir(), 'templates' ) );
         if (     -d $possible_template_directory
              and
+             -r File::Spec->catdir( $possible_template_directory, 'dynamic' )
+             and
              -r File::Spec->catdir( $possible_template_directory, 'static' ) )
         {
             $template_path = $possible_template_directory;
