@@ -27,7 +27,8 @@ binmode STDOUT, ':utf8';
 use open ':encoding(utf8)';
 
 our ( $template, $config, $output_path, $template_path,
-      $dynamic_template_path, $custom_template_path, $sitemap );
+      $dynamic_template_path, $custom_template_path,
+      $dynamic_custom_template_path, $sitemap );
 
 sub build {
     $config        = get_config();
@@ -36,6 +37,8 @@ sub build {
     $dynamic_template_path
         = File::Spec->catdir( $config->{template_path}, 'dynamic' );
     $custom_template_path = $config->{custom_template_path};
+    $dynamic_custom_template_path
+        = File::Spec->catdir( $config->{custom_template_path}, 'dynamic' );
 
     ###########################################################################
 
@@ -88,8 +91,9 @@ sub build {
     # dynamic templates inside the main template directory. Adding
     # $template_path back in ensures that the system should be
     # backwards compatible.
-    my @valid_template_paths
-        = grep {defined} ( $dynamic_template_path, $template_path, $custom_template_path );
+    my @valid_template_paths = grep {defined} (
+                         $dynamic_custom_template_path, $custom_template_path,
+                         $dynamic_template_path,        $template_path );
 
     $template = Template->new( { EVAL_PERL  => 1,
                                  PRE_CHOMP  => 0,
