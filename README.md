@@ -267,7 +267,7 @@ how to use loops and variables.
 
 ### How Bootstrap works
 
-All HTML and CSS on the site is written using [Twitter Bootstrap] 2.2,
+All HTML and CSS on the site is written using [Twitter Bootstrap] 2.3,
 a popular responsive HTML5/CSS framework. Go read the Bootstrap
 documentation. You will be confused if you don't.
 
