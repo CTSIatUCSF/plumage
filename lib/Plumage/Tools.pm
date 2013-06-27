@@ -47,15 +47,15 @@ sub load_core_data {
         my ( $raw_json, $cores_data );
 
         if ( $config->{eagle_i_base_url} ) {
-	    INFO("Loading eagle-i data via APIs");
+            INFO("Loading eagle-i data via APIs");
             $raw_json = extract_eagle_i_data( $config->{eagle_i_base_url} );
-	    if (!$raw_json) {
-		WARN "Could not load eagle-i data via APIs";
-	    }
+            if ( !$raw_json ) {
+                WARN "Could not load eagle-i data via APIs";
+            }
         }
 
-        if ( !$raw_json ) {
-	    INFO("Loading data via external JSON file");
+        if ( !$raw_json and $config->{resource_listings_file_path} ) {
+            INFO("Loading data via external JSON file");
             my $core_data_file_path = $config->{resource_listings_file_path};
             open( my $fh, '<', $core_data_file_path )
                 || LOGDIE "Couldn't open $core_data_file_path: $!";
@@ -64,10 +64,15 @@ sub load_core_data {
             close($fh);
         }
 
+        unless ($raw_json) {
+            LOGDIE
+                "Sorry, could not retrieve cores data (no usable data source)";
+        }
+
         $cores_data = decode_json($raw_json);
 
         unless ( $cores_data and ref $cores_data ) {
-            LOGDIE "Sorry, could not retrieve cores data";
+            LOGDIE "Sorry, could not retrieve cores data (invalid JSON)";
         }
 
         %cores = %{$cores_data};
