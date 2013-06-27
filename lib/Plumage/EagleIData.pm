@@ -227,7 +227,13 @@ select ?resource ?technique_label where {
             }
         }
 
-        $core_data{ $coreinfo{core} } = \%coreinfo;
+        if ( exists $core_data{ $coreinfo{core} } ) {
+            LOGWARN(
+                qq{Found multiple cores named "$coreinfo{core}" at $base_uri -- will only keep one}
+            );
+        } else {
+            $core_data{ $coreinfo{core} } = \%coreinfo;
+        }
     }
 
     DEBUG("  End download of data from $base_uri");
