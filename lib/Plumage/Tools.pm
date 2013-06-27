@@ -19,7 +19,6 @@ use strict;
 use warnings;
 use utf8;
 binmode STDOUT, ':utf8';
-our $VERSION = '0.01';
 
 our @EXPORT_OK
     = qw( load_core_data get_freebase_definition name_to_filename );
