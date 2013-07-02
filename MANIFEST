@@ -10,7 +10,10 @@ lib/Plumage/OntologyGuess.pm
 lib/Plumage/Swiftype.pm
 lib/Plumage/Tools.pm
 LICENSE
+Makefile.PL
 MANIFEST
+META.json
+META.yml
 README.md
 share/eagle-i_data/ero.r623.owl
 share/eagle-i_data/obi-imports-app.r623.owl
@@ -19,6 +22,7 @@ share/examples/plumage.conf
 t/00-load.t
 t/cores.t
 t/eagle_i_data.t
+t/eagle_i_data_multiple.t
 t/manifest.t
 t/ontology.t
 t/ontology_guess.t
@@ -42,3 +46,4 @@ templates/static/assets/img/glyphicons-halflings.png
 templates/static/assets/js/bootstrap.min.js
 templates/static/assets/js/custom.js
 templates/static/assets/js/plumage.js
+tools/plumage.cgi

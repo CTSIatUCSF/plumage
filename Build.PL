@@ -5,7 +5,7 @@ use Module::Build 0.36;
 
 my $builder = Module::Build->new(
     module_name   => 'Plumage',
-    dist_abstract => 'Generate website making eagle-i data more accesible',
+    dist_abstract => 'Generate website making eagle-i data more accessible',
     license       => 'bsd',
     dist_author => q{Anirvan Chatterjee <anirvan.chatterjee at ucsf dot edu>},
     dist_version_from => 'lib/Plumage.pm',
@@ -34,6 +34,7 @@ my $builder = Module::Build->new(
                   'List::MoreUtils'                => 0.33,
                   'Log::Log4perl'                  => 1.33,
                   'Memoize'                        => 0,
+                  'Module::Build'                  => 0.40,
                   'OWL::Simple::Parser'            => 1.01,
                   'Params::Validate'               => 1.00,
                   'Regexp::Common'                 => 2010010201,
