@@ -45,9 +45,9 @@ sub load_core_data {
     {
         my ( $raw_json, $cores_data );
 
-        if ( $config->{eagle_i_base_url} ) {
+        if ( @{$config->{eagle_i_base_urls}} ) {
             INFO("Loading eagle-i data via APIs");
-            $raw_json = extract_eagle_i_data( $config->{eagle_i_base_url} );
+            $raw_json = extract_eagle_i_data( @{$config->{eagle_i_base_urls}} );
             if ( !$raw_json ) {
                 WARN "Could not load eagle-i data via APIs";
             }

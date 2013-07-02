@@ -154,14 +154,28 @@ sub get_config {
         }
     }
 
+    $config->{eagle_i_base_urls} = [];
+
     if ( exists $config->{eagle_i_base_url} ) {
-        my $test_uri = URI->new( $config->{eagle_i_base_url} );
-        if ( $test_uri and $test_uri->scheme =~ m/^https?$/ ) {
-            $config->{eagle_i_base_url} = $test_uri->canonical;
-        } else {
-            LOGDIE
-                "No valid `eagle_i_base_url` URL configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
+
+	my @parts = split /\s+/, $config->{eagle_i_base_url};
+
+	foreach my $part (@parts) {
+
+	    my $test_uri = URI->new( $part );
+	    if ( $test_uri and $test_uri->scheme =~ m/^https?$/ ) {
+		push @{ $config->{eagle_i_base_urls}}, $test_uri->canonical;
+	    } else {
+		LOGDIE
+		    "`$part` is an invalid URL in the `eagle_i_base_url` configured in $path -- URLs should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
+	    }
         }
+
+	unless (@{ $config->{eagle_i_base_urls}}) {
+	    LOGDIE
+		"No valid `eagle_i_base_url` URL(s) configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/ (separate multiple URLs with a space)";
+	}
+
     }
 
     if ( exists $config->{custom_template_path}
@@ -176,7 +190,7 @@ sub get_config {
             "Can't find a valid resource data file at $config->{resource_listings_file_path}, as configured in $path";
     }
 
-    unless ( exists $config->{eagle_i_base_url}
+    unless ( @{$config->{eagle_i_base_urls}}
              or $config->{resource_listings_file_path} ) {
         LOGDIE
             "Don't know where to get our data. Either configure the Eagle-I base URL at `eagle_i_base_url` or the JSON file containing data at `resource_listings_file_path` in the configuration file at $path";

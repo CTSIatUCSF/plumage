@@ -23,7 +23,7 @@ Carefully optimized for search engine users:
 
 Easy to deploy:
 
-* pulls data from eagle-i, or from a compatible data source (e.g. CSV file with eagle-i ontology mappings)
+* pulls data from one or more instances of eagle-i, or a compatible data source (e.g. CSV file with eagle-i ontology mappings)
 * generates a static site, compatible with all web servers on all platforms
 
 Designed for success:
@@ -154,7 +154,9 @@ Here's how to set the configuration options:
   If your installation is centrally hosted, it might look like
   `http://yourname.eagle-i.net/`. If it's password protected, you can
   put the authentication details in the URL, e.g
-  `http://username:password@youreagle-i.server.url/`.
+  `http://username:password@youreagle-i.server.url/`. (If you enter
+  multiple URLs separated by a space, Plumage will download data from
+  all of them.)
 
 * Set `template_path` to the full path to the `templates` directory
   that comes with this distribution (or a copy thereof). If you don't
