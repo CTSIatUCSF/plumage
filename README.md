@@ -118,8 +118,8 @@ Install Plumage and its Perl dependencies. You may be prompted to
 configure [CPAN] settings; if so, just follow the instructions, and
 hit return to stick with the default options.
 
-    perl Build.PL
-    PERL_MM_USE_DEFAULT=1 ./Build installdeps
+    % perl Build.PL
+    % PERL_MM_USE_DEFAULT=1 ./Build installdeps
     # if previous line doesn't work, use only "./Build installdeps"
 
 Then try running the Plumage app.
@@ -204,7 +204,7 @@ Then add role blocks below that. Each role block begins with
 development URL, while the "production" role specifies a different
 output path.
 
-    site_name              = Example University
+    site_name              = Example University Cores
     institution_short_name = Example
     eagle_i_base_url       = http://example.eagle-i.net/
     template_path          = /home/webmaster/plumage/templates
