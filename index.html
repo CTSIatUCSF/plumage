@@ -39,16 +39,16 @@
         <ul></ul>
       </nav>
       <section>
-        <p>Plumage: Biomedical resource discovery for institutions, powered by Eagle-I</p>
-
-<h1>About Plumage</h1>
+        <h1>
+<a name="1-about-plumage" class="anchor" href="#1-about-plumage"><span class="octicon octicon-link"></span></a>1. About Plumage</h1>
 
 <p>Plumage is free software to make biomedical resources at large
 institutions more discoverable. It was developed at the University of
 California, San Francisco, to power <a href="http://cores.ucsf.edu/">UCSF Cores Search</a>, the
 campus-wide search engine for core resources.</p>
 
-<h2>Why Plumage?</h2>
+<h2>
+<a name="11-why-plumage" class="anchor" href="#11-why-plumage"><span class="octicon octicon-link"></span></a>1.1 Why Plumage?</h2>
 
 <p>Designed to maximize resource discoverability:</p>
 
@@ -65,13 +65,14 @@ campus-wide search engine for core resources.</p>
 </ul><p>Easy to deploy:</p>
 
 <ul>
-<li>pulls data from eagle-i, or from a compatible data source (e.g. CSV file with eagle-i ontology mappings)</li>
+<li>pulls data from one or more instances of eagle-i, or a compatible data source (e.g. CSV file with eagle-i ontology mappings)</li>
 <li>generates a static site, compatible with all web servers on all platforms</li>
 </ul><p>Designed for success:</p>
 
 <ul>
-<li>learn about Plumage's design strategy in the <a href="slides">UCSF Cores Search 2.0: Design Strategy Overview</a> Slideshare presentation.</li>
-</ul><h2>Technical overview</h2>
+<li>learn about Plumage's design strategy in the <a href="http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview">UCSF Cores Search 2.0 Design Strategy Overview</a> Slideshare presentation.</li>
+</ul><h2>
+<a name="12-technical-overview" class="anchor" href="#12-technical-overview"><span class="octicon octicon-link"></span></a>1.2. Technical overview</h2>
 
 <p>Plumage is an application written in Perl 5.12, and tested on Linux
 and MacOS. It extracts data from an instance of eagle-i (or data
@@ -91,7 +92,8 @@ made in the plumage.conf configuration file.</p></li>
 footer HTML, CSS, and JavaScript, to enhance or override the base
 templates. These customizations are stored in a way that allows for
 easy upgrades of the Plumage code and base templates.</p></li>
-</ul><h2>Who is Plumage?</h2>
+</ul><h2>
+<a name="13-who-is-plumage" class="anchor" href="#13-who-is-plumage"><span class="octicon octicon-link"></span></a>1.3 Who is Plumage?</h2>
 
 <p>The Plumage software was developed by Anirvan Chatterjee and the
 Virtual Home team at the <a href="http://ctsi.ucsf.edu/">Clinical &amp; Translational Science
@@ -104,7 +106,8 @@ Numbers UL1 RR024131 and UL1 TR000004. Its contents are solely the
 responsibility of the authors and do not necessarily represent the
 official views of the NIH.</p>
 
-<h2>License</h2>
+<h2>
+<a name="14-license" class="anchor" href="#14-license"><span class="octicon octicon-link"></span></a>1.4 License</h2>
 
 <p>Plumage is Copyright (c) 2012-2013, The Regents of the University of
 California. All rights reserved.</p>
@@ -115,7 +118,8 @@ For more details, see the full text of the license in the file
 LICENSE. (TLDRLegal offers a <em>non-binding</em> <a href="http://www.tldrlegal.com/license/bsd-3-clause-license-(revised)">human-readable
 description</a> of this license.)</p>
 
-<h3>Bundled code</h3>
+<h3>
+<a name="bundled-code" class="anchor" href="#bundled-code"><span class="octicon octicon-link"></span></a>Bundled code</h3>
 
 <p>The default Plumage distribution is bundled with several other open
 source projects:</p>
@@ -136,7 +140,8 @@ number of Perl <a href="http://www.cpan.org/">CPAN</a> modules during the build 
 under several open source licenses, typically under the
 <a href="http://dev.perl.org/licenses/">same terms</a> as Perl itself.</p>
 
-<h2>Support and hosting</h2>
+<h2>
+<a name="15-support-and-hosting" class="anchor" href="#15-support-and-hosting"><span class="octicon octicon-link"></span></a>1.5 Support and hosting</h2>
 
 <p>UCSF is happy to help answer questions about Plumage, and may also be
 able to offer Plumage as a hosted service for external institutions.</p>
@@ -144,7 +149,8 @@ able to offer Plumage as a hosted service for external institutions.</p>
 <p>Email Anirvan Chatterjee at UCSF (anirvan.chatterjee at ucsf.edu) for
 more details.</p>
 
-<h1>Quick start guide</h1>
+<h1>
+<a name="2-quick-start-guide" class="anchor" href="#2-quick-start-guide"><span class="octicon octicon-link"></span></a>2. Quick start guide</h1>
 
 <p>This quick start guide is intended to help technical users with an
 existing eagle-i installation get up and running with Plumage in
@@ -164,8 +170,8 @@ it.</p>
 configure <a href="http://www.cpan.org/">CPAN</a> settings; if so, just follow the instructions, and
 hit return to stick with the default options.</p>
 
-<pre><code>perl Build.PL
-PERL_MM_USE_DEFAULT=1 ./Build installdeps
+<pre><code>% perl Build.PL
+% PERL_MM_USE_DEFAULT=1 ./Build installdeps
 # if previous line doesn't work, use only "./Build installdeps"
 </code></pre>
 
@@ -202,7 +208,9 @@ searches for things like "ucsf nmr" therefore this is set to "UCSF".</p></li>
 If your installation is centrally hosted, it might look like
 <code>http://yourname.eagle-i.net/</code>. If it's password protected, you can
 put the authentication details in the URL, e.g
-<code>http://username:password@youreagle-i.server.url/</code>.</p></li>
+<code>http://username:password@youreagle-i.server.url/</code>. (If you enter
+multiple URLs separated by a space, Plumage will download data from
+all of them.)</p></li>
 <li><p>Set <code>template_path</code> to the full path to the <code>templates</code> directory
 that comes with this distribution (or a copy thereof). If you don't
 set this, Plumage will try looking in your current directory for a
@@ -232,12 +240,14 @@ contact Anirvan (anirvan.chatterjee at ucsf.edu) with your questions.</p>
 <p>If all goes well, your fancy new Plumage website will be written to
 <code>output_path</code> and you'll be able to view it in a web browser at <code>url</code>.</p>
 
-<h1>Real world usage</h1>
+<h1>
+<a name="3-real-world-usage" class="anchor" href="#3-real-world-usage"><span class="octicon octicon-link"></span></a>3. Real world usage</h1>
 
 <p>The quick start guide left you with a simple generic installation of
 Plumage. Now we're going to customize Plumage to meet your needs.</p>
 
-<h2>Using roles [IMPORTANT]</h2>
+<h2>
+<a name="31-using-roles-important" class="anchor" href="#31-using-roles-important"><span class="octicon octicon-link"></span></a>3.1 Using roles [IMPORTANT]</h2>
 
 <p>You can very easily configure multiple instances of Plumage using the
 same configuration file. We call each configured instance a <em>role</em>.</p>
@@ -249,7 +259,7 @@ Then add role blocks below that. Each role block begins with
 development URL, while the "production" role specifies a different
 output path.</p>
 
-<pre><code>site_name              = Example University
+<pre><code>site_name              = Example University Cores
 institution_short_name = Example
 eagle_i_base_url       = http://example.eagle-i.net/
 template_path          = /home/webmaster/plumage/templates
@@ -271,7 +281,8 @@ listing the role name as an argument to <code>--build</code>, like this:</p>
 <pre><code>./bin/plumage --build development
 </code></pre>
 
-<h2>Customizing look and feel [IMPORTANT]</h2>
+<h2>
+<a name="32-customizing-look-and-feel-important" class="anchor" href="#32-customizing-look-and-feel-important"><span class="octicon octicon-link"></span></a>3.2 Customizing look and feel [IMPORTANT]</h2>
 
 <p>Almost every institution will want to customize the look and feel of
 Plumage to match your local branding needs. Plumage is designed to
@@ -298,11 +309,13 @@ wanted to override a default template, just copy it to
 default. But most of the time, you don't even need to do that. Look at
 the HOWTOs below.</p>
 
-<h3>Static and dynamic content</h3>
+<h3>
+<a name="static-and-dynamic-content" class="anchor" href="#static-and-dynamic-content"><span class="octicon octicon-link"></span></a>Static and dynamic content</h3>
 
 <p><em>documentation to be written</em></p>
 
-<h3>How templates work</h3>
+<h3>
+<a name="how-templates-work" class="anchor" href="#how-templates-work"><span class="octicon octicon-link"></span></a>How templates work</h3>
 
 <p>All site templates are written using <a href="http://template-toolkit.org/">Template Toolkit</a>, a popular and
 very well-documented templating system for Perl, sort of like PHP's
@@ -313,7 +326,8 @@ how to use loops and variables.</p>
 
 <p><em>documentation to be written</em></p>
 
-<h3>How Bootstrap works</h3>
+<h3>
+<a name="how-bootstrap-works" class="anchor" href="#how-bootstrap-works"><span class="octicon octicon-link"></span></a>How Bootstrap works</h3>
 
 <p>All HTML and CSS on the site is written using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a> 2.3,
 a popular responsive HTML5/CSS framework. Go read the Bootstrap
@@ -321,7 +335,8 @@ documentation. You will be confused if you don't.</p>
 
 <p><em>documentation to be written</em></p>
 
-<h3>HOWTO: Add custom CSS</h3>
+<h3>
+<a name="howto-add-custom-css" class="anchor" href="#howto-add-custom-css"><span class="octicon octicon-link"></span></a>HOWTO: Add custom CSS</h3>
 
 <ol>
 <li>Configure a <code>custom_template_path</code> directory</li>
@@ -329,7 +344,8 @@ documentation. You will be confused if you don't.</p>
 <li>Put your CSS there</li>
 <li>The contents of this file will be read <em>after</em> the default Plumage CSS, which means it should override CSS rules of equal <a href="if%20needed,%20you%20can%20make%20your%20CSS%20more%20specific%20or%20use%20%60!important%60%20for%20added%20weight">CSS specificity</a>
 </li>
-</ol><h3>HOWTO: Add a custom institutional navbar</h3>
+</ol><h3>
+<a name="howto-add-a-custom-institutional-navbar" class="anchor" href="#howto-add-a-custom-institutional-navbar"><span class="octicon octicon-link"></span></a>HOWTO: Add a custom institutional navbar</h3>
 
 <ol>
 <li>Configure a <code>custom_template_path</code> directory</li>
@@ -337,7 +353,8 @@ documentation. You will be confused if you don't.</p>
 <li>Put content there (preferably inside <code>&lt;div id="leaderboard" class="row"&gt;&lt;div class="span12"&gt;</code>)</li>
 <li>The contents of this file will be automatically included above the Plumage menu in the defaultpage header template (<code>_header.html.tt</code>)</li>
 <li>If needed, add custom CSS styles to #leaderboard as described above</li>
-</ol><h3>HOWTO: Customize the footer</h3>
+</ol><h3>
+<a name="howto-customize-the-footer" class="anchor" href="#howto-customize-the-footer"><span class="octicon octicon-link"></span></a>HOWTO: Customize the footer</h3>
 
 <ol>
 <li>Configure a <code>custom_template_path</code> directory</li>
@@ -345,14 +362,16 @@ documentation. You will be confused if you don't.</p>
 <li>Put content there, inside one or more <code>&lt;div class="row"&gt;</code> blocks</li>
 <li>The content of this file will be automatically included in the default footer template (<code>_footer.html.tt</code>)</li>
 <li>If needed, add custom CSS styles to the contents of #footer as described above</li>
-</ol><h3>HOWTO: Change the contents of the About page</h3>
+</ol><h3>
+<a name="howto-change-the-contents-of-the-about-page" class="anchor" href="#howto-change-the-contents-of-the-about-page"><span class="octicon octicon-link"></span></a>HOWTO: Change the contents of the About page</h3>
 
 <ol>
 <li>Configure a <code>custom_template_path</code> directory</li>
 <li>Create a new file called <code>custom_about_page.html.tt</code> inside the directory</li>
 <li>Put content there (e.g. <code>&lt;h2&gt;</code>s and <code>&lt;p&gt;</code>s)</li>
 <li>The content of this file will be automatically included in the default About page template (<code>about.html.tt</code>)</li>
-</ol><h2>Upgrading the search engine via Swiftype</h2>
+</ol><h2>
+<a name="33-upgrading-the-search-engine-via-swiftype" class="anchor" href="#33-upgrading-the-search-engine-via-swiftype"><span class="octicon octicon-link"></span></a>3.3 Upgrading the search engine via Swiftype</h2>
 
 <p>Plumage comes packaged with a minimal typeahead search, but we
 recommend plugging in a professional hosted search system.</p>
@@ -380,7 +399,8 @@ servers, and use your API keys to kick off a reindex of your content.
 (Swiftype may not reindex as frequently as you'd like; check their
 documentation for details.)</p>
 
-<h2>Tracking usage via Google Analytics</h2>
+<h2>
+<a name="34-tracking-usage-via-google-analytics" class="anchor" href="#34-tracking-usage-via-google-analytics"><span class="octicon octicon-link"></span></a>3.4 Tracking usage via Google Analytics</h2>
 
 <p>Plumage comes with support for Google Analytics out of the box, just
 by adding one line to the configuration file. Start off by creating a
@@ -406,11 +426,13 @@ google_analytics_id = UA-1234567-01
 url = http://dev-cores.yoursite.edu/
 </code></pre>
 
-<h3>Tracking Swiftype usage</h3>
+<h3>
+<a name="tracking-swiftype-usage" class="anchor" href="#tracking-swiftype-usage"><span class="octicon octicon-link"></span></a>Tracking Swiftype usage</h3>
 
 <p><em>documentation to be written</em></p>
 
-<h2>Ensuring search engine visibility of all pages</h2>
+<h2>
+<a name="35-ensuring-search-engine-visibility-of-all-pages" class="anchor" href="#35-ensuring-search-engine-visibility-of-all-pages"><span class="octicon octicon-link"></span></a>3.5 Ensuring search engine visibility of all pages</h2>
 
 <p>Plumage automatically creates a <a href="https://support.google.com/webmasters/bin/answer.py?hl=en&amp;answer=156184">sitemap</a>, and lists the location via
 <a href="https://support.google.com/webmasters/bin/answer.py?hl=en&amp;answer=183669">robots.txt</a> file. But search engines will
@@ -434,7 +456,8 @@ http://www.institution.edu/cores/assets/sitemap.xml</code> inside
 <code>http://www.institution.edu/robots.txt</code>. (You can do this even
 if you have a <a href="http://stackoverflow.com/questions/2594179/multiple-sitemap-entries-in-robots-txt">preexisting sitemap listed</a>
 there.)</p></li>
-</ol><h2>Managing deployments</h2>
+</ol><h2>
+<a name="36-managing-deployments" class="anchor" href="#36-managing-deployments"><span class="octicon octicon-link"></span></a>3.6 Managing deployments</h2>
 
 <p><code>build_deploy_command</code> is an optional command line that gets run after
 every Plumage site build. You can use this to create a deploy hook on
@@ -456,7 +479,7 @@ output_path = /var/www/html/cores-dev/
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/CTSIatUCSF">CTSIatUCSF</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
