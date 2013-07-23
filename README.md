@@ -28,7 +28,7 @@ Easy to deploy:
 
 Designed for success:
 
-* learn about Plumage's design strategy in the [UCSF Cores Search 2.0: Design Strategy Overview](slides) Slideshare presentation.
+* learn about Plumage's design strategy in the [UCSF Cores Search 2.0 Design Strategy Overview][UCSF Cores Search slides] Slideshare presentation.
 
 ## 1.2. Technical overview
 
@@ -410,7 +410,7 @@ server.
 [CTSI]: http://ctsi.ucsf.edu/
 [RRP]: http://rrp.ucsf.edu/
 [UCSF]: http://www.ucsf.edu/
-[slides]: http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview
+[UCSF Cores Search slides]: http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview
 [TLDRLegal]: http://www.tldrlegal.com/license/bsd-3-clause-license-(revised)
 [Twitter Bootstrap]: http://twitter.github.com/bootstrap/
 [Placeholders.js]: https://github.com/jamesallardice/Placeholders.js
