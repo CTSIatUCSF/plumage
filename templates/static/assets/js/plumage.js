@@ -123,36 +123,32 @@ $(document).ready(function() {
 
 	var _gaq = _gaq || [];
 
-if (0) {
-
 	$('.core h2 a').click(function(event) {
-	    var current_page_url = window.location.href;
-	    var current_core_name = $(this).parents('h2').text();
+	    var core_name = $(this).text();
 	    var link_url = $(this).attr('href');
+	    var label = core_name + ' | ' + link_url;
+	    var event_action = 'web';
 	    try {
 		event.preventDefault();
-		_gaq.push(['_trackEvent', 'resource_page', 'click_web', current_core_name + ' | ' + link_url]);
-		setTimeout('document.location = "' + link_url + '"', 100);
+		_gaq.push(['_trackEvent', 'resource_page_click', event_action, label]);
+		setTimeout(function() { document.location = link_url }, 100);
 	    } catch(err){};
 	});
 
-	$('.core .core-email, .core .core-email-primary-link').click(function(event) {
-	    var current_page_url = window.location.href;
-	    var current_core_name = $(this).parents('div.core').find('h2').text();
+	$('.core .core-email a, .core .core-email-primary-link a').click(function(event) {
+	    var core_name = $(this).parents('div.core').find('h2').text();
 	    var link_url = $(this).attr('href');
-	    var email = $(this).text();
-	    var event_action = 'click_email';
+	    var label = core_name + ' | ' + $(this).text();
+	    var event_action = 'email';
 	    if ($(this).hasClass('.core-email-primary-link')) {
-		event_action = 'click_email_primary';
+		event_action = 'email_primary';
 	    }
 	    try {
 		event.preventDefault();
-		_gaq.push(['_trackEvent', 'resource_page', event_action, current_core_name + ' | ' + email]);
-		setTimeout('document.location = "' + link_url + '"', 100);
+		_gaq.push(['_trackEvent', 'resource_page_click', event_action, label]);
+		setTimeout(function() { document.location = link_url }, 100);
 	    } catch(err){};
 	});
-}
-
 
 	// core location filter
 	// show if we have at least 2 locations and 2 cores
