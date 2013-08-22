@@ -25,6 +25,7 @@ Easy to deploy:
 
 * pulls data from one or more instances of eagle-i, or a compatible data source (e.g. CSV file with eagle-i ontology mappings)
 * generates a static site, compatible with all web servers on all platforms
+* automatic integration with Google Analytics, Swiftype
 
 Designed for success:
 
@@ -80,7 +81,7 @@ description][TLDRLegal] of this license.)
 The default Plumage distribution is bundled with several other open
 source projects:
 
-* [Twitter Bootstrap], released under an [Apache 2.0 license]
+* [Twitter Bootstrap 2], released under an [Apache 2.0 license]
 * [Placeholders.js], released under an [MIT license]
 * [Resize Events], released under the [GPL]
 
@@ -106,10 +107,10 @@ minutes.
 
 Ensure you have Perl 5.12 or higher installed on your server. Perl
 5.12+ is installed on virtually all current Unix-like distributions,
-including MacOS 10.7 and higher. If you're unable to upgrade an older
-version of Perl bundled with your system, use [Perlbrew] to install a
-newer version of Perl. Plumage may work on Windows, but hasn't been
-tested.
+including MacOS 10.7+, RHEL/Centos 6+, and Ubuntu 11+. If you're
+unable to upgrade an older version of Perl bundled with your system,
+use [Perlbrew] to install a newer version of Perl. Plumage may work on
+Windows, but hasn't been tested.
 
 Download a [tarball] or [ZIP file] of Plumage from Github. Unarchive
 it.
@@ -269,7 +270,7 @@ how to use loops and variables.
 
 ### How Bootstrap works
 
-All HTML and CSS on the site is written using [Twitter Bootstrap] 2.3,
+All HTML and CSS on the site is written using [Twitter Bootstrap 2],
 a popular responsive HTML5/CSS framework. Go read the Bootstrap
 documentation. You will be confused if you don't.
 
@@ -412,7 +413,7 @@ server.
 [UCSF]: http://www.ucsf.edu/
 [UCSF Cores Search slides]: http://www.slideshare.net/CTSIatUCSF/ucsf-cores-search-20-design-strategy-overview
 [TLDRLegal]: http://www.tldrlegal.com/license/bsd-3-clause-license-(revised)
-[Twitter Bootstrap]: http://twitter.github.com/bootstrap/
+[Twitter Bootstrap 2]: http://getbootstrap.com/2.3.2/
 [Placeholders.js]: https://github.com/jamesallardice/Placeholders.js
 [Resize Events]: http://irama.org/web/dhtml/resize-events/
 [jQuery]: http://jquery.com/
