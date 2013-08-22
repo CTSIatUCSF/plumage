@@ -1,4 +1,4 @@
-Plumage: Biomedical resource discovery for institutions, powered by Eagle-I
+Plumage: Biomedical resource discovery for institutions, powered by eagle-i
 
 # 1. About Plumage
 
