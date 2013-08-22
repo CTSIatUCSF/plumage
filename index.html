@@ -82,9 +82,10 @@ bundle of static HTML, JavaScript, and images that can be deployed on
 any server.</p>
 
 <p>The software is bundled with a standard set of modern HTML5 web
-templates created with Template Toolkit, and incorporating cores
-discoverability best practices originally implemented at UCSF.
-Generated website can be easily customized in two ways:</p>
+templates created with Bootstrap and Template Toolkit, and
+incorporating cores discoverability best practices originally
+implemented at UCSF. Generated website can be easily customized in two
+ways:</p>
 
 <ul>
 <li><p>Basic changes (e.g. to the name of the generated website) can be
@@ -96,7 +97,7 @@ easy upgrades of the Plumage code and base templates.</p></li>
 </ul><h2>
 <a name="who-is-plumage" class="anchor" href="#who-is-plumage"><span class="octicon octicon-link"></span></a>Who is Plumage?</h2>
 
-<p>The Plumage software was developed by Anirvan Chatterjee and the
+<p>The Plumage software was developed by <a href="http://www.chatterjee.net/">Anirvan Chatterjee</a> and the
 Virtual Home team at the <a href="http://ctsi.ucsf.edu/">Clinical &amp; Translational Science
 Institute</a> at the <a href="http://www.ucsf.edu/">University of California, San
 Francisco</a>, in collaboration with UCSF's <a href="http://rrp.ucsf.edu/">Research Resources
@@ -145,9 +146,8 @@ under several open source licenses, typically under the
 <a name="support-and-hosting" class="anchor" href="#support-and-hosting"><span class="octicon octicon-link"></span></a>Support and hosting</h2>
 
 <p>UCSF is happy to help answer questions about Plumage, and may also be
-able to offer Plumage as a hosted service for external institutions.</p>
-
-<p>Email Anirvan Chatterjee at UCSF (anirvan.chatterjee at ucsf.edu) for
+able to offer Plumage as a hosted service for external institutions.
+Email Anirvan Chatterjee at UCSF (anirvan.chatterjee at ucsf.edu) for
 more details.</p>
 
 <h1>
@@ -311,11 +311,6 @@ default. But most of the time, you don't even need to do that. Look at
 the HOWTOs below.</p>
 
 <h3>
-<a name="static-and-dynamic-content" class="anchor" href="#static-and-dynamic-content"><span class="octicon octicon-link"></span></a>Static and dynamic content</h3>
-
-<p><em>documentation to be written</em></p>
-
-<h3>
 <a name="how-templates-work" class="anchor" href="#how-templates-work"><span class="octicon octicon-link"></span></a>How templates work</h3>
 
 <p>All site templates are written using <a href="http://template-toolkit.org/">Template Toolkit</a>, a popular and
@@ -328,13 +323,65 @@ how to use loops and variables.</p>
 <p><em>documentation to be written</em></p>
 
 <h3>
+<a name="static-and-dynamic-content" class="anchor" href="#static-and-dynamic-content"><span class="octicon octicon-link"></span></a>Static and dynamic content</h3>
+
+<p>All static non-template content (e.g. images, CSS) should go inside
+the <code>static</code> subdirectory inside <code>template_path</code> and
+<code>custom_template_path</code>. Files in this directory will be copied as-is
+to the final website.</p>
+
+<p>All dynamic <code>*.tt</code> Template Toolkit templates that should be run
+through a template engine should go inside the <code>dynamic</code> subdirectory
+inside <code>template_path</code> and <code>custom_template_path</code>. When Template
+Toolkit is running, all template includes will look first in
+<code>custom_template_path/dynamic</code> and then in <code>template_path/dynamic</code>.</p>
+
+<p>When building the site, <code>build</code> will merge data from the two static
+directories, and then </p>
+
+<p>For example, given the following files:</p>
+
+<pre><code>custom_templates/
+    static/
+        images/
+            logo.gif
+        css/
+            custom.css
+        dynamic/
+            custom_navbar_top.html.tt
+templates/
+    static/
+        images/
+            xyz.png
+        css/
+            plumage.css
+            bootstrap.css
+            custom.css
+        dynamic/
+            _header.html.tt
+</code></pre>
+
+<p>...the <code>build</code> command will output:</p>
+
+<pre><code>output/
+    index.html         &lt;-- generated from templates
+    some-resource.html &lt;-- generated from templates
+    images/
+        logo.png
+        xyz.png
+    css/
+        plumage.css
+        bootstrap.css
+        custom.css  &lt;-- the custom_templates version
+</code></pre>
+
+<h3>
 <a name="how-bootstrap-works" class="anchor" href="#how-bootstrap-works"><span class="octicon octicon-link"></span></a>How Bootstrap works</h3>
 
-<p>All HTML and CSS on the site is written using <a href="http://getbootstrap.com/2.3.2/">Twitter Bootstrap 2</a>,
-a popular responsive HTML5/CSS framework. Go read the Bootstrap
-documentation. You will be confused if you don't.</p>
-
-<p><em>documentation to be written</em></p>
+<p>All HTML and CSS on the site is written using <a href="http://getbootstrap.com/2.3.2/">Twitter Bootstrap 2</a>, a
+popular responsive HTML5/CSS framework. Go read the Bootstrap
+documentation. You will be confused if you don't and then attempt to
+tweak the generated HTML.</p>
 
 <h3>
 <a name="howto-add-custom-css" class="anchor" href="#howto-add-custom-css"><span class="octicon octicon-link"></span></a>HOWTO: Add custom CSS</h3>
@@ -381,7 +428,8 @@ recommend plugging in a professional hosted search system.</p>
 (like Google Custom Search, but more flexible, and free for most
 users). Swiftype is optional, but <em>very highly recommended</em>. Set up a
 new Swiftype account, and an engine for every website for which you
-want to use Swiftype search.</p>
+want to use Swiftype search (free accounts only get 1 engine, so
+you'll want to save this for your deployed version).</p>
 
 <p>For Swiftype to work, you need to configure both an overall
 <code>swiftype_api_key</code> and a <code>swiftype_key</code> for every website role.</p>
@@ -454,8 +502,8 @@ generated by Plumage.</p></li>
 <code>robots.txt</code>. For example, if you've deployed your site at
 <code>http://www.institution.edu/cores/</code>, add the line <code>Sitemap:
 http://www.institution.edu/cores/assets/sitemap.xml</code> inside
-<code>http://www.institution.edu/robots.txt</code>. (You can do this even
-if you have a <a href="http://stackoverflow.com/questions/2594179/multiple-sitemap-entries-in-robots-txt">preexisting sitemap listed</a>
+<code>http://www.institution.edu/robots.txt</code>. (You can do this even if you
+have a <a href="http://stackoverflow.com/questions/2594179/multiple-sitemap-entries-in-robots-txt">preexisting sitemap listed</a>
 there.)</p></li>
 </ol><h2>
 <a name="managing-deployments" class="anchor" href="#managing-deployments"><span class="octicon octicon-link"></span></a>Managing deployments</h2>
@@ -471,7 +519,7 @@ server.</p>
 <pre><code>[production]
 url = http://cores.yoursite.edu/
 output_path = /var/www/html/cores-prod/
-build_deploy_command = rsync -avz -e ssh --delete /var/www/html/cores-prod/ user@cores.yoursite.edu:/var/www/html/
+build_deploy_command = rsync -az -e ssh --delete /var/www/html/cores-prod/ user@cores.yoursite.edu:/var/www/html/
 
 [dev]
 url = http://dev-cores.yoursite.edu/
