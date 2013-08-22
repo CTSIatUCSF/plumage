@@ -168,6 +168,9 @@ $(document).ready(function() {
 		    var wanted_class = $(event.target).data('wanted-class');
 		    if (wanted_class) {
 			$('.core:not(' + wanted_class + ')').hide();
+			_gaq.push(['_trackEvent', 'resource_page_location_filter', 'filter', wanted_class, true]);
+		    } else {
+			_gaq.push(['_trackEvent', 'resource_page_location_filter', 'show_all', 'all', true]);
 		    }
 		}
 
