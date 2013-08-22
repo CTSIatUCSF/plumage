@@ -130,7 +130,7 @@ $(document).ready(function() {
 	    var event_action = 'web';
 	    try {
 		event.preventDefault();
-		_gaq.push(['_trackEvent', 'resource_page_click', event_action, label]);
+		_gaq.push(['_trackEvent', 'plumage_resource_page_click', event_action, label]);
 		setTimeout(function() { document.location = link_url }, 100);
 	    } catch(err){};
 	});
@@ -145,7 +145,7 @@ $(document).ready(function() {
 	    }
 	    try {
 		event.preventDefault();
-		_gaq.push(['_trackEvent', 'resource_page_click', event_action, label]);
+		_gaq.push(['_trackEvent', 'plumage_resource_page_click', event_action, label]);
 		setTimeout(function() { document.location = link_url }, 100);
 	    } catch(err){};
 	});
