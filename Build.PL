@@ -46,6 +46,7 @@ my $builder = Module::Build->new(
                   'Tree::Simple'                   => 1.18,
                   'URI'                            => 0,
                   'URI::Escape'                    => 0,
+                  'XML::Simple'                    => 2.18,
     },
     recommends         => { 'KSx::Simple' => 0 },
     share_dir          => 'share',
