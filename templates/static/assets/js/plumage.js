@@ -118,10 +118,11 @@ $(document).ready(function() {
 	    alert("Sorry, this core doesn't have a website. Try contacting them by email or phone.");
 	});
 
-	// Google Analytics support for outgoing core links
-	// delayed clicks based on http://support.google.com/googleanalytics/bin/answer.py?hl=en&answer=55527
 
-	var _gaq = _gaq || [];
+	// Google Analytics support for outgoing core links
+	// delayed clicks based on http://support.google.com/googleanalytics/bin/answer.py?hl=en&answer=55527 and http://stackoverflow.com/q/3622365
+
+	var _gaq = window._gaq || (window._gaq = []);
 
 	$('.core h2 a').click(function(event) {
 	    var core_name = $(this).text();
