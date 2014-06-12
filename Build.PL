@@ -35,6 +35,7 @@ my $builder = Module::Build->new(
                   'Log::Log4perl'                  => 1.33,
                   'Memoize'                        => 0,
                   'Module::Build'                  => 0.40,
+                  'MooseX::ClassAttribute'         => 0.27, # used by Search::Sitemap, older versions break on Moose 2.08
                   'OWL::Simple::Parser'            => 1.01,
                   'Params::Validate'               => 1.00,
                   'Regexp::Common'                 => 2010010201,
