@@ -218,23 +218,32 @@ select ?resource ?technique_label where {
                     my $group_name = $resource_group->{eiroot};
                     foreach my $resource ( @{ $resource_group->{resource} } )
                     {
+
+                        # Example:
+                        # name = "Awesome #2 pencil"
+                        # type = "pencil" (subclass of "writing implement")
+                        # technique = "writing"
+
                         my $name      = $resource->{name};
                         my $type      = $resource->{eitype};
                         my $permalink = $resource->{eiuri};
                         my $technique = $resource_to_technique{$permalink};
 
-                        if ( $group_name =~ m/\bservice/i ) {
-                            if ($technique) {
-                                push @{ $coreinfo{resources}->{$technique} },
-                                    $name;
-                            }
-                        } else {
-                            if ($type) {
+                        if ($technique) {
+                            push @{ $coreinfo{resources}->{$technique} },
+                                $name;
+                        }
+                        if ($type) {
+
+                            # if its part of a service group, and it's
+                            # already listed under a technique, no
+                            # need to list under one of the fairly
+                            # useless broad and shallow "service" type
+                            # categories
+                            unless (     $technique
+                                     and $group_name =~ m/\bservice/i ) {
+
                                 push @{ $coreinfo{resources}->{$type} },
-                                    $name;
-                            }
-                            if ($technique) {
-                                push @{ $coreinfo{resources}->{$technique} },
                                     $name;
                             }
                         }
