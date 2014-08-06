@@ -316,7 +316,7 @@ For example, given the following files:
         css/
             plumage.css
             bootstrap.css
-            custom.css  <-- the custom_templates version
+            custom.css     <-- the custom_templates version
 
 ### How Bootstrap works
 
