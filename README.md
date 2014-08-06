@@ -59,8 +59,11 @@ The Plumage software was developed by [Anirvan Chatterjee] and the
 Virtual Home team at the [Clinical & Translational Science
 Institute][CTSI] at the [University of California, San
 Francisco][UCSF], in collaboration with UCSF's [Research Resources
-Program][RRP]. This project was supported by the National Center for
-Research Resources and the National Center for Advancing Translational
+Program][RRP]. Big thanks to Ed Ward and Praveen Angyan from [SC CTSI]
+at USC and CHLA for helpful bug fixes.
+
+This project was supported by the National Center for Research
+Resources and the National Center for Advancing Translational
 Sciences, National Institutes of Health, through UCSF-CTSI Grant
 Numbers UL1 RR024131 and UL1 TR000004. Its contents are solely the
 responsibility of the authors and do not necessarily represent the
@@ -470,6 +473,7 @@ server.
 [GPL]: http://www.gnu.org/licenses/gpl.html
 [MIT license]: http://opensource.org/licenses/mit-license.php
 [Perl license]: http://dev.perl.org/licenses/
+[SC CTSI]: http://www.sc-ctsi.org/
 [tarball]: https://github.com/CTSIatUCSF/plumage/tarball/master
 [ZIP file]: https://github.com/CTSIatUCSF/plumage/zipball/master
 [Perlbrew]: http://perlbrew.pl/
