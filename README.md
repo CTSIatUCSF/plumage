@@ -337,7 +337,7 @@ tweak the generated HTML.
 1. Configure a `custom_template_path` directory
 2. Create a new file called `custom_navbar_top.html.tt` inside the directory
 3. Put content there (preferably inside `<div id="leaderboard" class="row"><div class="span12">`)
-4. The contents of this file will be automatically included above the Plumage menu in the defaultpage header template (`_header.html.tt`)
+4. The contents of this file will be automatically included above the Plumage menu in the default page header template (`_header.html.tt`)
 5. If needed, add custom CSS styles to #leaderboard as described above
 
 ### HOWTO: Customize the footer
