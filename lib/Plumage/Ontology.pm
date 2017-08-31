@@ -28,8 +28,7 @@ our @EXPORT_OK = ( 'load_ontology_data',    'clean_ontology_term',
 
 my $eagle_i_data_dir
     = File::Spec->catdir( dist_dir('Plumage'), 'eagle-i_data' );
-my @owl_files = map { File::Spec->catdir( $eagle_i_data_dir, $_ ) }
-    ( 'ero.r623.owl', 'obi-imports.r623.owl' );
+my @owl_files = map { File::Spec->catdir( $eagle_i_data_dir, $_ ) } ('ero.owl');
 
 ###############################################################################
 
