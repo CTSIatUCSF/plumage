@@ -20,8 +20,7 @@ use warnings;
 use utf8;
 binmode STDOUT, ':utf8';
 
-our @EXPORT_OK
-    = qw( load_core_data get_freebase_definition name_to_filename );
+our @EXPORT_OK = qw( load_core_data get_freebase_definition name_to_filename );
 
 ###############################################################################
 
@@ -45,9 +44,10 @@ sub load_core_data {
     {
         my ( $raw_json, $cores_data );
 
-        if ( @{$config->{eagle_i_base_urls}} ) {
+        if ( @{ $config->{eagle_i_base_urls} } ) {
             INFO("Loading eagle-i data via APIs");
-            $raw_json = extract_eagle_i_data( @{$config->{eagle_i_base_urls}} );
+            $raw_json
+                = extract_eagle_i_data( @{ $config->{eagle_i_base_urls} } );
             if ( !$raw_json ) {
                 WARN "Could not load eagle-i data via APIs";
             }
@@ -92,14 +92,14 @@ sub load_core_data {
             }
             $stats{num_cores}++;
 
-            foreach
-                my $field (qw( core url organization contact phone email )) {
+            foreach my $field (qw( core url organization contact phone email ))
+            {
                 $core->{$field} //= '';
             }
             $core->{location} //= '';
             $core->{location} =~ s/ Campus(?=,|$)//g;
             $core->{location} =~ s/\s*,\s*/, /g;
-            $core->{locations} = [ split( /, ?/, $core->{location} ) ];
+            $core->{locations} = [ split( /[,;]\s?/, $core->{location} ) ];
 
         EachResource:
             foreach my $raw_type ( keys %{ $core->{resources} } ) {
@@ -145,7 +145,7 @@ sub load_core_data {
     foreach my $canonical_type ( sort keys %resources_by_type ) {
         my %locations;
         foreach my $core (
-                  @{ $resources_by_type{$canonical_type}->{cores_sorted} } ) {
+                    @{ $resources_by_type{$canonical_type}->{cores_sorted} } ) {
             foreach my $location ( @{ $core->{info}->{locations} } ) {
                 $locations{$location} = 1;
             }
@@ -161,8 +161,7 @@ sub load_core_data {
             = [ map {ucfirst} @names ];
         foreach my $name (@names) {
             if ( $name ne $canonical_type ) {
-                $resources_by_type{$name}
-                    = $resources_by_type{$canonical_type};
+                $resources_by_type{$name} = $resources_by_type{$canonical_type};
             }
         }
     }
