@@ -1,6 +1,10 @@
 SIGNIFICANT USER-VISIBLE CHANGES SINCE PUBLIC RELEASE
 (EXCLUDES BUGS, INFRASTRUCTURE CHANGES, ETC.)
 
+2017-08-31
+
+* Added support for eagle-i 4.3.0
+
 2012-07-02
 
 * Added support for including data from multiple eagle-i installations

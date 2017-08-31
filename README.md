@@ -71,7 +71,7 @@ official views of the NIH.
 
 ## 1.4 License
 
-Plumage is Copyright (c) 2012-2014, The Regents of the University of
+Plumage is Copyright (c) 2012-2017, The Regents of the University of
 California. All rights reserved.
 
 This application is free software; you can redistribute it and/or
