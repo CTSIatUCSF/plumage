@@ -117,7 +117,7 @@ sub load_ontology_data {
                 $data->{definition} = join ' Alternatively: ',
                     @{ $data->{definitions} };
                 $data->{definition}
-                    =~ s/FIX THIS DEFINITION//; # error in cryostat definition
+                    =~ s/FIX THIS DEFINITION//;   # error in cryostat definition
             }
 
             $id_to_label{ $owl->id } = $label;
@@ -258,8 +258,8 @@ sub _ontology_parent_chain_lookup {
             my $parent_tree  = $tree->getParent();
             my $parent_label = $parent_tree->getNodeValue();
             $cached_parent_chain{$label} = [
-                     $label,
-                     _ontology_parent_chain_lookup( $parent_label, $ontology )
+                       $label,
+                       _ontology_parent_chain_lookup( $parent_label, $ontology )
             ];
         } else {
             $cached_parent_chain{$label} = [$label];

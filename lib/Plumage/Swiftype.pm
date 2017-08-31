@@ -34,7 +34,7 @@ sub swiftype_reindex {
     my @supported_crawl_urls;
 
     my $engines_response = get(
-          "https://api.swiftype.com/api/v1/engines.json?auth_token=$api_key");
+            "https://api.swiftype.com/api/v1/engines.json?auth_token=$api_key");
     if ( $engines_response
          and my $engines_data = eval { decode_json($engines_response) } ) {
 
@@ -45,8 +45,8 @@ sub swiftype_reindex {
                 "https://api.swiftype.com/api/v1/engines/$engine->{slug}/domains.json?auth_token=$api_key"
                 );
             if ( $domains_response
-                 and my $domains_data
-                 = eval { decode_json($domains_response) } ) {
+                and my $domains_data = eval { decode_json($domains_response) } )
+            {
 
             EachDomain:
                 foreach my $domain ( @{$domains_data} ) {

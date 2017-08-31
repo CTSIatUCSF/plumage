@@ -54,8 +54,7 @@ sub build {
     {
 
         unless (
-            $config->{disable_safety_check_before_deleting_output_directory} )
-        {
+            $config->{disable_safety_check_before_deleting_output_directory} ) {
             my $total_size_of_output_dir_in_kb = du($output_path) / 1024;
             if ( $total_size_of_output_dir_in_kb >= 10_240 ) {
                 LOGDIE
@@ -92,14 +91,14 @@ sub build {
     # $template_path back in ensures that the system should be
     # backwards compatible.
     my @valid_template_paths = grep {defined} (
-                         $dynamic_custom_template_path, $custom_template_path,
-                         $dynamic_template_path,        $template_path );
+                           $dynamic_custom_template_path, $custom_template_path,
+                           $dynamic_template_path,        $template_path );
 
     $template = Template->new( { EVAL_PERL  => 1,
                                  PRE_CHOMP  => 0,
                                  POST_CHOMP => 1,
-                                 STASH => Template::Stash::AutoEscaping->new,
-                                 ENCODING     => 'utf8',
+                                 STASH    => Template::Stash::AutoEscaping->new,
+                                 ENCODING => 'utf8',
                                  INCLUDE_PATH => \@valid_template_paths,
                                }
     );
@@ -108,8 +107,7 @@ sub build {
 
     my %terms_done;
 
-    foreach my $type ( sort { lc($a) cmp lc($b) } keys %{$core_data_by_type} )
-    {
+    foreach my $type ( sort { lc($a) cmp lc($b) } keys %{$core_data_by_type} ) {
         my $ontology_data = $ontology{$type} || next;
 
         my $definition = $ontology_data->{definition};
@@ -189,8 +187,8 @@ sub build {
         foreach my $type ( sort keys %{$core_data_by_type} ) {
             foreach my $name ( @{ $core_data_by_type->{$type}->{names} } ) {
                 $options->{types}->{$name} = {
-                                 filename => name_to_filename($name),
-                                 count => $core_data_by_type->{$type}->{count}
+                                   filename => name_to_filename($name),
+                                   count => $core_data_by_type->{$type}->{count}
                 };
             }
         }

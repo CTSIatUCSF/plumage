@@ -71,8 +71,7 @@ sub get_config {
         if ( -e $potential_path ) {
             $raw_config = Config::Tiny->read($potential_path);
             unless ($raw_config) {
-                LOGDIE
-                    "Could not read configuration file at $potential_path: "
+                LOGDIE "Could not read configuration file at $potential_path: "
                     . Config::Tiny->errstr;
             }
             $path = $potential_path;
@@ -125,13 +124,11 @@ sub get_config {
 
     unless ($template_path) {
         my $possible_template_directory = realpath(
-                    File::Spec->catdir( File::Spec->curdir(), 'templates' ) );
-        if (     -d $possible_template_directory
-             and
-             -r File::Spec->catdir( $possible_template_directory, 'dynamic' )
-             and
-             -r File::Spec->catdir( $possible_template_directory, 'static' ) )
-        {
+                      File::Spec->catdir( File::Spec->curdir(), 'templates' ) );
+        if (    -d $possible_template_directory
+            and -r File::Spec->catdir( $possible_template_directory, 'dynamic' )
+            and -r File::Spec->catdir( $possible_template_directory, 'static' )
+            ) {
             $template_path = $possible_template_directory;
             $config->{template_path} = $possible_template_directory;
             WARN(
@@ -158,23 +155,23 @@ sub get_config {
 
     if ( exists $config->{eagle_i_base_url} ) {
 
-	my @parts = split /\s+/, $config->{eagle_i_base_url};
+        my @parts = split /\s+/, $config->{eagle_i_base_url};
 
-	foreach my $part (@parts) {
+        foreach my $part (@parts) {
 
-	    my $test_uri = URI->new( $part );
-	    if ( $test_uri and $test_uri->scheme =~ m/^https?$/ ) {
-		push @{ $config->{eagle_i_base_urls}}, $test_uri->canonical;
-	    } else {
-		LOGDIE
-		    "`$part` is an invalid URL in the `eagle_i_base_url` configured in $path -- URLs should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
-	    }
+            my $test_uri = URI->new($part);
+            if ( $test_uri and $test_uri->scheme =~ m/^https?$/ ) {
+                push @{ $config->{eagle_i_base_urls} }, $test_uri->canonical;
+            } else {
+                LOGDIE
+                    "`$part` is an invalid URL in the `eagle_i_base_url` configured in $path -- URLs should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/";
+            }
         }
 
-	unless (@{ $config->{eagle_i_base_urls}}) {
-	    LOGDIE
-		"No valid `eagle_i_base_url` URL(s) configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/ (separate multiple URLs with a space)";
-	}
+        unless ( @{ $config->{eagle_i_base_urls} } ) {
+            LOGDIE
+                "No valid `eagle_i_base_url` URL(s) configured in configuration file at $path -- should look sort of like http://ohsu.eagle-i.net/ or https://username:password\@eagleiserver.test.edu/ (separate multiple URLs with a space)";
+        }
 
     }
 
@@ -190,15 +187,14 @@ sub get_config {
             "Can't find a valid resource data file at $config->{resource_listings_file_path}, as configured in $path";
     }
 
-    unless ( @{$config->{eagle_i_base_urls}}
+    unless ( @{ $config->{eagle_i_base_urls} }
              or $config->{resource_listings_file_path} ) {
         LOGDIE
             "Don't know where to get our data. Either configure the Eagle-I base URL at `eagle_i_base_url` or the JSON file containing data at `resource_listings_file_path` in the configuration file at $path";
     }
 
     if ( $config->{site_name} !~ m/\w/ ) {
-        LOGDIE
-            "No valid `site_name` configured in configuration file at $path";
+        LOGDIE "No valid `site_name` configured in configuration file at $path";
     }
     if ( $config->{site_name} =~ m/\"/ ) {
         LOGDIE
@@ -219,8 +215,8 @@ sub get_config {
     $config->{url} = URI->new( $config->{url} )->canonical;
 
     if ( $config->{disable_location_filter} ) {
-        if ( $config->{disable_location_filter}
-             =~ m/^\s*(1|yes|on|true)\s*$/i ) {
+        if ( $config->{disable_location_filter} =~ m/^\s*(1|yes|on|true)\s*$/i )
+        {
             $config->{disable_location_filter} = 1;
         } else {
             LOGDIE

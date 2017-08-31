@@ -36,7 +36,7 @@ sub guess_ontology_mappings {
 
         if ($ontology_root_term) {
             $primary_names{$ontology_root_term} = 1;
-            my $tree_top = $ontology{ $ontology_root_term }->{tree};
+            my $tree_top = $ontology{$ontology_root_term}->{tree};
             $tree_top->traverse(
                 sub {
                     $primary_names{ $_[0]->getNodeValue() } = 1;
@@ -50,8 +50,7 @@ sub guess_ontology_mappings {
         }
 
         foreach my $primary_name ( sort keys %primary_names ) {
-            foreach my $name ( @{ $ontology{ $primary_name }->{names} } )
-            {
+            foreach my $name ( @{ $ontology{$primary_name}->{names} } ) {
                 $content_to_index{$name} = $primary_name;
             }
         }
@@ -64,7 +63,7 @@ sub guess_ontology_mappings {
             $global_index = $index;
         }
     } elsif ($ontology_root_term) {
-	$index = $root_indexes{$ontology_root_term};
+        $index = $root_indexes{$ontology_root_term};
     } else {
         $index = $global_index;
     }
@@ -100,7 +99,7 @@ sub _make_search_index {
     my $index = KSx::Simple->new( path => $dir->dirname, language => 'en' );
     foreach my $title ( keys %{$content_to_index} ) {
         $index->add_doc(
-                 { title => $title, master => $content_to_index->{$title} } );
+                   { title => $title, master => $content_to_index->{$title} } );
     }
     return $index;
 }
