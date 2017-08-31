@@ -107,7 +107,8 @@ sub load_core_data {
                 my $canonical_type = $valid_ontology_terms_lc{ lc $raw_type }
                     || $raw_type;
                 unless ( $ontology->{$canonical_type} ) {
-                    WARN qq{Could not match type "$raw_type" to the ontology};
+                    WARN
+                        qq{Could not match type "$raw_type" in core "$core->{core}" to the ontology};
                     next EachResource;
                 }
 
