@@ -58,10 +58,19 @@ sub extract_eagle_i_data {
         $cores_list_url->query_form( format => 'application/xml' );
 
         my $sparql_url = $base_uri->clone;
-        if ( head("${base_uri}sparqler/") ) {
+        if ( head("${base_uri}sparqler/sparql") ) {
             $sparql_url->path('/sparqler/sparql');
-        } else {
+        } elsif ( head("${base_uri}repository/sparql") ) {
             $sparql_url->path('/repository/sparql');
+        } else {
+            my $response = $ua->head("${base_uri}repository/sparql");
+            if ( $response->code == 400 ) {
+                $sparql_url->path('/repository/sparql');
+            }
+        }
+
+        if ( $sparql_url eq $base_uri ) {
+            LOGDIE("Could not identify SPARQL endpoint for $base_uri");
         }
 
         my $provider_url = $base_uri->clone;
@@ -97,8 +106,11 @@ sub extract_eagle_i_data {
             DEBUG('    End SWEET query');
         }
 
-        DEBUG('  Begin 1 of 3 SPARQL queries');
-        my %core_to_website = _get_sparql_data( '
+        my %core_to_website;
+
+        unless (%core_to_website) {
+            DEBUG('  Begin 1.1 of 3 SPARQL queries');
+            %core_to_website = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 select ?core ?website where {
@@ -106,10 +118,27 @@ select ?core ?website where {
 ?core ero:ERO_0000480 ?website .
 }
 ', $sparql_url );
-        DEBUG('    End 1 of 3 SPARQL queries');
+            DEBUG('    End 1.1 of 3 SPARQL queries');
+        }
 
-        DEBUG('  Begin 2 of 3 SPARQL queries');
-        my %core_to_location = _get_sparql_data( '
+        unless (%core_to_website) {
+            DEBUG('  Begin 1.2 of 3 SPARQL queries');
+            %core_to_website = _get_sparql_data( '
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ero: <http://purl.obolibrary.org/obo/>
+select ?core ?website where {
+?core a foaf:Organization .
+?core ero:ERO_0000480 ?website .
+}', $sparql_url );
+            DEBUG('    End 1.2 of 3 SPARQL queries');
+        }
+
+        my %core_to_location;
+
+        unless (%core_to_location) {
+            DEBUG('  Begin 2.1 of 3 SPARQL queries');
+            my %core_to_location = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 select ?core ?address where {
@@ -117,10 +146,11 @@ select ?core ?address where {
 ?core ero:ERO_0000055 ?address .
 }
 ', $sparql_url );
-        DEBUG('    End 2 of 3 SPARQL queries');
+            DEBUG('    End 2.1 of 3 SPARQL queries');
+        }
 
         unless (%core_to_location) {
-            DEBUG('  Begin 2.1 of 3 SPARQL queries');
+            DEBUG('  Begin 2.2 of 3 SPARQL queries');
             %core_to_location = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -130,11 +160,27 @@ select ?core ?address where {
 ?core ero:ERO_0000055 ?address .
 }
 ', $sparql_url );
-            DEBUG('    End 2.1 of 3 SPARQL queries');
+            DEBUG('    End 2.2 of 3 SPARQL queries');
         }
 
-        DEBUG('  Begin 3 of 3 SPARQL queries');
-        my %resource_to_technique = _get_sparql_data( '
+        unless (%core_to_location) {
+            DEBUG('  Begin 2.3 of 3 SPARQL queries');
+            %core_to_location = _get_sparql_data( '
+PREFIX ero: <http://purl.obolibrary.org/obo/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+select ?core ?address where {
+?core a vivo:CoreLaboratory .
+?core ero:ERO_0000040 ?address .
+}
+', $sparql_url );
+            DEBUG('    End 2.3 of 3 SPARQL queries');
+        }
+
+        my %resource_to_technique;
+
+        unless (%resource_to_technique) {
+            DEBUG('  Begin 3.1 of 3 SPARQL queries');
+            my %resource_to_technique = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 select ?resource ?technique_label where {
@@ -144,10 +190,11 @@ select ?resource ?technique_label where {
 ?technique_uri rdfs:label ?technique_label
 }
 ', $sparql_url );
-        DEBUG('    End 3 of 3 SPARQL queries');
+            DEBUG('    End 3.1 of 3 SPARQL queries');
+        }
 
         unless (%resource_to_technique) {
-            DEBUG('  Begin 3.1 of 3 SPARQL queries');
+            DEBUG('  Begin 3.2 of 3 SPARQL queries');
             %resource_to_technique = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -159,7 +206,23 @@ select ?resource ?technique_label where {
 ?technique_uri rdfs:label ?technique_label
 }
 ', $sparql_url );
-            DEBUG('    End 3.1 of 3 SPARQL queries');
+            DEBUG('    End 3.2 of 3 SPARQL queries');
+        }
+
+        unless (%resource_to_technique) {
+            DEBUG('  Begin 3.3 of 3 SPARQL queries');
+            %resource_to_technique = _get_sparql_data( '
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ero: <http://purl.obolibrary.org/obo/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+select ?resource ?technique_label where {
+?core a vivo:Laboratory .
+?resource ?any_relationship ?core .
+?resource ero:ERO_0000543 ?technique_uri .
+?technique_uri rdfs:label ?technique_label
+}', $sparql_url );
+            DEBUG('    End 3.3 of 3 SPARQL queries');
         }
 
         my $num_cores_done  = 0;
@@ -185,39 +248,38 @@ select ?resource ?technique_label where {
 
             DEBUG("    End $num_cores_done of $num_cores_to_do cores");
 
-            my $data = XMLin( $response->content,
-                              ForceArray => [ 'staff',       'resource',
-                                              'affiliation', 'resources',
-                                              'links'
-                              ],
-                              KeyAttr   => '',
-                              GroupTags => { affiliations => 'affiliation',
-                                             staffs       => 'staff',
-                                             links        => 'link',
-                              }
+            my $data = XMLin(
+                  $response->content,
+                  ForceArray => [
+                        'staff', 'resource', 'affiliation', 'resources', 'links'
+                  ],
+                  KeyAttr   => '',
+                  GroupTags => { affiliations => 'affiliation',
+                                 staffs       => 'staff',
+                                 links        => 'link',
+                  }
             );
 
             my %coreinfo = (
-                   core     => $data->{name},
-                   location => $core_to_location{$core_rdf_url} || undef,
-                   url      => eval { $data->{links}->[0]->{link}->{url} }
-                       || $core_to_website{$core_rdf_url}
-                       || undef,
-                   organization => eval { $data->{affiliations}->[0]->{name} }
-                       || '',
-                   contact => eval { $data->{staffs}->[0]->{name} }   || '',
-                   phone   => eval { $data->{staffs}->[-1]->{phone} } || '',
-                   email   => eval { $data->{staffs}->[-1]->{email} } || '',
-                   rdf_url => $core_rdf_url,
+                     core     => $data->{name},
+                     location => $core_to_location{$core_rdf_url} || undef,
+                     url      => eval { $data->{links}->[0]->{link}->{url} }
+                         || $core_to_website{$core_rdf_url}
+                         || undef,
+                     organization => eval { $data->{affiliations}->[0]->{name} }
+                         || '',
+                     contact => eval { $data->{staffs}->[0]->{name} }   || '',
+                     phone   => eval { $data->{staffs}->[-1]->{phone} } || '',
+                     email   => eval { $data->{staffs}->[-1]->{email} } || '',
+                     rdf_url => $core_rdf_url,
             );
 
             if ( $data->{all_resources} ) {
 
                 foreach my $resource_group (
-                                  @{ $data->{all_resources}->{resources} } ) {
+                                    @{ $data->{all_resources}->{resources} } ) {
                     my $group_name = $resource_group->{eiroot};
-                    foreach my $resource ( @{ $resource_group->{resource} } )
-                    {
+                    foreach my $resource ( @{ $resource_group->{resource} } ) {
 
                         # Example:
                         # name = "Awesome #2 pencil"
@@ -230,8 +292,7 @@ select ?resource ?technique_label where {
                         my $technique = $resource_to_technique{$permalink};
 
                         if ($technique) {
-                            push @{ $coreinfo{resources}->{$technique} },
-                                $name;
+                            push @{ $coreinfo{resources}->{$technique} }, $name;
                         }
                         if ($type) {
 
@@ -243,8 +304,7 @@ select ?resource ?technique_label where {
                             unless (     $technique
                                      and $group_name =~ m/\bservice/i ) {
 
-                                push @{ $coreinfo{resources}->{$type} },
-                                    $name;
+                                push @{ $coreinfo{resources}->{$type} }, $name;
                             }
                         }
                     }
