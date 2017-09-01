@@ -131,20 +131,41 @@ sub load_ontology_data {
         }
     }
 
+    # now, id_to_label looks like { "http://foo/OBI_123" => "centimeter" }
+
 EachID:
     foreach my $id ( keys %id_to_label ) {
         my $label = $id_to_label{$id};
         my $data  = $ontology{$label};
 
+        # data looks like:
+        #  { definition => '100 cm',
+        #    definitions => ['100 cm', '.001 km'],
+        #    id => 'http://foo/OBI_123',
+        #    names => ['centimeter', 'centimetre'],
+        #    primary_name => ['centimeter'],
+        #    parent_ids => ['http://foo/OBI_789']
+        #  }
+
         foreach my $parent_id ( @{ $data->{parent_ids} } ) {
+
+            # e.g. "measurement unit"
             my $parent_label = $id_to_label{$parent_id};
+
+            # make sure we know about parent, and parent isn't us (!)
             next unless $parent_label;
+            next if $parent_label eq $label;
+            next unless $ontology{$parent_label};
 
             my $parent_data = $ontology{$parent_label};
-            next unless $parent_data;
 
-            $data->{tree}        ||= Tree::Simple->new($label);
+            # create a tree object for ourself, if needed
+            $data->{tree} ||= Tree::Simple->new($label);
+
+            # make sure parent object has a tree
             $parent_data->{tree} ||= Tree::Simple->new($parent_label);
+
+            # make sure I am a child of my parent
             $parent_data->{tree}->addChild( $data->{tree} );
         }
 
