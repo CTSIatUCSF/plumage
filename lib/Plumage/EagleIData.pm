@@ -63,9 +63,20 @@ sub extract_eagle_i_data {
         } elsif ( head("${base_uri}repository/sparql") ) {
             $sparql_url->path('/repository/sparql');
         } else {
-            my $response = $ua->head("${base_uri}repository/sparql");
-            if ( $response->code == 400 ) {
-                $sparql_url->path('/repository/sparql');
+            my $ok = 0;
+            if ( !$ok ) {
+                my $response = $ua->head("${base_uri}repository/sparql");
+                if ( $response->code == 400 ) {
+                    $ok = 1;
+                    $sparql_url->path('/repository/sparql');
+                }
+            }
+            if ( !$ok ) {
+                my $response = $ua->head("${base_uri}sparqler/sparql");
+                if ( $response->code == 400 ) {
+                    $ok = 1;
+                    $sparql_url->path('/sparqler/sparql');
+                }
             }
         }
 
@@ -138,12 +149,12 @@ select ?core ?website where {
 
         unless (%core_to_location) {
             DEBUG('  Begin 2.1 of 3 SPARQL queries');
-            my %core_to_location = _get_sparql_data( '
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            %core_to_location = _get_sparql_data( '
 PREFIX ero: <http://purl.obolibrary.org/obo/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
 select ?core ?address where {
-?core a ero:ERO_0000002 .
-?core ero:ERO_0000055 ?address .
+?core a vivo:CoreLaboratory .
+?core ero:ERO_0000040 ?address .
 }
 ', $sparql_url );
             DEBUG('    End 2.1 of 3 SPARQL queries');
@@ -151,12 +162,11 @@ select ?core ?address where {
 
         unless (%core_to_location) {
             DEBUG('  Begin 2.2 of 3 SPARQL queries');
-            %core_to_location = _get_sparql_data( '
+            my %core_to_location = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
-PREFIX vivo: <http://vivoweb.org/ontology/core#>
 select ?core ?address where {
-?core a vivo:CoreLaboratory .
+?core a ero:ERO_0000002 .
 ?core ero:ERO_0000055 ?address .
 }
 ', $sparql_url );
@@ -166,11 +176,12 @@ select ?core ?address where {
         unless (%core_to_location) {
             DEBUG('  Begin 2.3 of 3 SPARQL queries');
             %core_to_location = _get_sparql_data( '
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
 select ?core ?address where {
 ?core a vivo:CoreLaboratory .
-?core ero:ERO_0000040 ?address .
+?core ero:ERO_0000055 ?address .
 }
 ', $sparql_url );
             DEBUG('    End 2.3 of 3 SPARQL queries');
