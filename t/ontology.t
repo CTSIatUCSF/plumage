@@ -13,7 +13,7 @@ my %ontology = load_ontology_data(0);
 foreach my $term ( sort keys %ontology ) {
     unlike( $term, qr{^\s|\s+$}, qq{No extra whitespace in "$term"} );
     like( $term,
-          qr{^[[:alpha:]0-9 ,\.()':&+/-]+$},
+          qr{^[[:alpha:][:digit:][:punct:] ]+$},
           qq{Only reasonable characters in "$term"} );
 }
 
@@ -25,43 +25,19 @@ is_deeply( $ontology{freezer}->{names},
            ['freezer'], 'freezer has no synonyms' );
 
 is_deeply( [ ontology_parent_chain('imaging technique') ],
-           [ 'imaging technique', 'technique' ],
+           [  'imaging technique', 'technique',
+              'planned process',   'process',
+              'occurrent',         'entity'
+           ],
            'ontology_parent_chain: imaging technique'
 );
 
 is_deeply( [ ontology_parent_chain('instrument') ],
-           ['instrument'], 'ontology_parent_chain: instrument' );
-
-is_deeply( [ ontology_parent_chain('microscope') ],
-           [ 'microscope', 'instrument', ],
-           'ontology_parent_chain: microscope'
-);
-
-is_deeply( [ ontology_parent_chain('optical microscope') ],
-           [ 'optical microscope', 'microscope', 'instrument', ],
-           'ontology_parent_chain: optical microscope'
-);
-
-is_deeply( [ ontology_parent_chain('fluorescence microscope') ],
-           [  'fluorescence microscope', 'optical microscope',
-              'microscope',              'instrument',
+           [  'instrument',             'material entity',
+              'independent continuant', 'continuant',
+              'entity'
            ],
-           'ontology_parent_chain: fluorescence microscope'
-);
-
-is_deeply( [ ontology_parent_chain('deconvolution microscope') ],
-           [  'deconvolution microscope',
-              'fluorescence microscope',
-              'optical microscope',
-              'microscope',
-              'instrument',
-           ],
-           'ontology_parent_chain: deconvolution microscope'
-);
-
-is_deeply( [ ontology_children('fluorescence microscope') ],
-           [ 'deconvolution microscope', 'fluorescence compound microscope' ],
-           'ontology_children: fluorescence microscope'
+           'ontology_parent_chain: instrument'
 );
 
 done_testing();
