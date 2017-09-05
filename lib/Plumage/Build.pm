@@ -17,9 +17,9 @@ use Plumage::Tools
 use Plumage::Ontology 'load_ontology_data', 'ontology_parent_chain',
     'ontology_children';
 use Plumage::Swiftype;
-use Search::Sitemap 2.13;
 use Template 2.22;
 use Template::Stash::AutoEscaping 0.0301;
+use WWW::Sitemap::XML 2.02;
 use strict;
 use warnings;
 binmode STDERR, ':utf8';
@@ -103,7 +103,7 @@ sub build {
                                }
     );
 
-    $sitemap = Search::Sitemap->new();
+    $sitemap = WWW::Sitemap::XML->new();
 
     my %terms_done;
 
@@ -216,8 +216,7 @@ sub build {
         mkdir($dir) unless -d $dir;
         unlink $sitemap_path;
 
-        $sitemap->pretty(1);
-        $sitemap->write($sitemap_path);
+        $sitemap->write( $sitemap_path, my $pretty_print = 1 );
 
         write_file( 'robots.txt.tt', '/robots.txt',
                     { sitemap_url => $sitemap_url } );
@@ -273,8 +272,12 @@ sub write_file {
                         { binmode => ':encoding(UTF-8)' } )
         || LOGCROAK( "Template processing error: " . $template->error() );
 
-    # add to sitemap
-    add_url_to_sitemap($url_path);
+    # add to sitemap if file extension ends with not-periods, or .html
+    if ( $url_path =~ m{(/[^\.]+|\.html)$} ) {
+
+        # add to sitemap
+        add_url_to_sitemap($url_path);
+    }
 
     return;
 }
@@ -283,11 +286,9 @@ sub add_url_to_sitemap {
     my $path = shift;
     my $url  = "$config->{url}$path";
     $url =~ s{(?<!:)//}{/}g;
-    $sitemap->add( Search::Sitemap::URL->new( loc        => $url,
-                                              lastmod    => time(),
-                                              changefreq => 'weekly',
-                                              priority   => 1.0,
-                   )
+    $sitemap->add( loc        => $url,
+                   changefreq => 'weekly',
+                   priority   => 1.0,
     );
 }
 
