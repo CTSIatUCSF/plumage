@@ -84,6 +84,13 @@ sub load_core_data {
         }
 
         foreach my $core_name ( keys %cores ) {
+
+            if ( $core_name !~ m/[a-zA-Z]/i ) {
+                DEBUG(
+                    qq{Core name "$core_name" is weird, and has no a-z characters}
+                );
+            }
+
             my $core = $cores{$core_name};
             unless ( $core->{resources} and %{ $core->{resources} } ) {
                 DEBUG(qq{Skipping core "$core_name" which has no resources});
@@ -101,6 +108,14 @@ sub load_core_data {
             $core->{location} =~ s/\s*,\s*/, /g;
             $core->{locations} = [ split( /[,;]\s?/, $core->{location} ) ];
 
+            foreach my $location ( @{ $core->{locations} } ) {
+                if ( length $location >= 40 ) {
+                    DEBUG(
+                        qq{Core "$core_name"'s location "$location" seems kind of long}
+                    );
+                }
+            }
+
             unless (    length $core->{url}
                      or length $core->{phone}
                      or length $core->{email} ) {
@@ -115,8 +130,26 @@ sub load_core_data {
                 my $canonical_type = $valid_ontology_terms_lc{ lc $raw_type }
                     || $raw_type;
                 unless ( $ontology->{$canonical_type} ) {
-                    WARN
-                        qq{Could not match type "$raw_type" in core "$core->{core}" to the ontology};
+                    WARN(
+                        qq{Could not match type "$raw_type" in core "$core->{core}" to the ontology}
+                    );
+
+                    eval {
+                        use Plumage::OntologyGuess
+                            qw( guess_ontology_mappings );
+                        if ( $raw_type =~ m/\w/ ) {
+                            my @possible_ontology_terms
+                                = guess_ontology_mappings( $raw_type, 5 );
+                            if (@possible_ontology_terms) {
+                                my $pretty_list = join( ', ',
+                                        map {"'$_'"} @possible_ontology_terms );
+                                DEBUG(
+                                    qq{Maybe "$raw_type" should be $pretty_list, etc.?}
+                                );
+                            }
+                        }
+                    };
+
                     next EachResource;
                 }
 
