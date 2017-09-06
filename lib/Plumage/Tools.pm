@@ -101,6 +101,14 @@ sub load_core_data {
             $core->{location} =~ s/\s*,\s*/, /g;
             $core->{locations} = [ split( /[,;]\s?/, $core->{location} ) ];
 
+            unless (    length $core->{url}
+                     or length $core->{phone}
+                     or length $core->{email} ) {
+                DEBUG(
+                    qq{Core "$core_name" is not contactable (no URL, phone number, or email)}
+                );
+            }
+
         EachResource:
             foreach my $raw_type ( keys %{ $core->{resources} } ) {
 
