@@ -86,7 +86,7 @@ sub load_core_data {
         foreach my $core_name ( keys %cores ) {
             my $core = $cores{$core_name};
             unless ( $core->{resources} and %{ $core->{resources} } ) {
-                DEBUG(qq{Skipping core "$core_name" which has no resouces});
+                DEBUG(qq{Skipping core "$core_name" which has no resources});
                 delete $cores{$core_name};
                 next;
             }
