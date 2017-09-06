@@ -14291,7 +14291,7 @@ there is a trade name &apos;nucleofactor&apos;</rdfs:comment>
 
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/ERO_0000901">
         <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">fourier transform infrared spectrometer</rdfs:label>
-        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">fourier transport infrared spectrometer</rdfs:label>
+<!--        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">fourier transport infrared spectrometer</rdfs:label> -->
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/ERO_0000372"/>
         <obo:IAO_0000115 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">An infrared spectrophotometer that collects spectra based on measurements of the coherence of a radiative source, using time-domain or space-domain measurements of the electromagnetic radiation or other types of radiation.</obo:IAO_0000115>
         <obo:IAO_0000118 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FT-IR spectrometer</obo:IAO_0000118>
