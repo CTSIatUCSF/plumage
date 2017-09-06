@@ -120,7 +120,7 @@ sub extract_eagle_i_data {
         my %core_to_website;
 
         unless (%core_to_website) {
-            DEBUG('  Begin 1.1 of 3 SPARQL queries');
+            DEBUG('  Begin 1.1 of 5 SPARQL queries');
             %core_to_website = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -129,11 +129,11 @@ select ?core ?website where {
 ?core ero:ERO_0000480 ?website .
 }
 ', $sparql_url );
-            DEBUG('    End 1.1 of 3 SPARQL queries');
+            DEBUG('    End 1.1 of 5 SPARQL queries');
         }
 
         unless (%core_to_website) {
-            DEBUG('  Begin 1.2 of 3 SPARQL queries');
+            DEBUG('  Begin 1.2 of 5 SPARQL queries');
             %core_to_website = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -142,13 +142,13 @@ select ?core ?website where {
 ?core a foaf:Organization .
 ?core ero:ERO_0000480 ?website .
 }', $sparql_url );
-            DEBUG('    End 1.2 of 3 SPARQL queries');
+            DEBUG('    End 1.2 of 5 SPARQL queries');
         }
 
         my %core_to_location;
 
         unless (%core_to_location) {
-            DEBUG('  Begin 2.1 of 3 SPARQL queries');
+            DEBUG('  Begin 2.1 of 5 SPARQL queries');
             %core_to_location = _get_sparql_data( '
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
@@ -157,11 +157,11 @@ select ?core ?address where {
 ?core ero:ERO_0000040 ?address .
 }
 ', $sparql_url );
-            DEBUG('    End 2.1 of 3 SPARQL queries');
+            DEBUG('    End 2.1 of 5 SPARQL queries');
         }
 
         unless (%core_to_location) {
-            DEBUG('  Begin 2.2 of 3 SPARQL queries');
+            DEBUG('  Begin 2.2 of 5 SPARQL queries');
             my %core_to_location = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -170,11 +170,11 @@ select ?core ?address where {
 ?core ero:ERO_0000055 ?address .
 }
 ', $sparql_url );
-            DEBUG('    End 2.2 of 3 SPARQL queries');
+            DEBUG('    End 2.2 of 5 SPARQL queries');
         }
 
         unless (%core_to_location) {
-            DEBUG('  Begin 2.3 of 3 SPARQL queries');
+            DEBUG('  Begin 2.3 of 5 SPARQL queries');
             %core_to_location = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -184,14 +184,44 @@ select ?core ?address where {
 ?core ero:ERO_0000055 ?address .
 }
 ', $sparql_url );
-            DEBUG('    End 2.3 of 3 SPARQL queries');
+            DEBUG('    End 2.3 of 5 SPARQL queries');
+        }
+
+        my %core_to_email;
+
+        unless (%core_to_email) {
+            DEBUG('  Begin 3.1 of 5 SPARQL queries');
+            %core_to_email = _get_sparql_data( '
+PREFIX ero: <http://purl.obolibrary.org/obo/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+select ?core ?address where {
+?core a vivo:CoreLaboratory .
+?core ero:ERO_0000041 ?address .
+}
+', $sparql_url );
+            DEBUG('    End 3.1 of 5 SPARQL queries');
+        }
+
+        my %core_to_phone;
+
+        unless (%core_to_phone) {
+            DEBUG('  Begin 4.1 of 5 SPARQL queries');
+            %core_to_phone = _get_sparql_data( '
+PREFIX ero: <http://purl.obolibrary.org/obo/>
+PREFIX vivo: <http://vivoweb.org/ontology/core#>
+select ?core ?address where {
+?core a vivo:CoreLaboratory .
+?core ero:ERO_0000051 ?address .
+}
+', $sparql_url );
+            DEBUG('    End 4.1 of 5 SPARQL queries');
         }
 
         my %resource_to_technique;
 
         unless (%resource_to_technique) {
-            DEBUG('  Begin 3.1 of 3 SPARQL queries');
-            my %resource_to_technique = _get_sparql_data( '
+            DEBUG('  Begin 5.1 of 5 SPARQL queries');
+            %resource_to_technique = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 select ?resource ?technique_label where {
@@ -201,11 +231,11 @@ select ?resource ?technique_label where {
 ?technique_uri rdfs:label ?technique_label
 }
 ', $sparql_url );
-            DEBUG('    End 3.1 of 3 SPARQL queries');
+            DEBUG('    End 5.1 of 5 SPARQL queries');
         }
 
         unless (%resource_to_technique) {
-            DEBUG('  Begin 3.2 of 3 SPARQL queries');
+            DEBUG('  Begin 5.2 of 5 SPARQL queries');
             %resource_to_technique = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -217,11 +247,11 @@ select ?resource ?technique_label where {
 ?technique_uri rdfs:label ?technique_label
 }
 ', $sparql_url );
-            DEBUG('    End 3.2 of 3 SPARQL queries');
+            DEBUG('    End 5.2 of 5 SPARQL queries');
         }
 
         unless (%resource_to_technique) {
-            DEBUG('  Begin 3.3 of 3 SPARQL queries');
+            DEBUG('  Begin 5.3 of 5 SPARQL queries');
             %resource_to_technique = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -233,7 +263,7 @@ select ?resource ?technique_label where {
 ?resource ero:ERO_0000543 ?technique_uri .
 ?technique_uri rdfs:label ?technique_label
 }', $sparql_url );
-            DEBUG('    End 3.3 of 3 SPARQL queries');
+            DEBUG('    End 5.3 of 5 SPARQL queries');
         }
 
         my $num_cores_done  = 0;
@@ -279,9 +309,13 @@ select ?resource ?technique_label where {
                          || undef,
                      organization => eval { $data->{affiliations}->[0]->{name} }
                          || '',
-                     contact => eval { $data->{staffs}->[0]->{name} }   || '',
-                     phone   => eval { $data->{staffs}->[-1]->{phone} } || '',
-                     email   => eval { $data->{staffs}->[-1]->{email} } || '',
+                     contact => eval { $data->{staffs}->[0]->{name} } || '',
+                     phone => $core_to_phone{$core_rdf_url}
+                         || eval { $data->{staffs}->[-1]->{phone} }
+                         || '',
+                     email => $core_to_email{$core_rdf_url}
+                         || eval { $data->{staffs}->[-1]->{email} }
+                         || undef,
                      rdf_url => $core_rdf_url,
             );
 
