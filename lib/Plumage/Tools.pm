@@ -124,6 +124,22 @@ sub load_core_data {
                 );
             }
 
+            if ( $core->{url} and $core->{url} !~ m/http/ ) {
+                DEBUG(
+                    qq{Core "$core_name"'s URL "$core->{url}" seems suspect (no http?)}
+                );
+            }
+            if ( $core->{phone} and $core->{phone} !~ m/\d\d/ ) {
+                DEBUG(
+                    qq{Core "$core_name"'s phone "$core->{phone}" seems suspect -- not enough numbers?}
+                );
+            }
+            if ( $core->{email} and $core->{email} !~ m/\@/ ) {
+                DEBUG(
+                    qq{Core "$core_name"'s email "$core->{email}" seems suspect -- no @ sign?}
+                );
+            }
+
         EachResource:
             foreach my $raw_type ( keys %{ $core->{resources} } ) {
 
