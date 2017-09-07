@@ -217,11 +217,11 @@ select ?core ?address where {
             DEBUG('    End 4.1 of 5 SPARQL queries');
         }
 
-        my %resource_to_technique;
+        my %resource_to_techniques;
 
-        unless (%resource_to_technique) {
+        unless (%resource_to_techniques) {
             DEBUG('  Begin 5.1 of 5 SPARQL queries');
-            %resource_to_technique = _get_sparql_data( '
+            %resource_to_techniques = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 select ?resource ?technique_label where {
@@ -230,13 +230,13 @@ select ?resource ?technique_label where {
 ?resource ero:ERO_0000543 ?technique_uri .
 ?technique_uri rdfs:label ?technique_label
 }
-', $sparql_url );
+', $sparql_url, 'array' );
             DEBUG('    End 5.1 of 5 SPARQL queries');
         }
 
-        unless (%resource_to_technique) {
+        unless (%resource_to_techniques) {
             DEBUG('  Begin 5.2 of 5 SPARQL queries');
-            %resource_to_technique = _get_sparql_data( '
+            %resource_to_techniques = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
 PREFIX vivo: <http://vivoweb.org/ontology/core#>
@@ -246,13 +246,13 @@ select ?resource ?technique_label where {
 ?resource ero:ERO_0000543 ?technique_uri .
 ?technique_uri rdfs:label ?technique_label
 }
-', $sparql_url );
+', $sparql_url, 'array' );
             DEBUG('    End 5.2 of 5 SPARQL queries');
         }
 
-        unless (%resource_to_technique) {
+        unless (%resource_to_techniques) {
             DEBUG('  Begin 5.3 of 5 SPARQL queries');
-            %resource_to_technique = _get_sparql_data( '
+            %resource_to_techniques = _get_sparql_data( '
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX ero: <http://purl.obolibrary.org/obo/>
@@ -262,7 +262,7 @@ select ?resource ?technique_label where {
 ?resource ?any_relationship ?core .
 ?resource ero:ERO_0000543 ?technique_uri .
 ?technique_uri rdfs:label ?technique_label
-}', $sparql_url );
+}', $sparql_url, 'array' );
             DEBUG('    End 5.3 of 5 SPARQL queries');
         }
 
@@ -331,14 +331,18 @@ select ?resource ?technique_label where {
                         # type = "pencil" (subclass of "writing implement")
                         # technique = "writing"
 
-                        my $name      = $resource->{name};
-                        my $type      = $resource->{eitype};
-                        my $permalink = $resource->{eiuri};
-                        my $technique = $resource_to_technique{$permalink};
+                        my $name       = $resource->{name};
+                        my $type       = $resource->{eitype};
+                        my $permalink  = $resource->{eiuri};
+                        my $techniques = $resource_to_techniques{$permalink};
 
-                        if ($technique) {
-                            push @{ $coreinfo{resources}->{$technique} }, $name;
+                        if ( $techniques and @{$techniques} ) {
+                            foreach my $technique ( @{$techniques} ) {
+                                push @{ $coreinfo{resources}->{$technique} },
+                                    $name;
+                            }
                         }
+
                         if ($type) {
 
                             # if its part of a service group, and it's
@@ -346,9 +350,9 @@ select ?resource ?technique_label where {
                             # need to list under one of the fairly
                             # useless broad and shallow "service" type
                             # categories
-                            unless (     $technique
+                            unless (     $techniques
+                                     and @{$techniques}
                                      and $group_name =~ m/\bservice/i ) {
-
                                 push @{ $coreinfo{resources}->{$type} }, $name;
                             }
                         }
@@ -381,6 +385,13 @@ sub _get_sparql_data {
     my $sparql_query = shift;
     my $sparql_url   = shift;
 
+    my $use_array_mode = shift;
+    if ( $use_array_mode and $use_array_mode eq 'array' ) {
+        $use_array_mode = 1;
+    } else {
+        $use_array_mode = 0;
+    }
+
     my $request = POST( $sparql_url,
                         [  query  => $sparql_query,
                            view   => 'published',
@@ -409,7 +420,11 @@ sub _get_sparql_data {
         if ( defined $entries[1] ) {
             $entries[1] =~ s/^" (.*?) ".*$ /$1/x;
         }
-        $data{ $entries[0] } = $entries[1];
+        if ($use_array_mode) {
+            push @{ $data{ $entries[0] } }, $entries[1];
+        } else {
+            $data{ $entries[0] } = $entries[1];
+        }
     }
 
     return %data;
