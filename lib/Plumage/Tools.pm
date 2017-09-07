@@ -108,6 +108,10 @@ sub load_core_data {
             $core->{location} =~ s/\s*,\s*/, /g;
             $core->{locations} = [ split( /[,;]\s?/, $core->{location} ) ];
 
+            unless ( @{ $core->{locations} } ) {
+                DEBUG( qq{Couldn't find any locations for core "$core_name"} );
+            }
+
             foreach my $location ( @{ $core->{locations} } ) {
                 if ( length $location >= 40 ) {
                     DEBUG(
