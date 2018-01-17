@@ -6,7 +6,7 @@ use lib '.', 'lib', '../lib';
 use File::Spec;
 use File::Copy::Recursive 0.09 qw( rcopy );
 use File::Remove 1.50 qw( remove );
-use Filesys::DiskUsage qw( du );
+use Filesys::DiskUsage::Fast qw( du );
 use File::Spec;
 use File::Path qw( remove_tree );
 use JSON 2.0 qw( encode_json );
