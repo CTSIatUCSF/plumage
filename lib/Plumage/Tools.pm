@@ -154,7 +154,7 @@ sub load_core_data {
                         qq{Could not match type "$raw_type" in core "$core->{core}" to the ontology}
                     );
 
-                    eval {
+                    eval qq{
                         use Plumage::OntologyGuess
                             qw( guess_ontology_mappings );
                         if ( $raw_type =~ m/\w/ ) {
