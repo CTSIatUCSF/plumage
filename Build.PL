@@ -48,6 +48,7 @@ my $builder = Module::Build->new(
                     'Tree::Simple'                   => '1.18',
                     'URI'                            => 0,
                     'URI::Escape'                    => 0,
+                    'WWW::Sitemap::XML'              => '2.02',
                     'XML::Simple'                    => '2.18',
                     'perl'                           => '5.012'
       },
