@@ -343,6 +343,10 @@ select ?resource ?technique_label where {
                             }
                         }
 
+                        if ($group_name =~ m/\w/) {
+                            push @{$coreinfo{resource_groups}->{$group_name}}, $name;
+                        }
+			
                         if ($type) {
 
                             # if its part of a service group, and it's
